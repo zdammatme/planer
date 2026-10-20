@@ -92,7 +92,7 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .day-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .day-h h3{font-size:18px;font-weight:700}
 .day-h h3 .tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent);border-radius:6px;padding:2px 6px;margin-left:8px;vertical-align:3px}
-.day-h .meta{font-size:13px;color:var(--muted);white-space:nowrap}
+.day-h .meta{display:block;font-size:13px;color:var(--muted);white-space:nowrap;margin-top:2px}
 .task{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:left;width:100%}
 .badge{flex:none;width:46px;height:46px;border-radius:12px;background:var(--surface-2);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:13px;color:var(--accent);letter-spacing:-.02em}
 .task .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
@@ -115,6 +115,14 @@ h1,h2,h3{margin:0;text-wrap:balance}
 /* units list */
 .units{display:flex;flex-direction:column;gap:8px}
 .unit{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;text-align:left;width:100%}
+.badge.long{font-size:11px;letter-spacing:-.04em}
+.ugroup{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.ugroup:first-child{margin-top:4px}
+.ghead{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:2px 12px;padding:0 2px 2px}
+.ghead .gnum{grid-column:1/-1;font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent)}
+.ghead h3{font-size:17px;font-weight:700}
+.ueb{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin-bottom:-4px}
+.ghead .gmeta{font-size:13px;color:var(--muted)}
 .unit .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
 .unit .name{font-weight:700;font-size:15px;line-height:1.25}
 .unit .sub{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);gap:8px}
@@ -663,6 +671,70 @@ const SUBJECTS = [{
   ]
 }];
 
+/* ======================= UKŁAD DZIAŁÓW BIOLOGII (jak w kursie) ======================= */
+/* Tematy pochodzą z podstawy programowej powyżej; "XI-4:4,5" = tematy 4 i 5 z tamtej grupy. Identyfikatory tematów się nie zmieniają, więc postęp zostaje. */
+const BIO_LAYOUT=[
+  {n:"0",g:"Metodologia, statystyka i czasowniki operacyjne",parts:[{name:"Metodologia, statystyka i czasowniki operacyjne",h:2.5,own:[
+    "Problem badawczy, hipoteza, próba badawcza i kontrolna",
+    "Planowanie doświadczeń: zmienna zależna i niezależna, powtórzenia",
+    "Analiza wyników: tabele, wykresy, formułowanie wniosków",
+    "Elementy statystyki w biologii",
+    "Czasowniki operacyjne w poleceniach maturalnych"]}]},
+  {n:"1",g:"Chemizm życia",parts:[{src:["I"]}]},
+  {n:"2",g:"Budowa komórki i jej funkcjonowanie",parts:[{src:["II"]}]},
+  {n:"3",g:"Podziały komórkowe",parts:[{src:["IV"]}]},
+  {n:"4",g:"Metabolizm",parts:[
+    {name:"Metabolizm, ATP i enzymy",src:["III-1"]},
+    {name:"Fotosynteza",src:["III-4"]},
+    {name:"Oddychanie komórkowe",src:["III-5"]}]},
+  {n:"5",g:"Różnorodność organizmów",parts:[
+    {name:"Wirusy",src:["XII"]},
+    {name:"Bakterie i archeowce",src:["VI"]},
+    {name:"Protisty",src:["VIII"]},
+    {name:"Grzyby",src:["VII"]}]},
+  {n:"6",g:"Rośliny",parts:[
+    {name:"Glony, grupy roślin, tkanki i organy",src:["IX-1"]},
+    {name:"Rozmnażanie roślin",src:["IX-3:1,2,3,4,5,6"]}]},
+  {n:"7",g:"Fizjologia roślin",parts:[
+    {name:"Woda, sole mineralne i odżywianie",src:["IX-2"]},
+    {name:"Wzrost, rozwój i reakcje na bodźce",src:["IX-3:7,8,9,10,11,12"]}]},
+  {n:"8",g:"Bezkręgowce",parts:[{name:"Bezkręgowce",src:["X:1,2,3","XI-2:1,2","XI-4:1,2,3,13","XI-5:1,4","XI-7:7","XI-8:1,2,3","XI-10:1,2,3,6,7,8"]}]},
+  {n:"9",g:"Kręgowce",parts:[{name:"Kręgowce",src:["X:4","XI-4:4,5,6,15","XI-5:3","XI-8:4","XI-9:1,2,3","XI-10:4,5,9"]}]},
+  {n:"10",g:"Anatomia i fizjologia człowieka",parts:[
+    {name:"Tkanki, skóra i homeostaza",src:["XI-1","XI-9:4"]},
+    {name:"Układ pokarmowy i odżywianie",src:["XI-2:3,4,5,6,7,8,9,10,11,12,13,14"]},
+    {name:"Odporność",src:["XI-3"]},
+    {name:"Układ oddechowy i krwionośny",src:["XI-4:7,8,9,10,11,12,14,16,17,18,19"]},
+    {name:"Układ moczowy i wydalanie",src:["XI-5:2,5,6,7,8"]},
+    {name:"Układ hormonalny",src:["XI-6"]},
+    {name:"Układ nerwowy i zmysły",src:["XI-7:1,2,3,4,5,6,8,9,10,11,12,13"]},
+    {name:"Układ ruchu",src:["XI-8:5,6,7,8,9,10,11,12,13"]},
+    {name:"Rozmnażanie i rozwój człowieka",src:["XI-10:10,11,12,13,14,15"]}]},
+  {n:"11",g:"Ekspresja informacji genetycznej",parts:[{src:["XIII"]}]},
+  {n:"12",g:"Zmienność organizmów i biotechnologia",parts:[
+    {name:"Zmienność i mutacje",src:["XIV-2"]},
+    {name:"Biotechnologia",src:["XV"]}]},
+  {n:"13",g:"Genetyka klasyczna",parts:[{src:["XIV-1"]}]},
+  {n:"14",g:"Ewolucja i systematyka",parts:[
+    {name:"Systematyka i kladystyka",src:["V"]},
+    {name:"Ewolucja",src:["XVI"]}]},
+  {n:"15",g:"Ekologia i różnorodność biologiczna",parts:[
+    {name:"Ekologia",src:["XVII"]},
+    {name:"Różnorodność biologiczna i ochrona",src:["XVIII"]}]}
+];
+(function(){
+  const src=SUBJECTS[0].units,byId={};src.forEach(u=>byId[u.id]=u);
+  const pick=ref=>{const[uid,list]=ref.split(":");const u=byId[uid];
+    const idx=list?list.split(",").map(Number):u.t.map((_,i)=>i+1);
+    return idx.map(i=>({id:`${uid}.${i}`,text:u.t[i-1],h:u.h/u.t.length}))};
+  const units=[];
+  for(const g of BIO_LAYOUT)g.parts.forEach((p,pi)=>{
+    const items=p.own?p.own.map((t,i)=>({id:`B${g.n}.${i+1}`,text:t,h:p.h/p.own.length})):p.src.flatMap(pick);
+    const h=p.h??Math.max(0.5,Math.round(items.reduce((a,b)=>a+b.h,0)*2)/2);
+    units.push({id:g.parts.length>1?`B${g.n}-${pi+1}`:`B${g.n}`,n:g.n,g:g.g,name:p.name||g.g,h,t:items.map(x=>x.text),tids:items.map(x=>x.id)})});
+  SUBJECTS[0].units=units;
+})();
+
 /* ======================= DATES ======================= */
 const DAYS=["niedziela","poniedziałek","wtorek","środa","czwartek","piątek","sobota"];
 const DSHORT=["Nd","Pn","Wt","Śr","Cz","Pt","Sb"];
@@ -717,7 +789,7 @@ const SUB=id=>SUBJECTS.find(s=>s.id===id);
 const subj=()=>SUB(state.subject)||SUBJECTS[0];
 const cfg=sid=>state.settings[sid];
 const uHours=u=>state.hours[u.id]??u.h;
-const tid=(u,i)=>`${u.id}.${i+1}`;
+const tid=(u,i)=>u.tids?u.tids[i]:`${u.id}.${i+1}`;
 const isR=t=>t.startsWith("R:");
 const tText=t=>isR(t)?t.slice(2):t;
 function findUnit(id){for(const s of SUBJECTS){const u=s.units.find(x=>x.id===id);if(u)return{u,s}}return null}
@@ -786,17 +858,20 @@ function statusFor(sid){
 
 function viewPlan(){
   const sid=state.subject,X=statusFor(sid),T=X.T,st=streak(),C=combined();
-  const today=iso(todayD()),wd=todayD().getDay(),owner=dayOwner(wd);
+  const today=iso(todayD()),wd=todayD().getDay();
   const daysHtml=C.slice(0,showDays).map(d=>{
     const key=iso(d.date),isToday=key===today;
-    return `<section class="day"><div class="day-h"><h3>${cap(DAYS[d.date.getDay()])}, ${longDate(d.date)}${isToday?'<span class="tag">dziś</span>':""}</h3>
+    const sum=d.items.reduce((a,b)=>a+b.h,0),multi=new Set(d.items.map(i=>i.sid)).size>1;
+    return `<section class="day"><div class="day-h"><div><h3>${cap(DAYS[d.date.getDay()])}, ${longDate(d.date)}${isToday?'<span class="tag">dziś</span>':""}</h3>${multi?`<span class="meta num">razem ${fmtH(sum)}</span>`:""}</div>
       <button class="skipbtn" data-skip="${key}">Odpuszczam</button></div>
       ${d.items.map(taskCard).join("")}</section>`}).join("");
   const todayInPlan=C[0]&&iso(C[0].date)===today;
   let todayNote="";
   if(state.skip.includes(today))todayNote=`<div class="empty">Dziś odpuszczone. <button class="link" data-unskip="${today}">Cofnij</button></div>`;
-  else if(owner&&!todayInPlan&&totals(owner.id).rem>0)todayNote=`<div class="empty">Dzisiejszy plan z przedmiotu ${esc(owner.short)} zrobiony (${fmtH(totals(owner.id).todayH)}). Dobra robota.</div>`;
-  else if(!owner)todayNote=`<div class="empty">${cap(DAYS[wd])} to dzień wolny od nauki. Jeśli chcesz, odhacz tematy w zakładce Działy, a plan sam się przesunie.</div>`;
+  else{const planned=SUBJECTS.filter(s=>cfg(s.id).days.includes(wd));
+    const done=planned.filter(s=>totals(s.id).rem>0&&!(todayInPlan&&C[0].items.some(i=>i.sid===s.id)));
+    if(done.length)todayNote=`<div class="empty">Dzisiejszy plan zrobiony: ${done.map(s=>`${esc(s.short)} (${fmtH(totals(s.id).todayH)})`).join(", ")}. Dobra robota.</div>`;
+    else if(!planned.length)todayNote=`<div class="empty">${cap(DAYS[wd])} to dzień wolny od nauki. Jeśli chcesz, odhacz tematy w zakładce Działy, a plan sam się przesunie.</div>`;}
   const skippedUpcoming=state.skip.filter(s=>s>today).sort();
   return `${header("Plan nauki")}
   <section class="hero subj-${sid}" aria-label="Postęp">
@@ -821,19 +896,28 @@ function viewPlan(){
 function taskCard(it){
   const u=it.u,s=SUB(it.sid);
   const range=it.from===it.to?`Temat ${it.from+1}: ${tText(u.t[it.from])}`:`Tematy ${it.from+1}–${it.to+1}: ${tText(u.t[it.from])}`;
-  return `<button class="task subj-${it.sid}" data-unit="${u.id}"><span class="badge">${u.n}</span>
+  return `<button class="task subj-${it.sid}" data-unit="${u.id}">${badge(u)}
    <span class="body"><span class="t0">${esc(s.short)}</span><span class="t1">${esc(u.name)}</span><span class="t2">${esc(range)}</span></span>
    <span class="hrs num">${fmtH(it.h)}</span></button>`}
 
+function siblings(u){const f=findUnit(u.id);return f?f.s.units.filter(x=>x.n===u.n):[u]}
+function ulabel(u){const sib=siblings(u);return sib.length>1?`${u.n}.${sib.indexOf(u)+1}`:u.n}
+function badge(u){const l=ulabel(u);return `<span class="badge${l.length>3?" long":""}">${l}</span>`}
+function unitRow(u,sid,single){const n=u.t.length,d=u.t.filter((_,i)=>state.done[tid(u,i)]).length;
+  return `<button class="unit subj-${sid} ${d===n?"full":""}" data-unit="${u.id}">${badge(u)}
+    <span class="body"><span class="name">${single?"Cały dział":esc(u.name)}</span><span class="mbar"><i style="width:${d/n*100}%"></i></span>
+    <span class="sub num"><span>${d}/${n} tematów</span><span>${fmtH(uHours(u))}</span></span></span></button>`}
 function viewUnits(){
   const T=totals(state.subject),S=subj();
+  const groups=[];for(const u of S.units){const g=groups[groups.length-1];if(g&&g.n===u.n)g.units.push(u);else groups.push({n:u.n,units:[u]})}
+  const split=groups.filter(g=>g.units.length>1).length;
   return `${header("Działy")}
-  <p class="hint">${esc(S.name)}: ${S.units.length} działów · ${S.units.reduce((a,u)=>a+u.t.length,0)} tematów · ${fmtH(T.tot)} łącznie. Kliknij dział, żeby odhaczać tematy i zmieniać czas.</p>
-  <div class="units">${S.units.map(u=>{
-    const n=u.t.length,d=u.t.filter((_,i)=>state.done[tid(u,i)]).length;
-    return `<button class="unit subj-${S.id} ${d===n?"full":""}" data-unit="${u.id}"><span class="badge">${u.n}</span>
-    <span class="body"><span class="name">${esc(u.name)}</span><span class="mbar"><i style="width:${d/n*100}%"></i></span>
-    <span class="sub num"><span>${d}/${n} tematów</span><span>${fmtH(uHours(u))}</span></span></span></button>`}).join("")}</div>`}
+  <p class="hint">${esc(S.name)}: ${groups.length} działów · ${S.units.reduce((a,u)=>a+u.t.length,0)} tematów · ${fmtH(T.tot)} łącznie.${split?` Duże działy są podzielone na części, żeby łatwiej je planować.`:""} Kliknij dział, żeby odhaczać tematy i zmieniać czas.</p>
+  <div class="units">${groups.map(g=>{
+    const n=g.units.reduce((a,u)=>a+u.t.length,0),d=g.units.reduce((a,u)=>a+u.t.filter((_,i)=>state.done[tid(u,i)]).length,0);
+    return `<section class="ugroup"><div class="ghead"><span class="gnum">Dział ${g.n}</span>
+      <h3>${esc(g.units[0].g||g.units[0].name)}</h3><span class="gmeta num">${g.units.length>1?`${g.units.length} części · `:""}${d}/${n} tematów</span></div>
+      ${g.units.map(u=>unitRow(u,S.id,g.units.length===1)).join("")}</section>`}).join("")}</div>`}
 
 function viewSettings(){
   const sid=state.subject,s=cfg(sid),T=totals(sid),S=subj();
@@ -843,9 +927,9 @@ function viewSettings(){
   <section class="card"><div class="row"><div><h3 style="font-size:16px">Koniec materiału</h3><p class="hint">Potem tylko zadania i arkusze</p></div>
     <input type="date" id="deadline" value="${s.deadline}"></div></section>
   <section class="card"><h3 style="font-size:16px">Dni nauki</h3>
-    <div class="days">${order.map(d=>{const o=dayOwner(d);const other=o&&o.id!==sid;
-      return `<button data-day="${d}" aria-pressed="${s.days.includes(d)}" class="${other?"taken":""}">${DSHORT[d]}${other?`<small>${o.id==="bio"?"bio":"mat"}</small>`:""}</button>`}).join("")}</div>
-    <p class="hint">Jeden dzień należy tylko do jednego przedmiotu. Wybranie dnia drugiego przedmiotu przeniesie go tutaj.</p>
+    <div class="days">${order.map(d=>{const others=SUBJECTS.filter(o=>o.id!==sid&&cfg(o.id).days.includes(d));
+      return `<button data-day="${d}" aria-pressed="${s.days.includes(d)}">${DSHORT[d]}${others.length?`<small>+${others.map(o=>o.id==="bio"?"bio":"mat").join(",")}</small>`:""}</button>`}).join("")}</div>
+    <p class="hint">Przedmioty możesz łączyć w jednym dniu. Wtedy tego dnia uczysz się ${esc(S.short)} przez ${fmtH(s.hpd)} plus czas drugiego przedmiotu. Podpis „+mat” albo „+bio” pokazuje, że drugi przedmiot też ma ten dzień.</p>
     <div class="row"><span>Godzin w dzień nauki</span>
       <div class="stepper"><button data-hpd="-0.5" aria-label="Mniej">−</button><output class="num">${fmtH(s.hpd)}</output><button data-hpd="0.5" aria-label="Więcej">+</button></div></div>
     <p class="hint">Do ${longDate(parse(s.deadline))} masz ${studyDaysUntil(sid)} dni nauki, a do przerobienia zostało ${fmtH(T.rem)}.</p></section>
@@ -873,7 +957,7 @@ function renderSheet(){
   const sh=$("#sheet");const y=sh.scrollTop;
   sh.className=`sheet subj-${s.id}`;
   sh.innerHTML=`<div class="wrap"><button class="back" data-close>‹ Wróć</button>
-   <div><div class="eyebrow">${esc(s.short)} · Dział ${u.n}</div><h2>${esc(u.name)}</h2></div>
+   <div><div class="eyebrow">${esc(s.short)} · Dział ${ulabel(u)}${siblings(u).length>1&&u.g?` · ${esc(u.g)}`:""}</div><h2>${esc(u.name)}</h2></div>
    <section class="card"><div class="row"><span class="num">${d}/${n} tematów · ${Math.round(d/n*100)}%</span>
      <div class="stepper"><button data-uh="-0.5" aria-label="Mniej godzin">−</button><output class="num">${fmtH(uHours(u))}</output><button data-uh="0.5" aria-label="Więcej godzin">+</button></div></div>
      <div class="mbar"><i style="width:${d/n*100}%"></i></div>
@@ -905,7 +989,7 @@ document.addEventListener("click",async e=>{
   if(b.dataset.hpd){const c=cfg(state.subject);c.hpd=Math.min(12,Math.max(0.5,c.hpd+Number(b.dataset.hpd)));commit();return}
   if(b.dataset.day){const d=+b.dataset.day,c=cfg(state.subject);
     if(c.days.includes(d))c.days=c.days.filter(x=>x!==d);
-    else{const o=dayOwner(d);if(o&&o.id!==state.subject){cfg(o.id).days=cfg(o.id).days.filter(x=>x!==d);toast(`${cap(DAYS[d])} – teraz ${SUB(state.subject).short} (zamiast: ${o.short})`)}c.days=[...c.days,d]}
+    else c.days=[...c.days,d];
     commit();return}
   if(b.hasAttribute("data-copy")){const ta=$("#backup");try{await navigator.clipboard.writeText(ta.value);toast("Skopiowano")}catch(_){ta.focus();ta.select();toast("Zaznaczone – skopiuj ręcznie")}return}
   if(b.hasAttribute("data-import")){importText($("#backup").value);return}
