@@ -954,7 +954,8 @@ function viewSettings(){
   <section class="card"><h3 style="font-size:16px">Pomoc i kontakt</h3>
     <p class="hint">Coś nie działa albo brakuje Ci przedmiotu? Napisz do mnie na TikToku, odpisuję w wiadomościach.</p>
     <a class="btn tt" href="https://www.tiktok.com/@zdammatme" target="_blank" rel="noopener">TikTok: @zdammatme</a>
-    <p class="hint">Jak piszesz w sprawie błędu, podaj model telefonu i zrzut ekranu.</p></section>
+    <p class="hint">Jak piszesz w sprawie błędu, podaj model telefonu i zrzut ekranu.</p>
+    <p class="hint">Planer anonimowo liczy, ile osób z niego korzysta, bez ciasteczek i bez danych osobowych. Twój postęp nigdzie nie jest wysyłany.</p></section>
   <p class="hint copy">© 2026 matematykaop. Wszelkie prawa zastrzeżone.<br>Kopiowanie wyglądu i kodu aplikacji bez zgody autora jest zabronione.</p>`}
 function syncHtml(){return syncState==="ok"?`<span class="dot ok"></span>Zapisywane na Twoim koncie – widać na telefonie i komputerze`
   :syncState==="err"?`<span class="dot warn"></span>Nie udało się zapisać na koncie, zapisuję na tym urządzeniu`
@@ -1042,5 +1043,7 @@ document.addEventListener("click",async e=>{const b=e.target.closest("button");i
 render();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}</script>
+<script>window.goatcounter={path:function(){var s=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;return s?"/planer-z-ikonki":"/planer-w-przegladarce"}};</script>
+<script data-goatcounter="https://zdammatme.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
