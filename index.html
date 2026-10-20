@@ -172,6 +172,7 @@ textarea{width:100%;min-height:110px;font:13px/1.4 ui-monospace,Menlo,monospace;
 details summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--accent);padding:4px 0}
 details[open] summary{margin-bottom:8px}
 .backup{display:flex;flex-direction:column;gap:10px;align-items:flex-start;border-style:solid;color:var(--ink)}
+.install{border-color:var(--accent)}
 ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14.5px}
 
 /* tabbar */
@@ -873,7 +874,7 @@ function viewPlan(){
     if(done.length)todayNote=`<div class="empty">Dzisiejszy plan zrobiony: ${done.map(s=>`${esc(s.short)} (${fmtH(totals(s.id).todayH)})`).join(", ")}. Dobra robota.</div>`;
     else if(!planned.length)todayNote=`<div class="empty">${cap(DAYS[wd])} to dzień wolny od nauki. Jeśli chcesz, odhacz tematy w zakładce Działy, a plan sam się przesunie.</div>`;}
   const skippedUpcoming=state.skip.filter(s=>s>today).sort();
-  return `${header("Plan nauki")}
+  return `${header("Plan nauki")}${installCard()}
   <section class="hero subj-${sid}" aria-label="Postęp">
     <div class="hero-row"><div><div class="lbl">${esc(subj().name)}</div><div class="pct num">${Math.floor(T.pct)}<small>%</small></div></div>
     <div class="streak ${st?"":"off"}" title="Seria dni nauki z rzędu">${FLAME}<span class="num">${st} ${st===1?"dzień":"dni"}</span></div></div>
@@ -942,8 +943,8 @@ function viewSettings(){
     <details><summary>Kopia jako tekst</summary>
     <textarea id="backup" spellcheck="false" aria-label="Kopia zapasowa">${esc(JSON.stringify(state))}</textarea>
     <div class="btns"><button class="btn ghost" data-copy>Kopiuj</button><button class="btn ghost" data-import>Wczytaj z pola</button></div></details></section>
-  <section class="card"><h3 style="font-size:16px">Jak dodać na iPhone’a</h3>
-    <ol class="steps"><li>Otwórz ten link w Safari.</li><li>Stuknij Udostępnij (kwadrat ze strzałką).</li><li>Wybierz „Do ekranu początkowego” i zatwierdź.</li></ol></section>
+  <section class="card"><h3 style="font-size:16px">Jak dodać na ekran telefonu</h3>
+    <p class="hint"><b>iPhone:</b> otwórz link w Safari → Udostępnij (kwadrat ze strzałką) → „Do ekranu początkowego”.</p><p class="hint"><b>Android:</b> otwórz link w Chrome → menu ⋮ → „Dodaj do ekranu głównego” albo „Zainstaluj aplikację”.</p><p class="hint">Postęp zapisuje się tylko w Twoim telefonie, nikt inny go nie widzi.</p></section>
   <section class="card"><h3 style="font-size:16px">Reset</h3><p class="hint">Czyści odhaczone tematy, zmienione godziny i odpuszczone dni w obu przedmiotach. Ustawienia dni zostają.</p>
     <div class="btns">${confirmReset?`<button class="btn danger" data-reset="yes">Tak, wyczyść wszystko</button><button class="btn ghost" data-reset="no">Anuluj</button>`:`<button class="btn ghost" data-reset="ask">Wyczyść postęp</button>`}</div></section>`}
 function syncHtml(){return syncState==="ok"?`<span class="dot ok"></span>Zapisywane na Twoim koncie – widać na telefonie i komputerze`
@@ -1003,6 +1004,32 @@ document.addEventListener("click",async e=>{
 });
 document.addEventListener("change",e=>{if(e.target.id==="importFile"&&e.target.files&&e.target.files[0]){const fr=new FileReader();fr.onload=()=>importText(String(fr.result));fr.readAsText(e.target.files[0]);e.target.value="";return}if(e.target.id==="deadline"&&e.target.value){cfg(state.subject).deadline=e.target.value;commit()}});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&openUnit)closeSheet()});
+/* ======================= INSTALACJA NA EKRANIE TELEFONU ======================= */
+const UA=navigator.userAgent||"";
+const IS_IOS=/iPhone|iPad|iPod/.test(UA)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+const IS_ANDROID=/Android/.test(UA);
+const IS_STANDALONE=()=>(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
+let installEvt=null,installHidden=false;
+try{installHidden=localStorage.getItem("planer-install-hidden")==="1"}catch(e){}
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvt=e;render()});
+window.addEventListener("appinstalled",()=>{installEvt=null;render()});
+function installSteps(os){
+  if(os==="ios")return `<ol class="steps"><li>Otwórz tę stronę w <b>Safari</b> (nie w TikToku ani Instagramie: stuknij ⋯ i „Otwórz w przeglądarce”).</li><li>Stuknij <b>Udostępnij</b> (kwadrat ze strzałką w górę) na dole ekranu.</li><li>Przewiń w dół i wybierz <b>„Do ekranu początkowego”</b>, potem <b>Dodaj</b>.</li><li>Otwieraj planer z ikonki „Matura” na ekranie.</li></ol>`;
+  return `<ol class="steps"><li>Otwórz tę stronę w <b>Chrome</b> (nie w TikToku ani Instagramie: stuknij ⋮ i „Otwórz w przeglądarce”).</li><li>Stuknij menu <b>⋮</b> w prawym górnym rogu.</li><li>Wybierz <b>„Dodaj do ekranu głównego”</b> albo <b>„Zainstaluj aplikację”</b>, potem <b>Zainstaluj</b> lub <b>Dodaj</b>.</li><li>Otwieraj planer z ikonki „Matura” na ekranie.</li></ol>`}
+let installTab=IS_IOS?"ios":"android";
+function installCard(){
+  if(IS_STANDALONE()||installHidden)return "";
+  const os=IS_IOS?"ios":IS_ANDROID?"android":installTab;
+  return `<section class="card install"><div class="row"><h3 style="font-size:16px">Dodaj planer na ekran telefonu</h3><button class="link" data-install-hide>Ukryj</button></div>
+    <p class="hint">Wtedy otwiera się jak zwykła aplikacja, na pełnym ekranie, i działa bez internetu. Postęp zapisuje się tylko w Twoim telefonie.</p>
+    ${installEvt?`<button class="btn" data-install-go>Zainstaluj aplikację</button>`:""}
+    ${!IS_IOS&&!IS_ANDROID?`<div class="subj"><button class="chip" aria-pressed="${os==="ios"}" data-install-os="ios">iPhone</button><button class="chip" aria-pressed="${os==="android"}" data-install-os="android">Android</button></div>`:""}
+    ${installSteps(os)}</section>`}
+document.addEventListener("click",async e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.hasAttribute("data-install-hide")){installHidden=true;try{localStorage.setItem("planer-install-hidden","1")}catch(_){}render();toast("Instrukcję znajdziesz też w Ustawieniach");return}
+  if(b.hasAttribute("data-install-go")&&installEvt){installEvt.prompt();try{await installEvt.userChoice}catch(_){}installEvt=null;render();return}
+  if(b.dataset.installOs){installTab=b.dataset.installOs;render();return}
+});
 render();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}</script>
