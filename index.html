@@ -172,6 +172,10 @@ textarea{width:100%;min-height:110px;font:13px/1.4 ui-monospace,Menlo,monospace;
 details summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--accent);padding:4px 0}
 details[open] summary{margin-bottom:8px}
 .backup{display:flex;flex-direction:column;gap:10px;align-items:flex-start;border-style:solid;color:var(--ink)}
+.copy{text-align:center;font-size:12px;padding-block:8px}
+.btn.tt{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;align-self:flex-start}
+.faq{display:flex;flex-direction:column;gap:10px;font-size:14px}
+.faq p{margin:0}
 .install{border-color:var(--accent)}
 ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14.5px}
 
@@ -946,7 +950,12 @@ function viewSettings(){
   <section class="card"><h3 style="font-size:16px">Jak dodać na ekran telefonu</h3>
     <p class="hint"><b>iPhone:</b> otwórz link w Safari → Udostępnij (kwadrat ze strzałką) → „Do ekranu początkowego”.</p><p class="hint"><b>Android:</b> otwórz link w Chrome → menu ⋮ → „Dodaj do ekranu głównego” albo „Zainstaluj aplikację”.</p><p class="hint">Postęp zapisuje się tylko w Twoim telefonie, nikt inny go nie widzi.</p></section>
   <section class="card"><h3 style="font-size:16px">Reset</h3><p class="hint">Czyści odhaczone tematy, zmienione godziny i odpuszczone dni w obu przedmiotach. Ustawienia dni zostają.</p>
-    <div class="btns">${confirmReset?`<button class="btn danger" data-reset="yes">Tak, wyczyść wszystko</button><button class="btn ghost" data-reset="no">Anuluj</button>`:`<button class="btn ghost" data-reset="ask">Wyczyść postęp</button>`}</div></section>`}
+    <div class="btns">${confirmReset?`<button class="btn danger" data-reset="yes">Tak, wyczyść wszystko</button><button class="btn ghost" data-reset="no">Anuluj</button>`:`<button class="btn ghost" data-reset="ask">Wyczyść postęp</button>`}</div></section>
+  <section class="card"><h3 style="font-size:16px">Pomoc i kontakt</h3>
+    <p class="hint">Coś nie działa albo brakuje Ci przedmiotu? Napisz do mnie na TikToku, odpisuję w wiadomościach.</p>
+    <a class="btn tt" href="https://www.tiktok.com/@zdammatme" target="_blank" rel="noopener">TikTok: @zdammatme</a>
+    <p class="hint">Jak piszesz w sprawie błędu, podaj model telefonu i zrzut ekranu.</p></section>
+  <p class="hint copy">© 2026 matematykaop. Wszelkie prawa zastrzeżone.<br>Kopiowanie wyglądu i kodu aplikacji bez zgody autora jest zabronione.</p>`}
 function syncHtml(){return syncState==="ok"?`<span class="dot ok"></span>Zapisywane na Twoim koncie – widać na telefonie i komputerze`
   :syncState==="err"?`<span class="dot warn"></span>Nie udało się zapisać na koncie, zapisuję na tym urządzeniu`
   :`<span class="dot ok"></span>Zapisywane w pamięci tego telefonu`}
