@@ -21,7 +21,7 @@
 :root{
   --bg:#EEF3EF; --surface:#FFFFFF; --surface-2:#E3ECE5; --ink:#132019; --muted:#5D6E64; --line:#D3DFD6;
   --accent:#17804A; --accent-ink:#FFFFFF; --accent-soft:#D5EDDD;
-  --g-accent:#17804A; --g-soft:#D5EDDD; --g-ink:#FFFFFF; --m-accent:#3552C8; --m-soft:#DCE3FB; --m-ink:#FFFFFF;
+  --g-accent:#17804A; --g-soft:#D5EDDD; --g-ink:#FFFFFF; --m-accent:#3552C8; --m-soft:#DCE3FB; --m-ink:#FFFFFF; --z-accent:#B4561C; --z-soft:#F8E3D3; --z-ink:#FFFFFF;
   --warn:#B9770B; --warn-soft:#FBEBCB; --bad:#C63B30; --bad-soft:#F8DAD6; --flame:#E2561F;
   --f-display:"Unbounded", "Arial Black", system-ui, sans-serif;
   --f-body:"Onest", -apple-system, "Segoe UI", system-ui, sans-serif;
@@ -30,12 +30,12 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0D1411; --surface:#16211B; --surface-2:#1E2B24; --ink:#E5EEE8; --muted:#93A69A; --line:#2A3A31;
   --accent:#43BE78; --accent-ink:#06150C; --accent-soft:#1D3A29;
-  --g-accent:#43BE78; --g-soft:#1D3A29; --g-ink:#06150C; --m-accent:#86A0FF; --m-soft:#1F2A4D; --m-ink:#0A1230;
+  --g-accent:#43BE78; --g-soft:#1D3A29; --g-ink:#06150C; --m-accent:#86A0FF; --m-soft:#1F2A4D; --m-ink:#0A1230; --z-accent:#F29A62; --z-soft:#3C2617; --z-ink:#241104;
   --warn:#E5A93A; --warn-soft:#3A2E14; --bad:#F0796E; --bad-soft:#3E1F1C; --flame:#FF7A42; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0D1411; --surface:#16211B; --surface-2:#1E2B24; --ink:#E5EEE8; --muted:#93A69A; --line:#2A3A31;
   --accent:#43BE78; --accent-ink:#06150C; --accent-soft:#1D3A29;
-  --g-accent:#43BE78; --g-soft:#1D3A29; --g-ink:#06150C; --m-accent:#86A0FF; --m-soft:#1F2A4D; --m-ink:#0A1230;
+  --g-accent:#43BE78; --g-soft:#1D3A29; --g-ink:#06150C; --m-accent:#86A0FF; --m-soft:#1F2A4D; --m-ink:#0A1230; --z-accent:#F29A62; --z-soft:#3C2617; --z-ink:#241104;
   --warn:#E5A93A; --warn-soft:#3A2E14; --bad:#F0796E; --bad-soft:#3E1F1C; --flame:#FF7A42; color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -99,10 +99,28 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .task .t0{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
 .task .t1{font-weight:700;font-size:15.5px}
 .subj-mat{--accent:var(--m-accent);--accent-soft:var(--m-soft);--accent-ink:var(--m-ink)}
+.subj-zad{--accent:var(--z-accent);--accent-soft:var(--z-soft);--accent-ink:var(--z-ink)}
+.srows{display:flex;flex-direction:column}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:none;border:0;border-top:1px solid var(--line);padding:12px 0;text-align:left;font-weight:600;font-size:15px}
+.srow:first-child{border-top:0}
+.srow small{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+.srow[disabled]{color:var(--muted);cursor:default}
+.sw{flex:none;width:44px;height:26px;border-radius:99px;background:var(--line);position:relative;transition:background .2s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s}
+.srow[aria-pressed="true"] .sw{background:var(--g-accent)}
+.srow[aria-pressed="true"] .sw::after{left:21px}
+.soon{flex:none;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:2px 6px}
+.slabel{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dates label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);min-width:0}
+.dates input{width:100%}
+.mini{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.mini .btn{padding:8px 12px;font-size:14px}
 .subj-bio{--accent:var(--g-accent);--accent-soft:var(--g-soft);--accent-ink:var(--g-ink)}
 .rtag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:1px 6px;vertical-align:1px}
 .days button{display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
 .days button small{font-size:10px;font-weight:600;color:var(--muted)}
+.days button[aria-pressed="true"] small{color:inherit;opacity:.8}
 .days button.taken{border-style:dashed}
 .task .t2{font-size:14px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .task .hrs{flex:none;font-family:var(--f-display);font-weight:500;font-size:15px;color:var(--ink)}
@@ -753,6 +771,13 @@ const BIO_LAYOUT=[
   SUBJECTS[0].units=units;
 })();
 
+/* ======================= ZBIÓR ZADAŃ: zadania maturalne CKE 2015–2025 (bez zadań spoza formuły 2023) ======================= */
+SUBJECTS.push({id:"zad",name:"Zadania maturalne z matematyki",short:"Zadania mat.",kind:"tasks",units:[{"id": "Z1", "n": "1", "name": "Liczby", "h": 3.0, "t": ["Zadanie 1 · grudzień 2014 · 2 pkt", "Zadanie 2 · maj 2015 · 1 pkt", "Zadanie 3 · maj 2016 · 1 pkt", "Zadanie 4 · maj 2017 · 1 pkt", "Zadanie 5 · czerwiec 2017 · 1 pkt", "Zadanie 6 · maj 2018 · 1 pkt", "Zadanie 7 · maj 2018 · 1 pkt", "Zadanie 8 · czerwiec 2018 · 1 pkt", "Zadanie 9 · czerwiec 2018 · 1 pkt", "Zadanie 10 · maj 2019 · 1 pkt", "Zadanie 11 · czerwiec 2020 · 1 pkt", "Zadanie 12 · lipiec 2020 · 1 pkt", "Zadanie 13 · marzec 2021 · 1 pkt", "Zadanie 14 · czerwiec 2021 · 1 pkt", "Zadanie 15 · maj 2022 · 1 pkt", "Zadanie 16 · czerwiec 2022 · 1 pkt", "Zadanie 17 · Informator F2023 · 3 pkt", "Zadanie 18 · Arkusz pokazowy F2023 · 3 pkt", "Zadanie 19 · Zbiór zadań F2023 · 3 pkt", "Zadanie 20 · grudzień 2022 · 2 pkt", "Zadanie 21 · czerwiec 2023 · 2 pkt"], "w": [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 2, 2], "tids": ["Z1.1", "Z1.2", "Z1.3", "Z1.4", "Z1.5", "Z1.6", "Z1.7", "Z1.8", "Z1.9", "Z1.10", "Z1.11", "Z1.12", "Z1.13", "Z1.14", "Z1.15", "Z1.16", "Z1.17", "Z1.18", "Z1.19", "Z1.20", "Z1.21"]}, {"id": "Z2", "n": "2", "name": "Funkcja kwadratowa", "h": 12.5, "t": ["Zadanie 1 · maj 2015 · 2 pkt", "Zadanie 2 · maj 2015 · 5 pkt", "Zadanie 3 · czerwiec 2015 · 6 pkt", "Zadanie 4 · maj 2016 · 6 pkt", "Zadanie 5 · maj 2017 · 5 pkt", "Zadanie 6 · czerwiec 2017 · 2 pkt", "Zadanie 7 · czerwiec 2017 · 6 pkt", "Zadanie 8 · maj 2018 · 6 pkt", "Zadanie 9 · czerwiec 2018 · 6 pkt", "Zadanie 10 · czerwiec 2019 · 6 pkt", "Zadanie 11 · czerwiec 2020 · 4 pkt", "Zadanie 12 · lipiec 2020 · 5 pkt", "Zadanie 13 · marzec 2021 · 5 pkt", "Zadanie 14 · maj 2021 · 5 pkt", "Zadanie 15 · maj 2022 · 5 pkt", "Zadanie 16 · Informator F2023 · 4 pkt", "Zadanie 17 · Zbiór zadań F2023 · 4 pkt", "Zadanie 18 · grudzień 2022 · 5 pkt", "Zadanie 19 · maj 2023 · 5 pkt", "Zadanie 20 · czerwiec 2023 · 5 pkt", "Zadanie 21 · maj 2024 · 6 pkt", "Zadanie 22 · czerwiec 2024 · 6 pkt", "Zadanie 23 · grudzień 2024 · 5 pkt", "Zadanie 24 · maj 2025 · 6 pkt", "Zadanie 25 · czerwiec 2025 · 4 pkt"], "w": [2, 5, 6, 6, 5, 2, 6, 6, 6, 6, 4, 5, 5, 5, 5, 4, 4, 5, 5, 5, 6, 6, 5, 6, 4], "tids": ["Z2.1", "Z2.2", "Z2.3", "Z2.4", "Z2.5", "Z2.6", "Z2.7", "Z2.8", "Z2.9", "Z2.10", "Z2.11", "Z2.12", "Z2.13", "Z2.14", "Z2.15", "Z2.16", "Z2.17", "Z2.18", "Z2.19", "Z2.20", "Z2.21", "Z2.22", "Z2.23", "Z2.24", "Z2.25"]}, {"id": "Z3", "n": "3", "name": "Funkcja wielomianowa", "h": 5.0, "t": ["Zadanie 1 · grudzień 2014 · 1 pkt", "Zadanie 2 · maj 2016 · 1 pkt", "Zadanie 3 · maj 2016 · 4 pkt", "Zadanie 4 · maj 2017 · 2 pkt", "Zadanie 5 · maj 2019 · 6 pkt", "Zadanie 6 · czerwiec 2019 · 1 pkt", "Zadanie 7 · czerwiec 2019 · 1 pkt", "Zadanie 8 · czerwiec 2020 · 1 pkt", "Zadanie 9 · lipiec 2020 · 1 pkt", "Zadanie 10 · marzec 2021 · 4 pkt", "Zadanie 11 · maj 2021 · 1 pkt", "Zadanie 12 · czerwiec 2021 · 2 pkt", "Zadanie 13 · czerwiec 2021 · 5 pkt", "Zadanie 14 · maj 2022 · 4 pkt", "Zadanie 15 · czerwiec 2022 · 6 pkt", "Zadanie 16 · Informator F2023 · 3 pkt", "Zadanie 17 · Informator F2023 · 3 pkt", "Zadanie 18 · Arkusz pokazowy F2023 · 5 pkt"], "w": [1, 1, 4, 2, 6, 1, 1, 1, 1, 4, 1, 2, 5, 4, 6, 3, 3, 5], "tids": ["Z3.1", "Z3.2", "Z3.3", "Z3.4", "Z3.5", "Z3.6", "Z3.7", "Z3.8", "Z3.9", "Z3.10", "Z3.11", "Z3.12", "Z3.13", "Z3.14", "Z3.15", "Z3.16", "Z3.17", "Z3.18"]}, {"id": "Z4", "n": "4", "name": "Funkcja wymierna, wykładnicza i logarytmiczna", "h": 4.5, "t": ["Zadanie 1 · grudzień 2014 · 1 pkt", "Zadanie 2 · czerwiec 2015 · 1 pkt", "Zadanie 3 · czerwiec 2015 · 1 pkt", "Zadanie 4 · maj 2016 · 1 pkt", "Zadanie 5 · czerwiec 2016 · 4 pkt", "Zadanie 6 · maj 2018 · 2 pkt", "Zadanie 7 · lipiec 2020 · 4 pkt", "Zadanie 8 · maj 2021 · 3 pkt", "Zadanie 9 · czerwiec 2022 · 3 pkt", "Zadanie 10 · Informator F2023 · 3 pkt", "Zadanie 11 · Zbiór zadań F2023 · 5 pkt", "Zadanie 12 · grudzień 2022 · 5 pkt", "Zadanie 13 · maj 2023 · 2 pkt", "Zadanie 14 · maj 2024 · 2 pkt", "Zadanie 15 · czerwiec 2024 · 2 pkt", "Zadanie 16 · grudzień 2024 · 2 pkt", "Zadanie 17 · maj 2025 · 2 pkt"], "w": [1, 1, 1, 1, 4, 2, 4, 3, 3, 3, 5, 5, 2, 2, 2, 2, 2], "tids": ["Z4.1", "Z4.2", "Z4.3", "Z4.4", "Z4.5", "Z4.6", "Z4.7", "Z4.8", "Z4.9", "Z4.10", "Z4.11", "Z4.12", "Z4.13", "Z4.14", "Z4.15", "Z4.16", "Z4.17"]}, {"id": "Z5", "n": "5", "name": "Funkcje trygonometryczne", "h": 11.0, "t": ["Zadanie 1 · grudzień 2014 · 1 pkt", "Zadanie 2 · grudzień 2014 · 3 pkt", "Zadanie 3 · maj 2015 · 1 pkt", "Zadanie 4 · czerwiec 2015 · 1 pkt", "Zadanie 5 · czerwiec 2015 · 4 pkt", "Zadanie 7 · czerwiec 2016 · 1 pkt", "Zadanie 9 · maj 2017 · 4 pkt", "Zadanie 10 · czerwiec 2017 · 4 pkt", "Zadanie 11 · maj 2018 · 4 pkt", "Zadanie 12 · maj 2019 · 1 pkt", "Zadanie 13 · maj 2019 · 4 pkt", "Zadanie 14 · czerwiec 2019 · 4 pkt", "Zadanie 15 · czerwiec 2020 · 4 pkt", "Zadanie 16 · lipiec 2020 · 4 pkt", "Zadanie 17 · marzec 2021 · 4 pkt", "Zadanie 18 · maj 2021 · 1 pkt", "Zadanie 19 · maj 2021 · 5 pkt", "Zadanie 20 · czerwiec 2021 · 1 pkt", "Zadanie 21 · czerwiec 2021 · 4 pkt", "Zadanie 22 · maj 2022 · 1 pkt", "Zadanie 23 · maj 2022 · 4 pkt", "Zadanie 24 · czerwiec 2022 · 4 pkt", "Zadanie 25 · Informator F2023 · 3 pkt", "Zadanie 26 · Arkusz pokazowy F2023 · 4 pkt", "Zadanie 27 · Zbiór zadań F2023 · 5 pkt", "Zadanie 28 · Zbiór zadań F2023 · 3 pkt", "Zadanie 29 · grudzień 2022 · 4 pkt", "Zadanie 30 · maj 2023 · 3 pkt", "Zadanie 31 · czerwiec 2023 · 4 pkt", "Zadanie 32 · maj 2024 · 5 pkt", "Zadanie 33 · czerwiec 2024 · 4 pkt", "Zadanie 34 · grudzień 2024 · 4 pkt", "Zadanie 35 · maj 2025 · 5 pkt", "Zadanie 36 · czerwiec 2025 · 4 pkt"], "w": [1, 3, 1, 1, 4, 1, 4, 4, 4, 1, 4, 4, 4, 4, 4, 1, 5, 1, 4, 1, 4, 4, 3, 4, 5, 3, 4, 3, 4, 5, 4, 4, 5, 4], "tids": ["Z5.1", "Z5.2", "Z5.3", "Z5.4", "Z5.5", "Z5.7", "Z5.9", "Z5.10", "Z5.11", "Z5.12", "Z5.13", "Z5.14", "Z5.15", "Z5.16", "Z5.17", "Z5.18", "Z5.19", "Z5.20", "Z5.21", "Z5.22", "Z5.23", "Z5.24", "Z5.25", "Z5.26", "Z5.27", "Z5.28", "Z5.29", "Z5.30", "Z5.31", "Z5.32", "Z5.33", "Z5.34", "Z5.35", "Z5.36"]}, {"id": "Z6", "n": "6", "name": "Ciągi", "h": 14.5, "t": ["Zadanie 1 · grudzień 2014 · 2 pkt", "Zadanie 2 · grudzień 2014 · 3 pkt", "Zadanie 3 · maj 2015 · 2 pkt", "Zadanie 4 · maj 2015 · 6 pkt", "Zadanie 5 · czerwiec 2015 · 1 pkt", "Zadanie 6 · maj 2016 · 1 pkt", "Zadanie 7 · maj 2016 · 2 pkt", "Zadanie 8 · czerwiec 2016 · 1 pkt", "Zadanie 9 · czerwiec 2016 · 2 pkt", "Zadanie 10 · czerwiec 2016 · 3 pkt", "Zadanie 11 · maj 2017 · 1 pkt", "Zadanie 12 · maj 2017 · 6 pkt", "Zadanie 13 · czerwiec 2017 · 1 pkt", "Zadanie 14 · czerwiec 2017 · 5 pkt", "Zadanie 15 · maj 2018 · 4 pkt", "Zadanie 16 · czerwiec 2018 · 4 pkt", "Zadanie 17 · czerwiec 2018 · 4 pkt", "Zadanie 18 · maj 2019 · 2 pkt", "Zadanie 19 · maj 2019 · 6 pkt", "Zadanie 20 · czerwiec 2019 · 1 pkt", "Zadanie 21 · czerwiec 2020 · 1 pkt", "Zadanie 22 · czerwiec 2020 · 5 pkt", "Zadanie 23 · lipiec 2020 · 2 pkt", "Zadanie 24 · lipiec 2020 · 3 pkt", "Zadanie 25 · marzec 2021 · 1 pkt", "Zadanie 26 · marzec 2021 · 5 pkt", "Zadanie 27 · maj 2021 · 2 pkt", "Zadanie 28 · czerwiec 2021 · 1 pkt", "Zadanie 29 · maj 2022 · 2 pkt", "Zadanie 30 · maj 2022 · 4 pkt", "Zadanie 31 · czerwiec 2022 · 4 pkt", "Zadanie 32 · Informator F2023 · 4 pkt", "Zadanie 33 · Informator F2023 · 2 pkt", "Zadanie 34 · Informator F2023 · 3 pkt", "Zadanie 35 · Arkusz pokazowy F2023 · 4 pkt", "Zadanie 36 · Zbiór zadań F2023 · 5 pkt", "Zadanie 37 · maj 2023 · 4 pkt", "Zadanie 38 · czerwiec 2023 · 5 pkt", "Zadanie 39 · czerwiec 2023 · 4 pkt", "Zadanie 40 · maj 2024 · 4 pkt", "Zadanie 41 · czerwiec 2024 · 4 pkt", "Zadanie 42 · grudzień 2024 · 5 pkt", "Zadanie 43 · grudzień 2024 · 4 pkt", "Zadanie 44 · maj 2025 · 4 pkt", "Zadanie 45 · czerwiec 2025 · 5 pkt"], "w": [2, 3, 2, 6, 1, 1, 2, 1, 2, 3, 1, 6, 1, 5, 4, 4, 4, 2, 6, 1, 1, 5, 2, 3, 1, 5, 2, 1, 2, 4, 4, 4, 2, 3, 4, 5, 4, 5, 4, 4, 4, 5, 4, 4, 5], "tids": ["Z6.1", "Z6.2", "Z6.3", "Z6.4", "Z6.5", "Z6.6", "Z6.7", "Z6.8", "Z6.9", "Z6.10", "Z6.11", "Z6.12", "Z6.13", "Z6.14", "Z6.15", "Z6.16", "Z6.17", "Z6.18", "Z6.19", "Z6.20", "Z6.21", "Z6.22", "Z6.23", "Z6.24", "Z6.25", "Z6.26", "Z6.27", "Z6.28", "Z6.29", "Z6.30", "Z6.31", "Z6.32", "Z6.33", "Z6.34", "Z6.35", "Z6.36", "Z6.37", "Z6.38", "Z6.39", "Z6.40", "Z6.41", "Z6.42", "Z6.43", "Z6.44", "Z6.45"]}, {"id": "Z7", "n": "7", "name": "Wartość bezwzględna", "h": 3.5, "t": ["Zadanie 1 · maj 2015 · 1 pkt", "Zadanie 2 · maj 2015 · 1 pkt", "Zadanie 3 · czerwiec 2015 · 2 pkt", "Zadanie 5 · czerwiec 2016 · 4 pkt", "Zadanie 6 · czerwiec 2017 · 1 pkt", "Zadanie 7 · maj 2018 · 1 pkt", "Zadanie 8 · czerwiec 2018 · 1 pkt", "Zadanie 11 · maj 2021 · 1 pkt", "Zadanie 13 · maj 2022 · 3 pkt", "Zadanie 14 · Informator F2023 · 6 pkt", "Zadanie 15 · Zbiór zadań F2023 · 3 pkt", "Zadanie 18 · maj 2023 · 4 pkt", "Zadanie 19 · grudzień 2024 · 4 pkt", "Zadanie 20 · maj 2025 · 4 pkt"], "w": [1, 1, 2, 4, 1, 1, 1, 1, 3, 6, 3, 4, 4, 4], "tids": ["Z7.1", "Z7.2", "Z7.3", "Z7.5", "Z7.6", "Z7.7", "Z7.8", "Z7.11", "Z7.13", "Z7.14", "Z7.15", "Z7.18", "Z7.19", "Z7.20"]}, {"id": "Z8", "n": "8", "name": "Planimetria", "h": 11.5, "t": ["Zadanie 1 · grudzień 2014 · 2 pkt", "Zadanie 2 · maj 2015 · 4 pkt", "Zadanie 3 · czerwiec 2015 · 4 pkt", "Zadanie 4 · czerwiec 2016 · 1 pkt", "Zadanie 5 · czerwiec 2016 · 4 pkt", "Zadanie 6 · maj 2017 · 1 pkt", "Zadanie 7 · czerwiec 2017 · 6 pkt", "Zadanie 8 · czerwiec 2018 · 5 pkt", "Zadanie 9 · maj 2019 · 4 pkt", "Zadanie 10 · czerwiec 2019 · 4 pkt", "Zadanie 11 · czerwiec 2020 · 2 pkt", "Zadanie 12 · lipiec 2020 · 6 pkt", "Zadanie 13 · marzec 2021 · 4 pkt", "Zadanie 14 · maj 2021 · 4 pkt", "Zadanie 15 · czerwiec 2021 · 5 pkt", "Zadanie 16 · czerwiec 2022 · 1 pkt", "Zadanie 17 · Informator F2023 · 5 pkt", "Zadanie 18 · Zbiór zadań F2023 · 6 pkt", "Zadanie 19 · Zbiór zadań F2023 · 6 pkt", "Zadanie 20 · Zbiór zadań F2023 · 4 pkt", "Zadanie 21 · Zbiór zadań F2023 · 3 pkt", "Zadanie 22 · grudzień 2022 · 5 pkt", "Zadanie 23 · maj 2023 · 4 pkt", "Zadanie 24 · czerwiec 2023 · 5 pkt", "Zadanie 25 · maj 2024 · 4 pkt", "Zadanie 26 · czerwiec 2024 · 4 pkt", "Zadanie 27 · grudzień 2024 · 5 pkt", "Zadanie 28 · maj 2025 · 3 pkt", "Zadanie 29 · czerwiec 2025 · 5 pkt"], "w": [2, 4, 4, 1, 4, 1, 6, 5, 4, 4, 2, 6, 4, 4, 5, 1, 5, 6, 6, 4, 3, 5, 4, 5, 4, 4, 5, 3, 5], "tids": ["Z8.1", "Z8.2", "Z8.3", "Z8.4", "Z8.5", "Z8.6", "Z8.7", "Z8.8", "Z8.9", "Z8.10", "Z8.11", "Z8.12", "Z8.13", "Z8.14", "Z8.15", "Z8.16", "Z8.17", "Z8.18", "Z8.19", "Z8.20", "Z8.21", "Z8.22", "Z8.23", "Z8.24", "Z8.25", "Z8.26", "Z8.27", "Z8.28", "Z8.29"]}, {"id": "Z9", "n": "9", "name": "Geometria analityczna", "h": 14.5, "t": ["Zadanie 1 · grudzień 2014 · 1 pkt", "Zadanie 2 · grudzień 2014 · 6 pkt", "Zadanie 3 · maj 2015 · 1 pkt", "Zadanie 4 · czerwiec 2015 · 2 pkt", "Zadanie 5 · maj 2016 · 5 pkt", "Zadanie 6 · czerwiec 2016 · 5 pkt", "Zadanie 7 · maj 2017 · 5 pkt", "Zadanie 8 · maj 2017 · 1 pkt", "Zadanie 9 · czerwiec 2017 · 5 pkt", "Zadanie 11 · maj 2018 · 6 pkt", "Zadanie 12 · czerwiec 2018 · 1 pkt", "Zadanie 13 · czerwiec 2018 · 5 pkt", "Zadanie 15 · czerwiec 2019 · 6 pkt", "Zadanie 16 · czerwiec 2019 · 1 pkt", "Zadanie 18 · lipiec 2020 · 6 pkt", "Zadanie 19 · marzec 2021 · 5 pkt", "Zadanie 21 · maj 2021 · 6 pkt", "Zadanie 22 · czerwiec 2021 · 1 pkt", "Zadanie 23 · czerwiec 2021 · 4 pkt", "Zadanie 24 · maj 2022 · 6 pkt", "Zadanie 25 · czerwiec 2022 · 6 pkt", "Zadanie 26 · czerwiec 2022 · 1 pkt", "Zadanie 27 · Informator F2023 · 5 pkt", "Zadanie 28 · Informator F2023 · 4 pkt", "Zadanie 29 · Informator F2023 · 3 pkt", "Zadanie 30 · Arkusz pokazowy F2023 · 6 pkt", "Zadanie 31 · Zbiór zadań F2023 · 3 pkt", "Zadanie 32 · Zbiór zadań F2023 · 2 pkt", "Zadanie 33 · maj 2023 · 6 pkt", "Zadanie 34 · czerwiec 2023 · 4 pkt", "Zadanie 35 · maj 2024 · 5 pkt", "Zadanie 36 · czerwiec 2024 · 6 pkt", "Zadanie 37 · grudzień 2024 · 4 pkt", "Zadanie 38 · maj 2025 · 5 pkt", "Zadanie 39 · czerwiec 2025 · 6 pkt"], "w": [1, 6, 1, 2, 5, 5, 5, 1, 5, 6, 1, 5, 6, 1, 6, 5, 6, 1, 4, 6, 6, 1, 5, 4, 3, 6, 3, 2, 6, 4, 5, 6, 4, 5, 6], "tids": ["Z9.1", "Z9.2", "Z9.3", "Z9.4", "Z9.5", "Z9.6", "Z9.7", "Z9.8", "Z9.9", "Z9.11", "Z9.12", "Z9.13", "Z9.15", "Z9.16", "Z9.18", "Z9.19", "Z9.21", "Z9.22", "Z9.23", "Z9.24", "Z9.25", "Z9.26", "Z9.27", "Z9.28", "Z9.29", "Z9.30", "Z9.31", "Z9.32", "Z9.33", "Z9.34", "Z9.35", "Z9.36", "Z9.37", "Z9.38", "Z9.39"]}, {"id": "Z10", "n": "10", "name": "Stereometria", "h": 9.5, "t": ["Zadanie 1 · maj 2015 · 5 pkt", "Zadanie 2 · czerwiec 2015 · 5 pkt", "Zadanie 3 · maj 2016 · 6 pkt", "Zadanie 4 · czerwiec 2016 · 1 pkt", "Zadanie 5 · maj 2017 · 4 pkt", "Zadanie 6 · maj 2018 · 4 pkt", "Zadanie 7 · czerwiec 2019 · 6 pkt", "Zadanie 8 · czerwiec 2020 · 6 pkt", "Zadanie 9 · marzec 2021 · 4 pkt", "Zadanie 10 · czerwiec 2021 · 4 pkt", "Zadanie 11 · maj 2022 · 5 pkt", "Zadanie 12 · czerwiec 2022 · 5 pkt", "Zadanie 13 · Informator F2023 · 3 pkt", "Zadanie 14 · Informator F2023 · 5 pkt", "Zadanie 15 · Arkusz pokazowy F2023 · 6 pkt", "Zadanie 16 · grudzień 2022 · 5 pkt", "Zadanie 17 · maj 2023 · 4 pkt", "Zadanie 18 · czerwiec 2024 · 4 pkt", "Zadanie 19 · grudzień 2024 · 3 pkt", "Zadanie 20 · maj 2025 · 5 pkt", "Zadanie 21 · czerwiec 2025 · 5 pkt"], "w": [5, 5, 6, 1, 4, 4, 6, 6, 4, 4, 5, 5, 3, 5, 6, 5, 4, 4, 3, 5, 5], "tids": ["Z10.1", "Z10.2", "Z10.3", "Z10.4", "Z10.5", "Z10.6", "Z10.7", "Z10.8", "Z10.9", "Z10.10", "Z10.11", "Z10.12", "Z10.13", "Z10.14", "Z10.15", "Z10.16", "Z10.17", "Z10.18", "Z10.19", "Z10.20", "Z10.21"]}, {"id": "Z11", "n": "11", "name": "Optymalizacja", "h": 31.5, "t": ["Zadanie 1 · grudzień 2014 · 2 pkt", "Zadanie 2 · grudzień 2014 · 1 pkt", "Zadanie 3 · grudzień 2014 · 3 pkt", "Zadanie 4 · grudzień 2014 · 7 pkt", "Zadanie 5 · maj 2015 · 4 pkt", "Zadanie 6 · maj 2015 · 7 pkt", "Zadanie 7 · czerwiec 2015 · 1 pkt", "Zadanie 8 · czerwiec 2015 · 7 pkt", "Zadanie 9 · maj 2016 · 1 pkt", "Zadanie 10 · maj 2016 · 7 pkt", "Zadanie 11 · czerwiec 2016 · 7 pkt", "Zadanie 12 · maj 2017 · 3 pkt", "Zadanie 13 · maj 2017 · 7 pkt", "Zadanie 14 · czerwiec 2017 · 1 pkt", "Zadanie 15 · czerwiec 2017 · 7 pkt", "Zadanie 16 · maj 2018 · 1 pkt", "Zadanie 17 · maj 2018 · 3 pkt", "Zadanie 18 · maj 2018 · 7 pkt", "Zadanie 19 · czerwiec 2018 · 2 pkt", "Zadanie 20 · czerwiec 2018 · 7 pkt", "Zadanie 21 · maj 2019 · 2 pkt", "Zadanie 22 · maj 2019 · 7 pkt", "Zadanie 23 · czerwiec 2019 · 2 pkt", "Zadanie 24 · czerwiec 2019 · 7 pkt", "Zadanie 25 · czerwiec 2020 · 7 pkt", "Zadanie 26 · lipiec 2020 · 1 pkt", "Zadanie 27 · lipiec 2020 · 1 pkt", "Zadanie 28 · lipiec 2020 · 7 pkt", "Zadanie 29 · marzec 2021 · 1 pkt", "Zadanie 30 · marzec 2021 · 7 pkt", "Zadanie 31 · maj 2021 · 7 pkt", "Zadanie 32 · czerwiec 2021 · 5 pkt", "Zadanie 33 · czerwiec 2021 · 7 pkt", "Zadanie 34 · maj 2022 · 1 pkt", "Zadanie 35 · maj 2022 · 7 pkt", "Zadanie 36 · czerwiec 2022 · 1 pkt", "Zadanie 37 · czerwiec 2022 · 7 pkt", "Zadanie 38 · Informator F2023 · 8 pkt", "Zadanie 39 · Informator F2023 · 4 pkt", "Zadanie 40 · Informator F2023 · 4 pkt", "Zadanie 41 · Informator F2023 · 4 pkt", "Zadanie 42 · Informator F2023 · 4 pkt", "Zadanie 43 · Arkusz pokazowy F2023 · 3 pkt", "Zadanie 44 · Arkusz pokazowy F2023 · 8 pkt", "Zadanie 45 · Zbiór zadań F2023 · 4 pkt", "Zadanie 46 · Zbiór zadań F2023 · 6 pkt", "Zadanie 47 · Zbiór zadań F2023 · 6 pkt", "Zadanie 48 · Zbiór zadań F2023 · 6 pkt", "Zadanie 49 · Zbiór zadań F2023 · 4 pkt", "Zadanie 50 · Zbiór zadań F2023 · 6 pkt", "Zadanie 51 · Zbiór zadań F2023 · 7 pkt", "Zadanie 52 · Zbiór zadań F2023 · 3 pkt", "Zadanie 53 · Zbiór zadań F2023 · 3 pkt", "Zadanie 54 · grudzień 2022 · 6 pkt", "Zadanie 55 · grudzień 2022 · 4 pkt", "Zadanie 56 · maj 2023 · 6 pkt", "Zadanie 57 · maj 2023 · 3 pkt", "Zadanie 58 · czerwiec 2023 · 3 pkt", "Zadanie 59 · czerwiec 2023 · 6 pkt", "Zadanie 60 · maj 2024 · 2 pkt", "Zadanie 61 · maj 2024 · 3 pkt", "Zadanie 62 · maj 2024 · 6 pkt", "Zadanie 63 · czerwiec 2024 · 2 pkt", "Zadanie 64 · czerwiec 2024 · 3 pkt", "Zadanie 65 · czerwiec 2024 · 6 pkt", "Zadanie 66 · grudzień 2024 · 6 pkt", "Zadanie 67 · maj 2025 · 6 pkt", "Zadanie 68 · czerwiec 2025 · 6 pkt", "Zadanie 69 · czerwiec 2025 · 4 pkt"], "w": [2, 1, 3, 7, 4, 7, 1, 7, 1, 7, 7, 3, 7, 1, 7, 1, 3, 7, 2, 7, 2, 7, 2, 7, 7, 1, 1, 7, 1, 7, 7, 5, 7, 1, 7, 1, 7, 8, 4, 4, 4, 4, 3, 8, 4, 6, 6, 6, 4, 6, 7, 3, 3, 6, 4, 6, 3, 3, 6, 2, 3, 6, 2, 3, 6, 6, 6, 6, 4], "tids": ["Z11.1", "Z11.2", "Z11.3", "Z11.4", "Z11.5", "Z11.6", "Z11.7", "Z11.8", "Z11.9", "Z11.10", "Z11.11", "Z11.12", "Z11.13", "Z11.14", "Z11.15", "Z11.16", "Z11.17", "Z11.18", "Z11.19", "Z11.20", "Z11.21", "Z11.22", "Z11.23", "Z11.24", "Z11.25", "Z11.26", "Z11.27", "Z11.28", "Z11.29", "Z11.30", "Z11.31", "Z11.32", "Z11.33", "Z11.34", "Z11.35", "Z11.36", "Z11.37", "Z11.38", "Z11.39", "Z11.40", "Z11.41", "Z11.42", "Z11.43", "Z11.44", "Z11.45", "Z11.46", "Z11.47", "Z11.48", "Z11.49", "Z11.50", "Z11.51", "Z11.52", "Z11.53", "Z11.54", "Z11.55", "Z11.56", "Z11.57", "Z11.58", "Z11.59", "Z11.60", "Z11.61", "Z11.62", "Z11.63", "Z11.64", "Z11.65", "Z11.66", "Z11.67", "Z11.68", "Z11.69"]}, {"id": "Z12", "n": "12", "name": "Prawdopodobieństwo i kombinatoryka", "h": 12.5, "t": ["Zadanie 1 · grudzień 2014 · 5 pkt", "Zadanie 2 · maj 2015 · 4 pkt", "Zadanie 3 · czerwiec 2015 · 5 pkt", "Zadanie 4 · maj 2016 · 3 pkt", "Zadanie 5 · maj 2016 · 2 pkt", "Zadanie 6 · czerwiec 2016 · 4 pkt", "Zadanie 7 · czerwiec 2016 · 2 pkt", "Zadanie 8 · maj 2017 · 4 pkt", "Zadanie 9 · czerwiec 2017 · 4 pkt", "Zadanie 10 · maj 2018 · 4 pkt", "Zadanie 11 · czerwiec 2018 · 4 pkt", "Zadanie 12 · maj 2019 · 3 pkt", "Zadanie 13 · maj 2019 · 1 pkt", "Zadanie 14 · czerwiec 2019 · 3 pkt", "Zadanie 15 · czerwiec 2019 · 2 pkt", "Zadanie 16 · czerwiec 2020 · 4 pkt", "Zadanie 17 · czerwiec 2020 · 1 pkt", "Zadanie 18 · lipiec 2020 · 3 pkt", "Zadanie 19 · marzec 2021 · 2 pkt", "Zadanie 20 · marzec 2021 · 1 pkt", "Zadanie 21 · maj 2021 · 4 pkt", "Zadanie 22 · czerwiec 2021 · 4 pkt", "Zadanie 23 · maj 2022 · 1 pkt", "Zadanie 24 · czerwiec 2022 · 3 pkt", "Zadanie 25 · czerwiec 2022 · 2 pkt", "Zadanie 26 · Informator F2023 · 4 pkt", "Zadanie 27 · Informator F2023 · 3 pkt", "Zadanie 28 · Informator F2023 · 4 pkt", "Zadanie 29 · Arkusz pokazowy F2023 · 4 pkt", "Zadanie 30 · grudzień 2022 · 3 pkt", "Zadanie 31 · maj 2023 · 3 pkt", "Zadanie 32 · czerwiec 2023 · 3 pkt", "Zadanie 33 · czerwiec 2023 · 3 pkt", "Zadanie 34 · maj 2024 · 3 pkt", "Zadanie 35 · maj 2024 · 3 pkt", "Zadanie 36 · czerwiec 2024 · 3 pkt", "Zadanie 37 · grudzień 2024 · 3 pkt", "Zadanie 38 · maj 2025 · 3 pkt", "Zadanie 39 · czerwiec 2025 · 3 pkt", "Zadanie 40 · czerwiec 2025 · 3 pkt"], "w": [5, 4, 5, 3, 2, 4, 2, 4, 4, 4, 4, 3, 1, 3, 2, 4, 1, 3, 2, 1, 4, 4, 1, 3, 2, 4, 3, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], "tids": ["Z12.1", "Z12.2", "Z12.3", "Z12.4", "Z12.5", "Z12.6", "Z12.7", "Z12.8", "Z12.9", "Z12.10", "Z12.11", "Z12.12", "Z12.13", "Z12.14", "Z12.15", "Z12.16", "Z12.17", "Z12.18", "Z12.19", "Z12.20", "Z12.21", "Z12.22", "Z12.23", "Z12.24", "Z12.25", "Z12.26", "Z12.27", "Z12.28", "Z12.29", "Z12.30", "Z12.31", "Z12.32", "Z12.33", "Z12.34", "Z12.35", "Z12.36", "Z12.37", "Z12.38", "Z12.39", "Z12.40"]}, {"id": "Z13", "n": "13", "name": "Dowodzenie", "h": 19.5, "t": ["Zadanie 1 · grudzień 2014 · 3 pkt", "Zadanie 2 · grudzień 2014 · 4 pkt", "Zadanie 3 · grudzień 2014 · 3 pkt", "Zadanie 4 · maj 2015 · 3 pkt", "Zadanie 5 · maj 2015 · 3 pkt", "Zadanie 6 · czerwiec 2015 · 3 pkt", "Zadanie 7 · czerwiec 2015 · 3 pkt", "Zadanie 8 · czerwiec 2015 · 4 pkt", "Zadanie 9 · maj 2016 · 3 pkt", "Zadanie 10 · maj 2016 · 3 pkt", "Zadanie 11 · czerwiec 2016 · 3 pkt", "Zadanie 12 · czerwiec 2016 · 3 pkt", "Zadanie 13 · maj 2017 · 3 pkt", "Zadanie 14 · maj 2017 · 3 pkt", "Zadanie 15 · czerwiec 2017 · 3 pkt", "Zadanie 16 · czerwiec 2017 · 3 pkt", "Zadanie 17 · maj 2018 · 3 pkt", "Zadanie 18 · maj 2018 · 3 pkt", "Zadanie 19 · czerwiec 2018 · 3 pkt", "Zadanie 20 · czerwiec 2018 · 3 pkt", "Zadanie 22 · maj 2019 · 3 pkt", "Zadanie 23 · maj 2019 · 3 pkt", "Zadanie 24 · czerwiec 2019 · 3 pkt", "Zadanie 25 · czerwiec 2019 · 3 pkt", "Zadanie 26 · czerwiec 2020 · 3 pkt", "Zadanie 27 · czerwiec 2020 · 3 pkt", "Zadanie 28 · lipiec 2020 · 3 pkt", "Zadanie 29 · lipiec 2020 · 3 pkt", "Zadanie 30 · marzec 2021 · 3 pkt", "Zadanie 31 · marzec 2021 · 3 pkt", "Zadanie 32 · maj 2021 · 3 pkt", "Zadanie 33 · maj 2021 · 3 pkt", "Zadanie 34 · czerwiec 2021 · 3 pkt", "Zadanie 35 · czerwiec 2021 · 3 pkt", "Zadanie 36 · maj 2022 · 3 pkt", "Zadanie 37 · maj 2022 · 3 pkt", "Zadanie 38 · czerwiec 2022 · 3 pkt", "Zadanie 39 · czerwiec 2022 · 3 pkt", "Zadanie 40 · Informator F2023 · 3 pkt", "Zadanie 41 · Informator F2023 · 3 pkt", "Zadanie 42 · Informator F2023 · 3 pkt", "Zadanie 43 · Informator F2023 · 3 pkt", "Zadanie 44 · Arkusz pokazowy F2023 · 3 pkt", "Zadanie 45 · Arkusz pokazowy F2023 · 4 pkt", "Zadanie 46 · Zbiór zadań F2023 · 4 pkt", "Zadanie 47 · Zbiór zadań F2023 · 4 pkt", "Zadanie 48 · Zbiór zadań F2023 · 3 pkt", "Zadanie 49 · grudzień 2022 · 3 pkt", "Zadanie 50 · grudzień 2022 · 4 pkt", "Zadanie 51 · maj 2023 · 3 pkt", "Zadanie 52 · maj 2023 · 3 pkt", "Zadanie 53 · czerwiec 2023 · 3 pkt", "Zadanie 54 · czerwiec 2023 · 3 pkt", "Zadanie 55 · maj 2024 · 3 pkt", "Zadanie 56 · maj 2024 · 3 pkt", "Zadanie 57 · czerwiec 2024 · 3 pkt", "Zadanie 58 · czerwiec 2024 · 3 pkt", "Zadanie 59 · grudzień 2024 · 3 pkt", "Zadanie 60 · grudzień 2024 · 2 pkt", "Zadanie 61 · maj 2025 · 3 pkt", "Zadanie 62 · maj 2025 · 4 pkt", "Zadanie 63 · czerwiec 2025 · 3 pkt", "Zadanie 64 · czerwiec 2025 · 3 pkt"], "w": [3, 4, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 3, 4, 3, 3], "tids": ["Z13.1", "Z13.2", "Z13.3", "Z13.4", "Z13.5", "Z13.6", "Z13.7", "Z13.8", "Z13.9", "Z13.10", "Z13.11", "Z13.12", "Z13.13", "Z13.14", "Z13.15", "Z13.16", "Z13.17", "Z13.18", "Z13.19", "Z13.20", "Z13.22", "Z13.23", "Z13.24", "Z13.25", "Z13.26", "Z13.27", "Z13.28", "Z13.29", "Z13.30", "Z13.31", "Z13.32", "Z13.33", "Z13.34", "Z13.35", "Z13.36", "Z13.37", "Z13.38", "Z13.39", "Z13.40", "Z13.41", "Z13.42", "Z13.43", "Z13.44", "Z13.45", "Z13.46", "Z13.47", "Z13.48", "Z13.49", "Z13.50", "Z13.51", "Z13.52", "Z13.53", "Z13.54", "Z13.55", "Z13.56", "Z13.57", "Z13.58", "Z13.59", "Z13.60", "Z13.61", "Z13.62", "Z13.63", "Z13.64"]}]});
+
+const CATALOG=[{id:"mat"},{name:"Język polski rozszerzony"},{name:"Język angielski rozszerzony"},{id:"bio"},{name:"Chemia rozszerzona"},{name:"Fizyka rozszerzona"},{name:"Geografia rozszerzona"},{name:"Historia rozszerzona"}];
+const TASKSETS=[{id:"zad",desc:"Zadania CKE z lat 2015–2025 z podziałem na działy (431 zadań)"}];
+const ABBR={bio:"bio",mat:"mat",zad:"zad"};
+
 /* ======================= DATES ======================= */
 const DAYS=["niedziela","poniedziałek","wtorek","środa","czwartek","piątek","sobota"];
 const DSHORT=["Nd","Pn","Wt","Śr","Cz","Pt","Sb"];
@@ -769,15 +794,17 @@ const fmtN=(x,dig=1)=>(Math.round(x*10**dig)/10**dig).toString().replace(".",","
 
 /* ======================= STATE ======================= */
 const LS="planer-matura-v1";
-const DEF={bio:{deadline:"2027-03-01",days:[1,2,3],hpd:2.5},mat:{deadline:"2027-03-01",days:[4,5,6,0],hpd:1.5}};
+const DEF={bio:{deadline:"2027-03-01",start:"",days:[1,2,3],hpd:2.5},mat:{deadline:"2027-03-01",start:"",days:[4,5,6,0],hpd:1.5},zad:{deadline:"2027-05-03",start:"2027-03-01",days:[1,2,3,4,5,6,0],hpd:2.5}};
+const DEF_ON={bio:true,mat:true,zad:false};
 const clone=o=>JSON.parse(JSON.stringify(o));
-function freshState(){return{v:2,createdAt:iso(todayD()),updatedAt:0,subject:"bio",settings:clone(DEF),done:{},hours:{},skip:[]}}
+function freshState(){return{v:2,createdAt:iso(todayD()),updatedAt:0,subject:"bio",enabled:clone(DEF_ON),settings:clone(DEF),done:{},hours:{},skip:[]}}
 function normalize(raw){const s=Object.assign(freshState(),raw||{});let st=s.settings||{};
   if(Array.isArray(st.days)){const bio={deadline:st.deadline,days:st.days,hpd:st.hpd};const mat=clone(DEF.mat);
     mat.days=mat.days.filter(d=>!bio.days.includes(d));st={bio,mat}}
   for(const k of Object.keys(DEF))st[k]=Object.assign({},DEF[k],st[k]||{});
   s.settings=st;s.done=s.done||{};s.hours=s.hours||{};s.skip=Array.isArray(s.skip)?s.skip:[];s.v=2;
-  if(!SUBJECTS.find(x=>x.id===s.subject))s.subject="bio";return s}
+  s.enabled=Object.assign(clone(DEF_ON),s.enabled||{});
+  if(!s.enabled[s.subject]){const f=SUBJECTS.find(x=>s.enabled[x.id]);s.subject=f?f.id:"bio"}return s}
 let state=freshState();
 try{const raw=localStorage.getItem(LS);if(raw)state=normalize(JSON.parse(raw))}catch(e){}
 
@@ -804,26 +831,31 @@ async function push(){if(!ref)return;try{await ref.set(clone(state));syncState="
 
 /* ======================= MODEL ======================= */
 const SUB=id=>SUBJECTS.find(s=>s.id===id);
-const subj=()=>SUB(state.subject)||SUBJECTS[0];
+const subj=()=>(state.enabled[state.subject]&&SUB(state.subject))||ACTIVE()[0]||SUBJECTS[0];
 const cfg=sid=>state.settings[sid];
 const uHours=u=>state.hours[u.id]??u.h;
 const tid=(u,i)=>u.tids?u.tids[i]:`${u.id}.${i+1}`;
 const isR=t=>t.startsWith("R:");
 const tText=t=>isR(t)?t.slice(2):t;
+const ACTIVE=()=>SUBJECTS.filter(s=>state.enabled[s.id]);
+const isTasks=sid=>(SUB(sid)||{}).kind==="tasks";
+const noun=sid=>isTasks(sid)?"zadań":"tematów";
+function topicH(u,i){const H=uHours(u);if(!u.w)return H/u.t.length;const W=u.wsum||(u.wsum=u.w.reduce((a,b)=>a+b,0));return H*u.w[i]/W}
+function startD(sid){const s=cfg(sid).start,t=todayD();return s&&parse(s)>t?parse(s):t}
 function findUnit(id){for(const s of SUBJECTS){const u=s.units.find(x=>x.id===id);if(u)return{u,s}}return null}
 function totals(sid){let tot=0,done=0,todayH=0;const t=iso(todayD());
-  for(const u of SUB(sid).units){const H=uHours(u),per=H/u.t.length;tot+=H;
-    u.t.forEach((_,i)=>{const d=state.done[tid(u,i)];if(d){done+=per;if(d===t)todayH+=per}})}
+  for(const u of SUB(sid).units){const H=uHours(u);tot+=H;
+    u.t.forEach((_,i)=>{const d=state.done[tid(u,i)];if(d){const per=topicH(u,i);done+=per;if(d===t)todayH+=per}})}
   return{tot,done,rem:Math.max(0,tot-done),todayH,pct:tot?done/tot*100:0}}
 function isStudy(d,sid){return cfg(sid).days.includes(d.getDay())&&!state.skip.includes(iso(d))}
-const anyStudy=d=>SUBJECTS.some(s=>isStudy(d,s.id));
+const anyStudy=d=>ACTIVE().some(s=>isStudy(d,s.id));
 function schedule(sid,limitDays=500){
-  const q=[];for(const u of SUB(sid).units){const per=uHours(u)/u.t.length;u.t.forEach((_,i)=>{if(!state.done[tid(u,i)])q.push({u,i,rem:per})})}
-  const out=[];const T=totals(sid);let d=todayD();const hpd=cfg(sid).hpd;let finish=null;
+  const q=[];for(const u of SUB(sid).units){u.t.forEach((_,i)=>{if(!state.done[tid(u,i)])q.push({u,i,rem:topicH(u,i)})})}
+  const out=[];const T=totals(sid);let d=startD(sid);const todayKey=iso(todayD());const hpd=cfg(sid).hpd;let finish=null;
   if(!cfg(sid).days.length||hpd<=0)return{days:out,finish:null};
   for(let k=0;k<limitDays&&q.length;k++,d=addDays(d,1)){
     if(!isStudy(d,sid))continue;
-    let capH=hpd-(k===0?T.todayH:0);const items=[];
+    let capH=hpd-(iso(d)===todayKey?T.todayH:0);const items=[];
     while(capH>1e-6&&q.length){const it=q[0];const take=Math.min(capH,it.rem);it.rem-=take;capH-=take;
       const last=items[items.length-1];
       if(last&&last.u===it.u){last.to=it.i;last.h+=take}else items.push({sid,u:it.u,from:it.i,to:it.i,h:take});
@@ -832,10 +864,10 @@ function schedule(sid,limitDays=500){
     if(!q.length)finish=new Date(d)}
   return{days:out,finish}}
 function combined(){const map=new Map();
-  for(const s of SUBJECTS)for(const d of schedule(s.id).days){const k=iso(d.date);
+  for(const s of ACTIVE())for(const d of schedule(s.id).days){const k=iso(d.date);
     if(!map.has(k))map.set(k,{date:d.date,items:[]});map.get(k).items.push(...d.items)}
   return[...map.values()].sort((a,b)=>a.date-b.date)}
-function studyDaysUntil(sid){let n=0,d=todayD();const end=parse(cfg(sid).deadline);while(d<=end){if(isStudy(d,sid))n++;d=addDays(d,1)}return n}
+function studyDaysUntil(sid){let n=0,d=startD(sid);const end=parse(cfg(sid).deadline);while(d<=end){if(isStudy(d,sid))n++;d=addDays(d,1)}return n}
 function streak(){const doneDates=new Set(Object.values(state.done));let n=0,d=todayD();
   if(!doneDates.has(iso(d)))d=addDays(d,-1);
   for(let k=0;k<400;k++,d=addDays(d,-1)){if(doneDates.has(iso(d))){n++;continue}if(anyStudy(d))break}
@@ -854,12 +886,12 @@ const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 
 function render(){
   document.querySelectorAll(".tabbar button").forEach(b=>b.setAttribute("aria-current",b.dataset.tab===tab?"page":"false"));
-  const app=$("#app");app.className=`wrap subj-${state.subject}`;app.innerHTML=tab==="plan"?viewPlan():tab==="units"?viewUnits():viewSettings();
+  const app=$("#app");app.className=`wrap subj-${subj().id}`;app.innerHTML=tab==="plan"?viewPlan():tab==="units"?viewUnits():viewSettings();
   if(openUnit)renderSheet();
 }
 function header(title){
   return `<header class="top"><h1>${title}</h1>
-  <div class="subj">${SUBJECTS.map(s=>`<button class="chip" aria-pressed="${s.id===state.subject}" data-subj="${s.id}">${s.short} <span class="num">${Math.floor(totals(s.id).pct)}%</span></button>`).join("")}</div></header>`}
+  <div class="subj">${ACTIVE().map(s=>`<button class="chip" aria-pressed="${s.id===subj().id}" data-subj="${s.id}">${s.short} <span class="num">${Math.floor(totals(s.id).pct)}%</span></button>`).join("")}</div></header>`}
 
 function statusFor(sid){
   const T=totals(sid),S=schedule(sid),c=cfg(sid),dl=parse(c.deadline),sd=studyDaysUntil(sid);
@@ -875,7 +907,7 @@ function statusFor(sid){
   return{T,sd,need,cls,ico,h,p,dl,c}}
 
 function viewPlan(){
-  const sid=state.subject,X=statusFor(sid),T=X.T,st=streak(),C=combined();
+  const sid=subj().id,X=statusFor(sid),T=X.T,st=streak(),C=combined();
   const today=iso(todayD()),wd=todayD().getDay();
   const daysHtml=C.slice(0,showDays).map(d=>{
     const key=iso(d.date),isToday=key===today;
@@ -886,7 +918,7 @@ function viewPlan(){
   const todayInPlan=C[0]&&iso(C[0].date)===today;
   let todayNote="";
   if(state.skip.includes(today))todayNote=`<div class="empty">Dziś odpuszczone. <button class="link" data-unskip="${today}">Cofnij</button></div>`;
-  else{const planned=SUBJECTS.filter(s=>cfg(s.id).days.includes(wd));
+  else{const planned=ACTIVE().filter(s=>cfg(s.id).days.includes(wd)&&startD(s.id)<=todayD());
     const done=planned.filter(s=>totals(s.id).rem>0&&!(todayInPlan&&C[0].items.some(i=>i.sid===s.id)));
     if(done.length)todayNote=`<div class="empty">Dzisiejszy plan zrobiony: ${done.map(s=>`${esc(s.short)} (${fmtH(totals(s.id).todayH)})`).join(", ")}. Dobra robota.</div>`;
     else if(!planned.length)todayNote=`<div class="empty">${cap(DAYS[wd])} to dzień wolny od nauki. Jeśli chcesz, odhacz tematy w zakładce Działy, a plan sam się przesunie.</div>`;}
@@ -899,7 +931,6 @@ function viewPlan(){
     <div class="hero-foot num"><span>${fmtH(T.done)} z ${fmtH(T.tot)}</span><span>zostało ${fmtH(T.rem)}</span></div>
   </section>
   <section class="status ${X.cls}"><div class="ico">${X.ico}</div><div><h3>${X.h}</h3><p>${X.p}</p></div></section>
-  ${needsBackup()?`<div class="empty backup"><span>${state.lastBackup?`Ostatnia kopia postępu: ${longDate(parse(state.lastBackup))}.`:"Nie masz jeszcze kopii postępu."} Pobierz ją do Plików, zajmie to 5 sekund.</span><button class="btn" data-dl>Pobierz kopię</button></div>`:""}
   <div class="stats">
     <div class="stat"><b class="num">${X.sd}</b><span>dni nauki do ${longDate(X.dl)}</span></div>
     <div class="stat"><b class="num">${fmtH(X.c.hpd)}</b><span>planujesz na dzień</span></div>
@@ -913,7 +944,9 @@ function viewPlan(){
 }
 function taskCard(it){
   const u=it.u,s=SUB(it.sid);
-  const range=it.from===it.to?`Temat ${it.from+1}: ${tText(u.t[it.from])}`:`Tematy ${it.from+1}–${it.to+1}: ${tText(u.t[it.from])}`;
+  const num=i=>u.tids?u.tids[i].split(".").pop():i+1;
+  const range=u.w?(it.from===it.to?`Zadanie ${num(it.from)}`:`Zadania ${num(it.from)}–${num(it.to)}`)+` · ${it.to-it.from+1} ${it.to===it.from?"zadanie":"zadań"}`
+    :it.from===it.to?`Temat ${it.from+1}: ${tText(u.t[it.from])}`:`Tematy ${it.from+1}–${it.to+1}: ${tText(u.t[it.from])}`;
   return `<button class="task subj-${it.sid}" data-unit="${u.id}">${badge(u)}
    <span class="body"><span class="t0">${esc(s.short)}</span><span class="t1">${esc(u.name)}</span><span class="t2">${esc(range)}</span></span>
    <span class="hrs num">${fmtH(it.h)}</span></button>`}
@@ -924,55 +957,45 @@ function badge(u){const l=ulabel(u);return `<span class="badge${l.length>3?" lon
 function unitRow(u,sid,single){const n=u.t.length,d=u.t.filter((_,i)=>state.done[tid(u,i)]).length;
   return `<button class="unit subj-${sid} ${d===n?"full":""}" data-unit="${u.id}">${badge(u)}
     <span class="body"><span class="name">${single?"Cały dział":esc(u.name)}</span><span class="mbar"><i style="width:${d/n*100}%"></i></span>
-    <span class="sub num"><span>${d}/${n} tematów</span><span>${fmtH(uHours(u))}</span></span></span></button>`}
+    <span class="sub num"><span>${d}/${n} ${noun(sid)}</span><span>${fmtH(uHours(u))}</span></span></span></button>`}
 function viewUnits(){
-  const T=totals(state.subject),S=subj();
+  const S=subj(),T=totals(S.id);
   const groups=[];for(const u of S.units){const g=groups[groups.length-1];if(g&&g.n===u.n)g.units.push(u);else groups.push({n:u.n,units:[u]})}
   const split=groups.filter(g=>g.units.length>1).length;
   return `${header("Działy")}
-  <p class="hint">${esc(S.name)}: ${groups.length} działów · ${S.units.reduce((a,u)=>a+u.t.length,0)} tematów · ${fmtH(T.tot)} łącznie.${split?` Duże działy są podzielone na części, żeby łatwiej je planować.`:""} Kliknij dział, żeby odhaczać tematy i zmieniać czas.</p>
+  <p class="hint">${esc(S.name)}: ${groups.length} działów · ${S.units.reduce((a,u)=>a+u.t.length,0)} ${noun(S.id)} · ${fmtH(T.tot)} łącznie.${split?` Duże działy są podzielone na części, żeby łatwiej je planować.`:""} Kliknij dział, żeby odhaczać ${isTasks(S.id)?"zadania":"tematy"} i zmieniać czas.</p>
   <div class="units">${groups.map(g=>{
     const n=g.units.reduce((a,u)=>a+u.t.length,0),d=g.units.reduce((a,u)=>a+u.t.filter((_,i)=>state.done[tid(u,i)]).length,0);
     return `<section class="ugroup"><div class="ghead"><span class="gnum">Dział ${g.n}</span>
-      <h3>${esc(g.units[0].g||g.units[0].name)}</h3><span class="gmeta num">${g.units.length>1?`${g.units.length} części · `:""}${d}/${n} tematów</span></div>
+      <h3>${esc(g.units[0].g||g.units[0].name)}</h3><span class="gmeta num">${g.units.length>1?`${g.units.length} części · `:""}${d}/${n} ${noun(S.id)}</span></div>
       ${g.units.map(u=>unitRow(u,S.id,g.units.length===1)).join("")}</section>`}).join("")}</div>`}
 
+function extraSettings(){return ""}
 function viewSettings(){
-  const sid=state.subject,s=cfg(sid),T=totals(sid),S=subj();
+  const S=subj(),sid=S.id,s=cfg(sid),T=totals(sid);
   const order=[1,2,3,4,5,6,0];
+  const row=(id,name,desc)=>`<button class="srow" role="switch" aria-pressed="${!!state.enabled[id]}" data-toggle="${id}"><span>${esc(name)}${desc?`<small>${esc(desc)}</small>`:""}</span><span class="sw"></span></button>`;
   return `${header("Ustawienia")}
-  <p class="hint">Ustawiasz teraz: <b>${esc(S.name)}</b>. Drugi przedmiot wybierzesz przyciskiem u góry.</p>
-  <section class="card"><div class="row"><div><h3 style="font-size:16px">Koniec materiału</h3><p class="hint">Potem tylko zadania i arkusze</p></div>
-    <input type="date" id="deadline" value="${s.deadline}"></div></section>
-  <section class="card"><h3 style="font-size:16px">Dni nauki</h3>
-    <div class="days">${order.map(d=>{const others=SUBJECTS.filter(o=>o.id!==sid&&cfg(o.id).days.includes(d));
-      return `<button data-day="${d}" aria-pressed="${s.days.includes(d)}">${DSHORT[d]}${others.length?`<small>+${others.map(o=>o.id==="bio"?"bio":"mat").join(",")}</small>`:""}</button>`}).join("")}</div>
-    <p class="hint">Przedmioty możesz łączyć w jednym dniu. Wtedy tego dnia uczysz się ${esc(S.short)} przez ${fmtH(s.hpd)} plus czas drugiego przedmiotu. Podpis „+mat” albo „+bio” pokazuje, że drugi przedmiot też ma ten dzień.</p>
+  <section class="card"><h3 style="font-size:16px">Twoje matury</h3>
+    <div class="srows">${CATALOG.map(c=>c.id?row(c.id,SUB(c.id).name):`<button class="srow" disabled><span>${esc(c.name)}</span><span class="soon">wkrótce</span></button>`).join("")}</div>
+    <div class="slabel">Zbiory zadań</div>
+    <div class="srows">${TASKSETS.map(t=>row(t.id,SUB(t.id).name,t.desc)).join("")}</div></section>
+  <section class="card subj-${sid}"><h3 style="font-size:16px">Plan: ${esc(S.name)}</h3>
+    <div class="dates"><label>Zaczynam od<input type="date" id="start" value="${s.start||iso(todayD())}"></label><label>Kończę do<input type="date" id="deadline" value="${s.deadline}"></label></div>
+    <div class="days">${order.map(d=>{const others=ACTIVE().filter(o=>o.id!==sid&&cfg(o.id).days.includes(d));
+      return `<button data-day="${d}" aria-pressed="${s.days.includes(d)}">${DSHORT[d]}${others.length?`<small>+${others.map(o=>ABBR[o.id]||o.id).join(",")}</small>`:""}</button>`}).join("")}</div>
     <div class="row"><span>Godzin w dzień nauki</span>
       <div class="stepper"><button data-hpd="-0.5" aria-label="Mniej">−</button><output class="num">${fmtH(s.hpd)}</output><button data-hpd="0.5" aria-label="Więcej">+</button></div></div>
-    <p class="hint">Do ${longDate(parse(s.deadline))} masz ${studyDaysUntil(sid)} dni nauki, a do przerobienia zostało ${fmtH(T.rem)}.</p></section>
-  <section class="card"><h3 style="font-size:16px">Zapis</h3>
-    <div class="sync" id="sync">${syncHtml()}</div>
-    <p class="hint">Postęp zapisuje się sam w pamięci telefonu. Używaj apki z ikonki na ekranie początkowym, bo zwykła karta Safari ma osobną pamięć. Dla pewności raz w tygodniu pobierz kopię do Plików na iPhonie. Gdybyś zmienił telefon albo wyczyścił dane Safari, wczytasz postęp z tego pliku.</p>
-    <div class="btns"><button class="btn" data-dl>Pobierz kopię do Plików</button>
-      <label class="btn ghost filebtn" for="importFile">Wczytaj kopię z pliku</label><input type="file" id="importFile" accept=".json,application/json,text/plain" hidden></div>
-    <p class="hint">Ostatnia kopia: ${state.lastBackup?longDate(parse(state.lastBackup)):"jeszcze żadnej"}</p>
-    <details><summary>Kopia jako tekst</summary>
-    <textarea id="backup" spellcheck="false" aria-label="Kopia zapasowa">${esc(JSON.stringify(state))}</textarea>
-    <div class="btns"><button class="btn ghost" data-copy>Kopiuj</button><button class="btn ghost" data-import>Wczytaj z pola</button></div></details></section>
-  <section class="card"><h3 style="font-size:16px">Jak dodać na ekran telefonu</h3>
-    <p class="hint"><b>iPhone:</b> otwórz link w Safari → Udostępnij (kwadrat ze strzałką) → „Do ekranu początkowego”.</p><p class="hint"><b>Android:</b> otwórz link w Chrome → menu ⋮ → „Dodaj do ekranu głównego” albo „Zainstaluj aplikację”.</p><p class="hint">Postęp zapisuje się tylko w Twoim telefonie, nikt inny go nie widzi.</p></section>
-  <section class="card"><h3 style="font-size:16px">Reset</h3><p class="hint">Czyści odhaczone tematy, zmienione godziny i odpuszczone dni w obu przedmiotach. Ustawienia dni zostają.</p>
-    <div class="btns">${confirmReset?`<button class="btn danger" data-reset="yes">Tak, wyczyść wszystko</button><button class="btn ghost" data-reset="no">Anuluj</button>`:`<button class="btn ghost" data-reset="ask">Wyczyść postęp</button>`}</div></section>
-  <section class="card"><h3 style="font-size:16px">Pomoc i kontakt</h3>
-    <p class="hint">Coś nie działa albo brakuje Ci przedmiotu? Napisz do mnie na TikToku, odpisuję w wiadomościach.</p>
-    <a class="btn tt" href="https://www.tiktok.com/@zdammatme" target="_blank" rel="noopener">TikTok: @zdammatme</a>
-    <p class="hint">Jak piszesz w sprawie błędu, podaj model telefonu i zrzut ekranu.</p>
-    <p class="hint">Planer anonimowo liczy, ile osób z niego korzysta, bez ciasteczek i bez danych osobowych. Twój postęp nigdzie nie jest wysyłany.</p></section>
-  <p class="hint copy">© 2026 matematykaop. Wszelkie prawa zastrzeżone.<br>Kopiowanie wyglądu i kodu aplikacji bez zgody autora jest zabronione.</p>`}
-function syncHtml(){return syncState==="ok"?`<span class="dot ok"></span>Zapisywane na Twoim koncie – widać na telefonie i komputerze`
-  :syncState==="err"?`<span class="dot warn"></span>Nie udało się zapisać na koncie, zapisuję na tym urządzeniu`
-  :`<span class="dot ok"></span>Zapisywane w pamięci tego telefonu`}
+    <p class="hint">${studyDaysUntil(sid)} dni nauki do ${longDate(parse(s.deadline))}, do zrobienia ${fmtH(T.rem)}. Inny przedmiot ustawisz przyciskiem u góry.</p></section>
+  ${extraSettings()}
+  <section class="card"><div class="row"><h3 style="font-size:16px">Kopia zapasowa</h3><span class="sync" id="sync">${syncHtml()}</span></div>
+    <div class="mini"><button class="btn ghost" data-dl>Pobierz kopię</button><label class="btn ghost filebtn" for="importFile">Wczytaj kopię</label><input type="file" id="importFile" accept=".json,application/json,text/plain" hidden>
+    ${confirmReset?`<button class="btn danger" data-reset="yes">Tak, wyczyść postęp</button><button class="btn ghost" data-reset="no">Anuluj</button>`:`<button class="link" data-reset="ask">Wyczyść postęp</button>`}</div></section>
+  ${footerSettings()}`}
+function footerSettings(){return ""}
+function syncHtml(){return syncState==="ok"?`<span class="dot ok"></span>Zapis automatyczny`
+  :syncState==="err"?`<span class="dot warn"></span>Zapis tylko w telefonie`
+  :`<span class="dot ok"></span>Zapis automatyczny`}
 function renderSyncOnly(){const el=$("#sync");if(el)el.innerHTML=syncHtml()}
 
 function renderSheet(){
@@ -982,13 +1005,13 @@ function renderSheet(){
   sh.className=`sheet subj-${s.id}`;
   sh.innerHTML=`<div class="wrap"><button class="back" data-close>‹ Wróć</button>
    <div><div class="eyebrow">${esc(s.short)} · Dział ${ulabel(u)}${siblings(u).length>1&&u.g?` · ${esc(u.g)}`:""}</div><h2>${esc(u.name)}</h2></div>
-   <section class="card"><div class="row"><span class="num">${d}/${n} tematów · ${Math.round(d/n*100)}%</span>
+   <section class="card"><div class="row"><span class="num">${d}/${n} ${noun(s.id)} · ${Math.round(d/n*100)}%</span>
      <div class="stepper"><button data-uh="-0.5" aria-label="Mniej godzin">−</button><output class="num">${fmtH(uHours(u))}</output><button data-uh="0.5" aria-label="Więcej godzin">+</button></div></div>
      <div class="mbar"><i style="width:${d/n*100}%"></i></div>
-     <p class="hint">Około ${fmtH(per)} na temat. Zmień czas działu, jeśli idzie Ci szybciej albo wolniej.</p></section>
+     <p class="hint">${u.w?`Około ${Math.round(uHours(u)*60/u.w.reduce((a,b)=>a+b,0))} min na punkt, więc dłuższe zadania dostają więcej czasu.`:`Około ${fmtH(per)} na temat.`} Zmień czas działu, jeśli idzie Ci szybciej albo wolniej.</p></section>
    <div class="topics">${u.t.map((t,i)=>{const dd=state.done[tid(u,i)];
      return `<button class="topic ${dd===today?"today-pick":""}" role="checkbox" aria-checked="${!!dd}" data-topic="${i}">
-      <span class="box">${CHECK}</span><span class="tx">${i+1}. ${esc(tText(t))}${isR(t)?' <span class="rtag">rozszerzenie</span>':""}${dd?`<small>Zrobione ${dd===today?"dziś":longDate(parse(dd))}</small>`:""}</span></button>`}).join("")}</div>
+      <span class="box">${CHECK}</span><span class="tx">${u.w?"":`${i+1}. `}${esc(tText(t))}${isR(t)?' <span class="rtag">rozszerzenie</span>':""}${dd?`<small>Zrobione ${dd===today?"dziś":longDate(parse(dd))}</small>`:""}</span></button>`}).join("")}</div>
    <div class="btns"><button class="btn ghost" data-all="${d===n?"0":"1"}">${d===n?"Odznacz wszystkie":"Zaznacz wszystkie"}</button></div></div>`;
   sh.hidden=false;sh.scrollTop=y;document.body.style.overflow="hidden";
 }
@@ -1000,6 +1023,11 @@ document.addEventListener("click",async e=>{
   if(b.dataset.tab){tab=b.dataset.tab;confirmReset=false;render();scrollTo(0,0);return}
   if(b.dataset.tabGo){tab=b.dataset.tabGo;render();scrollTo(0,0);return}
   if(b.dataset.subj){state.subject=b.dataset.subj;commit();return}
+  if(b.dataset.toggle){const id=b.dataset.toggle;
+    if(state.enabled[id]&&ACTIVE().length===1){toast("Zostaw włączony chociaż jeden przedmiot");return}
+    state.enabled[id]=!state.enabled[id];
+    if(state.enabled[id]){state.subject=id;toast(`Włączono: ${SUB(id).short}`)}else if(state.subject===id){state.subject=ACTIVE()[0].id}
+    commit();return}
   if(b.dataset.unit){openUnit=b.dataset.unit;$("#sheet").scrollTop=0;renderSheet();return}
   if(b.hasAttribute("data-close")){closeSheet();return}
   if(b.hasAttribute("data-more")){showDays+=8;render();return}
@@ -1010,8 +1038,8 @@ document.addEventListener("click",async e=>{
   if(b.dataset.all!==undefined){const{u}=findUnit(openUnit);const t=iso(todayD());
     u.t.forEach((_,i)=>{const k=tid(u,i);if(b.dataset.all==="1"){if(!state.done[k])state.done[k]=t}else delete state.done[k]});commit();return}
   if(b.dataset.uh){const{u}=findUnit(openUnit);state.hours[u.id]=Math.max(0.5,uHours(u)+Number(b.dataset.uh));commit();return}
-  if(b.dataset.hpd){const c=cfg(state.subject);c.hpd=Math.min(12,Math.max(0.5,c.hpd+Number(b.dataset.hpd)));commit();return}
-  if(b.dataset.day){const d=+b.dataset.day,c=cfg(state.subject);
+  if(b.dataset.hpd){const c=cfg(subj().id);c.hpd=Math.min(12,Math.max(0.5,c.hpd+Number(b.dataset.hpd)));commit();return}
+  if(b.dataset.day){const d=+b.dataset.day,c=cfg(subj().id);
     if(c.days.includes(d))c.days=c.days.filter(x=>x!==d);
     else c.days=[...c.days,d];
     commit();return}
@@ -1023,9 +1051,9 @@ document.addEventListener("click",async e=>{
     catch(err){state.lastBackup=undefined;try{const raw=localStorage.getItem(LS);if(raw)state.lastBackup=JSON.parse(raw).lastBackup}catch(_){}
       if(err&&err.code==="unavailable")toast("Pobieranie niedostępne – użyj kopii jako tekst");else toast("Nie zapisano kopii")}
     return}
-  if(b.dataset.reset){if(b.dataset.reset==="ask")confirmReset=true;else if(b.dataset.reset==="yes"){const keep=state.settings,sub=state.subject;state=freshState();state.settings=keep;state.subject=sub;confirmReset=false;commit();toast("Wyczyszczono");return}else confirmReset=false;render();return}
+  if(b.dataset.reset){if(b.dataset.reset==="ask")confirmReset=true;else if(b.dataset.reset==="yes"){const keep=state.settings,sub=state.subject,en=state.enabled;state=freshState();state.settings=keep;state.subject=sub;state.enabled=en;confirmReset=false;commit();toast("Wyczyszczono");return}else confirmReset=false;render();return}
 });
-document.addEventListener("change",e=>{if(e.target.id==="importFile"&&e.target.files&&e.target.files[0]){const fr=new FileReader();fr.onload=()=>importText(String(fr.result));fr.readAsText(e.target.files[0]);e.target.value="";return}if(e.target.id==="deadline"&&e.target.value){cfg(state.subject).deadline=e.target.value;commit()}});
+document.addEventListener("change",e=>{if(e.target.id==="start"&&e.target.value){cfg(subj().id).start=e.target.value<=iso(todayD())?"":e.target.value;commit();return}if(e.target.id==="importFile"&&e.target.files&&e.target.files[0]){const fr=new FileReader();fr.onload=()=>importText(String(fr.result));fr.readAsText(e.target.files[0]);e.target.value="";return}if(e.target.id==="deadline"&&e.target.value){cfg(subj().id).deadline=e.target.value;commit()}});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&openUnit)closeSheet()});
 /* ======================= INSTALACJA NA EKRANIE TELEFONU ======================= */
 const UA=navigator.userAgent||"";
@@ -1077,6 +1105,8 @@ document.addEventListener("click",async e=>{const b=e.target.closest("button");i
 });
 document.addEventListener("click",e=>{if(e.target.id==="installGuide"){installGuide=false;render()}});
 (function firstOpen(){try{if(IS_STANDALONE()&&!localStorage.getItem("planer-welcomed")){localStorage.setItem("planer-welcomed","1");setTimeout(()=>toast("Witaj w aplikacji! Twój postęp zapisuje się w telefonie."),600)}}catch(e){}})();
+extraSettings=function(){return IS_STANDALONE()?"":`<section class="card"><h3 style="font-size:16px">Dodaj planer na ekran telefonu</h3>${installSteps(osNow())}</section>`};
+footerSettings=function(){return "  <section class=\"card\"><h3 style=\"font-size:16px\">Pomoc i kontakt</h3>\n    <p class=\"hint\">Coś nie działa albo brakuje Ci przedmiotu? Napisz do mnie na TikToku, odpisuję w wiadomościach.</p>\n    <a class=\"btn tt\" href=\"https://www.tiktok.com/@zdammatme\" target=\"_blank\" rel=\"noopener\">TikTok: @zdammatme</a>\n    <p class=\"hint\">Jak piszesz w sprawie błędu, podaj model telefonu i zrzut ekranu.</p>\n    <p class=\"hint\">Planer anonimowo liczy, ile osób z niego korzysta, bez ciasteczek i bez danych osobowych. Twój postęp nigdzie nie jest wysyłany.</p></section>\n  <p class=\"hint copy\">© 2026 matematykaop. Wszelkie prawa zastrzeżone.<br>Kopiowanie wyglądu i kodu aplikacji bez zgody autora jest zabronione.</p>"};
 render();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}</script>
