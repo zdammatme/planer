@@ -1,6 +1,6 @@
 // Działanie offline: najpierw sieć (żeby łapać aktualizacje), a bez internetu wersja z pamięci.
-const CACHE = "planer-v2";
-const FILES = ["./", "index.html", "manifest.json", "icon-180.png", "icon-512.png"];
+const CACHE = "planer-v3";
+const FILES = ["./", "index.html", "manifest.json", "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener("activate", e => { e.waitUntil(self.clients.claim()); });
 self.addEventListener("fetch", e => {

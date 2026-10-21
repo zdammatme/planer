@@ -177,6 +177,19 @@ details[open] summary{margin-bottom:8px}
 .faq{display:flex;flex-direction:column;gap:10px;font-size:14px}
 .faq p{margin:0}
 .install{border-color:var(--accent)}
+.install.done{border-color:var(--accent);background:var(--accent-soft)}
+.iguide{position:fixed;inset:0;z-index:50;background:rgba(6,14,10,.62);display:flex;flex-direction:column;justify-content:flex-start;padding:calc(env(safe-area-inset-top,0px) + 70px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 90px) max(16px,env(safe-area-inset-left,0px))}
+.iguide.android,.iguide.inapp{justify-content:flex-end}
+.iguide-card{background:var(--surface);color:var(--ink);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:14px;max-width:520px;width:100%;margin:0 auto;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.iguide-card h3{font-size:19px;font-weight:700}
+.iguide-arrow{position:fixed;font-size:54px;line-height:1;color:#fff;font-weight:700;text-shadow:0 2px 12px rgba(0,0,0,.5);animation:ibounce 1.1s ease-in-out infinite}
+.iguide.ios .iguide-arrow{left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%)}
+.iguide.android .iguide-arrow,.iguide.inapp .iguide-arrow{right:max(18px,env(safe-area-inset-right,0px));top:calc(env(safe-area-inset-top,0px) + 8px)}
+@keyframes ibounce{0%,100%{translate:0 0}50%{translate:0 10px}}
+.iguide.android .iguide-arrow,.iguide.inapp .iguide-arrow{animation-name:ibounceup}
+@keyframes ibounceup{0%,100%{translate:0 0}50%{translate:0 -10px}}
+@media (prefers-reduced-motion:reduce){.iguide-arrow{animation:none}}
+.iguide.inapp .iguide-arrow{left:auto;bottom:auto;transform:none}
 ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14.5px}
 
 /* tabbar */
@@ -1018,28 +1031,52 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&openUnit)closeSheet
 const UA=navigator.userAgent||"";
 const IS_IOS=/iPhone|iPad|iPod/.test(UA)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
 const IS_ANDROID=/Android/.test(UA);
+const IN_APP_BROWSER=/TikTok|musical_ly|Bytedance|Instagram|FBAN|FBAV|FB_IAB|Snapchat/i.test(UA);
 const IS_STANDALONE=()=>(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
-let installEvt=null,installHidden=false;
+let installEvt=null,installHidden=false,installGuide=false,justInstalled=false;
 try{installHidden=localStorage.getItem("planer-install-hidden")==="1"}catch(e){}
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvt=e;render()});
-window.addEventListener("appinstalled",()=>{installEvt=null;render()});
-function installSteps(os){
-  if(os==="ios")return `<ol class="steps"><li>Otwórz tę stronę w <b>Safari</b> (nie w TikToku ani Instagramie: stuknij ⋯ i „Otwórz w przeglądarce”).</li><li>Stuknij <b>Udostępnij</b> (kwadrat ze strzałką w górę) na dole ekranu.</li><li>Przewiń w dół i wybierz <b>„Do ekranu początkowego”</b>, potem <b>Dodaj</b>.</li><li>Otwieraj planer z ikonki „Matura” na ekranie.</li></ol>`;
-  return `<ol class="steps"><li>Otwórz tę stronę w <b>Chrome</b> (nie w TikToku ani Instagramie: stuknij ⋮ i „Otwórz w przeglądarce”).</li><li>Stuknij menu <b>⋮</b> w prawym górnym rogu.</li><li>Wybierz <b>„Dodaj do ekranu głównego”</b> albo <b>„Zainstaluj aplikację”</b>, potem <b>Zainstaluj</b> lub <b>Dodaj</b>.</li><li>Otwieraj planer z ikonki „Matura” na ekranie.</li></ol>`}
+window.addEventListener("appinstalled",()=>{installEvt=null;installGuide=false;justInstalled=true;render();
+  toast("Gotowe! Planer jest na ekranie jako „Matura”.")});
 let installTab=IS_IOS?"ios":"android";
+const osNow=()=>IS_IOS?"ios":IS_ANDROID?"android":installTab;
+function installSteps(os){
+  if(IN_APP_BROWSER)return `<ol class="steps"><li>Jesteś w przeglądarce TikToka albo Instagrama, a z niej nie da się dodać apki.</li><li>Stuknij <b>${os==="ios"?"⋯":"⋮"}</b> w rogu ekranu i wybierz <b>„Otwórz w przeglądarce”</b>${os==="ios"?" (Safari)":" (Chrome)"}.</li><li>Tam stuknij jeszcze raz <b>„Dodaj do ekranu”</b>.</li></ol>`;
+  if(os==="ios")return `<ol class="steps"><li>Stuknij <b>Udostępnij</b> (kwadrat ze strzałką w górę) na dolnym pasku Safari. Jeśli go nie widzisz, stuknij najpierw <b>⋯</b>.</li><li>Przewiń w dół i wybierz <b>„Do ekranu początkowego”</b>.</li><li>Stuknij <b>Dodaj</b> w prawym górnym rogu.</li><li>Gotowe, otwieraj planer z ikonki <b>„Matura”</b>.</li></ol>`;
+  return `<ol class="steps"><li>Stuknij menu <b>⋮</b> w prawym górnym rogu Chrome.</li><li>Wybierz <b>„Zainstaluj aplikację”</b> albo <b>„Dodaj do ekranu głównego”</b>.</li><li>Potwierdź przyciskiem <b>Zainstaluj</b>.</li><li>Gotowe, otwieraj planer z ikonki <b>„Matura”</b>.</li></ol>`}
 function installCard(){
-  if(IS_STANDALONE()||installHidden)return "";
-  const os=IS_IOS?"ios":IS_ANDROID?"android":installTab;
+  if(IS_STANDALONE())return "";
+  if(justInstalled)return `<section class="card install done"><h3 style="font-size:16px">Planer zainstalowany 🎉</h3><p class="hint">Znajdziesz go na ekranie telefonu jako <b>„Matura”</b>. Otwieraj go stamtąd, wtedy postęp na pewno się zachowa.</p></section>`;
+  if(installHidden)return "";
+  const os=osNow();
   return `<section class="card install"><div class="row"><h3 style="font-size:16px">Dodaj planer na ekran telefonu</h3><button class="link" data-install-hide>Ukryj</button></div>
     <p class="hint">Wtedy otwiera się jak zwykła aplikacja, na pełnym ekranie, i działa bez internetu. Postęp zapisuje się tylko w Twoim telefonie.</p>
-    ${installEvt?`<button class="btn" data-install-go>Zainstaluj aplikację</button>`:""}
-    ${!IS_IOS&&!IS_ANDROID?`<div class="subj"><button class="chip" aria-pressed="${os==="ios"}" data-install-os="ios">iPhone</button><button class="chip" aria-pressed="${os==="android"}" data-install-os="android">Android</button></div>`:""}
-    ${installSteps(os)}</section>`}
+    <button class="btn" data-install-go>${installEvt?"Zainstaluj aplikację":"Dodaj do ekranu"}</button>
+    ${!IS_IOS&&!IS_ANDROID?`<div class="subj"><button class="chip" aria-pressed="${os==="ios"}" data-install-os="ios">iPhone</button><button class="chip" aria-pressed="${os==="android"}" data-install-os="android">Android</button></div>${installSteps(os)}`:""}
+  </section>`}
+function installOverlay(){
+  const el=document.getElementById("installGuide");if(!installGuide){if(el)el.remove();return}
+  const os=osNow();
+  const box=el||Object.assign(document.createElement("div"),{id:"installGuide",className:"iguide"});
+  box.className=`iguide ${os}${IN_APP_BROWSER?" inapp":""}`;
+  box.innerHTML=`<div class="iguide-card" role="dialog" aria-modal="true" aria-label="Jak dodać planer na ekran">
+    <h3>${IN_APP_BROWSER?"Najpierw otwórz w przeglądarce":os==="ios"?"Dodaj do ekranu w 3 krokach":"Zainstaluj w 3 krokach"}</h3>
+    ${installSteps(os)}
+    <button class="btn ghost" data-install-close>Rozumiem</button></div>
+    <div class="iguide-arrow" aria-hidden="true">${os==="ios"&&!IN_APP_BROWSER?"↓":"↑"}</div>`;
+  if(!el)document.body.appendChild(box)}
+const _render=render;render=function(){_render();installOverlay()};
 document.addEventListener("click",async e=>{const b=e.target.closest("button");if(!b)return;
   if(b.hasAttribute("data-install-hide")){installHidden=true;try{localStorage.setItem("planer-install-hidden","1")}catch(_){}render();toast("Instrukcję znajdziesz też w Ustawieniach");return}
-  if(b.hasAttribute("data-install-go")&&installEvt){installEvt.prompt();try{await installEvt.userChoice}catch(_){}installEvt=null;render();return}
+  if(b.hasAttribute("data-install-go")){
+    if(installEvt){installEvt.prompt();let r=null;try{r=await installEvt.userChoice}catch(_){}installEvt=null;
+      if(r&&r.outcome==="accepted"){justInstalled=true;toast("Instaluję… ikonka „Matura” pojawi się na ekranie")}render();return}
+    installGuide=true;render();return}
+  if(b.hasAttribute("data-install-close")){installGuide=false;render();return}
   if(b.dataset.installOs){installTab=b.dataset.installOs;render();return}
 });
+document.addEventListener("click",e=>{if(e.target.id==="installGuide"){installGuide=false;render()}});
+(function firstOpen(){try{if(IS_STANDALONE()&&!localStorage.getItem("planer-welcomed")){localStorage.setItem("planer-welcomed","1");setTimeout(()=>toast("Witaj w aplikacji! Twój postęp zapisuje się w telefonie."),600)}}catch(e){}})();
 render();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}</script>
