@@ -1114,5 +1114,10 @@ render();
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}</script>
 <script>window.goatcounter={path:function(){var s=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;return s?"/planer-z-ikonki":"/planer-w-przegladarce"}};</script>
 <script data-goatcounter="https://zdammmatme.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>(function(){var s=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;if(!s)return;
+try{if(localStorage.getItem("planer-install-counted"))return}catch(e){return}
+var n=0,t=setInterval(function(){n++;if(window.goatcounter&&typeof window.goatcounter.count==="function"){clearInterval(t);
+window.goatcounter.count({path:"/nowa-instalacja",title:"Nowa instalacja (pierwsze otwarcie z ikonki)",event:true});
+try{localStorage.setItem("planer-install-counted","1")}catch(e){}}else if(n>40)clearInterval(t)},500)})();</script>
 </body>
 </html>
