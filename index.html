@@ -21,7 +21,7 @@
 :root{
   --bg:#EEF3EF; --surface:#FFFFFF; --surface-2:#E3ECE5; --ink:#132019; --muted:#5D6E64; --line:#D3DFD6;
   --accent:#17804A; --accent-ink:#FFFFFF; --accent-soft:#D5EDDD;
-  --g-accent:#17804A; --g-soft:#D5EDDD; --g-ink:#FFFFFF; --m-accent:#3552C8; --m-soft:#DCE3FB; --m-ink:#FFFFFF; --z-accent:#B4561C; --z-soft:#F8E3D3; --z-ink:#FFFFFF;
+  --g-accent:#17804A; --g-soft:#D5EDDD; --g-ink:#FFFFFF; --m-accent:#3552C8; --m-soft:#DCE3FB; --m-ink:#FFFFFF; --z-accent:#B4561C; --z-soft:#F8E3D3; --z-ink:#FFFFFF; --c-accent:#7B3FB3; --c-soft:#ECDFF7; --c-ink:#FFFFFF;
   --warn:#B9770B; --warn-soft:#FBEBCB; --bad:#C63B30; --bad-soft:#F8DAD6; --flame:#E2561F;
   --f-display:"Unbounded", "Arial Black", system-ui, sans-serif;
   --f-body:"Onest", -apple-system, "Segoe UI", system-ui, sans-serif;
@@ -30,12 +30,12 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0D1411; --surface:#16211B; --surface-2:#1E2B24; --ink:#E5EEE8; --muted:#93A69A; --line:#2A3A31;
   --accent:#43BE78; --accent-ink:#06150C; --accent-soft:#1D3A29;
-  --g-accent:#43BE78; --g-soft:#1D3A29; --g-ink:#06150C; --m-accent:#86A0FF; --m-soft:#1F2A4D; --m-ink:#0A1230; --z-accent:#F29A62; --z-soft:#3C2617; --z-ink:#241104;
+  --g-accent:#43BE78; --g-soft:#1D3A29; --g-ink:#06150C; --m-accent:#86A0FF; --m-soft:#1F2A4D; --m-ink:#0A1230; --z-accent:#F29A62; --z-soft:#3C2617; --z-ink:#241104; --c-accent:#C79CF2; --c-soft:#2E2140; --c-ink:#1A0B2A;
   --warn:#E5A93A; --warn-soft:#3A2E14; --bad:#F0796E; --bad-soft:#3E1F1C; --flame:#FF7A42; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0D1411; --surface:#16211B; --surface-2:#1E2B24; --ink:#E5EEE8; --muted:#93A69A; --line:#2A3A31;
   --accent:#43BE78; --accent-ink:#06150C; --accent-soft:#1D3A29;
-  --g-accent:#43BE78; --g-soft:#1D3A29; --g-ink:#06150C; --m-accent:#86A0FF; --m-soft:#1F2A4D; --m-ink:#0A1230; --z-accent:#F29A62; --z-soft:#3C2617; --z-ink:#241104;
+  --g-accent:#43BE78; --g-soft:#1D3A29; --g-ink:#06150C; --m-accent:#86A0FF; --m-soft:#1F2A4D; --m-ink:#0A1230; --z-accent:#F29A62; --z-soft:#3C2617; --z-ink:#241104; --c-accent:#C79CF2; --c-soft:#2E2140; --c-ink:#1A0B2A;
   --warn:#E5A93A; --warn-soft:#3A2E14; --bad:#F0796E; --bad-soft:#3E1F1C; --flame:#FF7A42; color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -100,6 +100,7 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .task .t1{font-weight:700;font-size:15.5px}
 .subj-mat{--accent:var(--m-accent);--accent-soft:var(--m-soft);--accent-ink:var(--m-ink)}
 .subj-zad{--accent:var(--z-accent);--accent-soft:var(--z-soft);--accent-ink:var(--z-ink)}
+.subj-chem{--accent:var(--c-accent);--accent-soft:var(--c-soft);--accent-ink:var(--c-ink)}
 .srows{display:flex;flex-direction:column}
 .srow{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:none;border:0;border-top:1px solid var(--line);padding:12px 0;text-align:left;font-weight:600;font-size:15px}
 .srow:first-child{border-top:0}
@@ -163,15 +164,16 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .stepper button{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);font-size:20px;font-weight:600;line-height:1}
 .stepper output{min-width:64px;text-align:center;font-family:var(--f-display);font-weight:500;font-size:16px}
 .topics{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.topic{display:flex;gap:12px;align-items:flex-start;padding:14px;border:0;border-top:1px solid var(--line);background:none;text-align:left;width:100%}
+.topic{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.tick{display:flex;gap:12px;align-items:flex-start;padding:14px;border:0;background:none;text-align:left;width:100%}
 .topic:first-child{border-top:0}
 .box{flex:none;width:26px;height:26px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;margin-top:1px;transition:background .15s,border-color .15s}
 .box svg{width:16px;height:16px;opacity:0;color:var(--accent-ink)}
-.topic[aria-checked="true"] .box{background:var(--accent);border-color:var(--accent)}
-.topic[aria-checked="true"] .box svg{opacity:1}
+.tick[aria-checked="true"] .box{background:var(--accent);border-color:var(--accent)}
+.tick[aria-checked="true"] .box svg{opacity:1}
 .topic .tx{flex:1;min-width:0;font-size:15px}
 .topic .tx small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
-.topic[aria-checked="true"] .tx{color:var(--muted)}
+.tick[aria-checked="true"] .tx{color:var(--muted)}
 .topic.today-pick{background:var(--accent-soft)}
 
 /* settings */
@@ -198,7 +200,7 @@ details[open] summary{margin-bottom:8px}
 .faq p{margin:0}
 .install{border-color:var(--accent)}
 .install.done{border-color:var(--accent);background:var(--accent-soft)}
-.iguide{position:fixed;inset:0;z-index:50;background:rgba(6,14,10,.62);display:flex;flex-direction:column;justify-content:flex-start;padding:calc(env(safe-area-inset-top,0px) + 70px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 90px) max(16px,env(safe-area-inset-left,0px))}
+.iguide{position:fixed;inset:0;z-index:70;background:rgba(6,14,10,.62);display:flex;flex-direction:column;justify-content:flex-start;padding:calc(env(safe-area-inset-top,0px) + 70px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 90px) max(16px,env(safe-area-inset-left,0px))}
 .iguide.android,.iguide.inapp{justify-content:flex-end}
 .iguide-card{background:var(--surface);color:var(--ink);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:14px;max-width:520px;width:100%;margin:0 auto;box-shadow:0 20px 50px rgba(0,0,0,.35)}
 .iguide-card h3{font-size:19px;font-weight:700}
@@ -216,11 +218,82 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;f
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
   display:flex;justify-content:center;padding:6px max(16px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
-.tabbar .in{display:grid;grid-template-columns:repeat(3,1fr);width:100%;max-width:560px}
+.tabbar .in{display:grid;grid-template-columns:repeat(4,1fr);width:100%;max-width:560px}
 .tabbar button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;font-size:11.5px;font-weight:600;color:var(--muted)}
 .tabbar button svg{width:24px;height:24px}
 .tabbar button[aria-current="page"]{color:var(--accent)}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;z-index:40;max-width:calc(100% - 32px)}
+.backlog{display:flex;flex-direction:column;gap:12px}
+.backlog .sec-h h2{color:var(--bad)}
+.bl-h{font-family:var(--f-display);font-weight:500;color:var(--bad)}
+.backlog .task{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 35%,transparent)}
+.backlog .task .t0{color:var(--bad)}
+.backlog .day-h h3{font-size:15px;color:var(--muted)}
+.done-note{border-style:solid;border-color:var(--accent);color:var(--ink);background:var(--accent-soft)}
+.modal{position:fixed;inset:0;z-index:45;background:rgba(6,14,10,.55);display:flex;align-items:flex-end;justify-content:center;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.modal-card{background:var(--surface);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.modal-card h3{font-size:20px;font-weight:700}
+.modal-card .link{align-self:center}
+.cdline{font-size:13px;font-weight:600;opacity:.85;margin-top:2px}
+.chartcard{gap:8px}
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart .ax{stroke:var(--line);stroke-width:1.5}
+.chart .grid{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}
+.chart .today{stroke:var(--muted);stroke-width:1;stroke-dasharray:2 3;opacity:.7}
+.chart .plan{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 5}
+.chart .act{fill:none;stroke:var(--accent);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.chart .area{fill:var(--accent);opacity:.12}
+.chart .dot{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.chart .lab{fill:var(--muted);font-size:11px;font-family:var(--f-body)}
+.legend{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:16px;height:0;border-top:2px dashed var(--muted)}
+.legend i.la{border-top:3px solid var(--accent);margin-left:6px}
+.reviews{display:flex;flex-direction:column;gap:10px}
+.rv{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.rv-t{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rv .t0{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.rv .t1{font-weight:600;font-size:15px}
+.rv-b{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.weak{color:var(--bad);font-weight:700}
+.timerbtn{align-self:stretch;color:var(--accent);font-weight:700}
+.timerbar{position:fixed;left:0;right:0;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:21;display:flex;align-items:center;gap:10px;
+  padding:8px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px));background:var(--accent);color:var(--accent-ink)}
+.timerbar .tl{flex:1;font-weight:600}
+.timerbar b{font-family:var(--f-display);font-size:17px}
+.timerbar .btn{background:var(--accent-ink);color:var(--accent);padding:7px 14px}
+.tdot{width:9px;height:9px;border-radius:50%;background:currentColor;animation:tpulse 1.4s ease-in-out infinite}
+@keyframes tpulse{50%{opacity:.3}}
+body:has(.timerbar) .toast{bottom:calc(130px + env(safe-area-inset-bottom,0px))}
+body:has(.timerbar){padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))}
+.rate{display:flex;gap:8px;padding:0 14px 12px 52px}
+.rate button{border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;color:var(--muted)}
+.rate button[aria-pressed="true"][data-v="ok"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.rate button[aria-pressed="true"][data-v="weak"]{background:var(--bad);border-color:var(--bad);color:#fff}
+.wrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line);width:100%;text-align:left;background:none;border-left:0;border-right:0;border-bottom:0}
+.wrow:first-of-type{border-top:0}
+.wrow span:first-child{display:flex;flex-direction:column;min-width:0}
+.wrow small{color:var(--muted);font-size:12.5px}
+.wrow .btn{padding:7px 12px;font-size:13.5px;flex:none}
+.countdown .cd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.countdown .cd b{font-family:var(--f-display);font-size:44px;line-height:1;color:var(--accent)}
+.countdown .cd span{color:var(--muted);font-size:14px}
+.form{display:flex;flex-direction:column;gap:10px}
+.form label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);min-width:0}
+.form input[type=text],.form input[type=number],input[type=time]{font:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:8px 10px;min-height:42px;width:100%;box-sizing:border-box;-webkit-appearance:none;appearance:none}
+input[type=time]{width:auto}
+.pick{display:flex;flex-wrap:wrap;gap:6px}
+.pick .chip[aria-pressed="true"]{background:var(--bad);border-color:var(--bad);color:#fff}
+.pill{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff}
+.pill.ok{background:var(--g-accent)}.pill.warn{background:var(--warn)}.pill.bad{background:var(--bad)}
+.onb{position:fixed;inset:0;z-index:60;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:calc(env(safe-area-inset-top,0px) + 20px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 30px) max(16px,env(safe-area-inset-left,0px))}
+.onb-in{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.onb h2{font-family:var(--f-display);font-weight:700;font-size:24px;line-height:1.2}
+.onb .card{gap:10px}
+.odots{display:flex;gap:6px}.odots i{height:5px;flex:1;border-radius:9px;background:var(--line)}.odots i.on{background:var(--g-accent)}
+.bigdate{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted)}
+.bigdate input{font:inherit;font-size:18px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;-webkit-appearance:none;appearance:none;width:100%;box-sizing:border-box}
+.btn[disabled]{opacity:.45;cursor:default}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -232,6 +305,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <nav class="tabbar" aria-label="Nawigacja"><div class="in">
   <button data-tab="plan" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18M8 15h3"/></svg>Plan</button>
   <button data-tab="units"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="m3.5 6 1 1 2-2M3.5 12l1 1 2-2M3.5 18l1 1 2-2"/></svg>Działy</button>
+  <button data-tab="results"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Wyniki</button>
   <button data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Ustawienia</button>
 </div></nav>
 <div id="toast" class="toast" role="status" hidden></div>
@@ -776,9 +850,198 @@ const BIO_LAYOUT=[
 /* ======================= ZBIÓR ZADAŃ: zadania maturalne CKE 2015–2025 (bez zadań spoza formuły 2023) ======================= */
 SUBJECTS.push({id:"zad",name:"Zadania maturalne z matematyki",short:"Zadania mat.",kind:"tasks",units:[{"id": "Z1", "n": "1", "name": "Liczby", "h": 3.0, "t": ["Zadanie 1 · grudzień 2014 · 2 pkt", "Zadanie 2 · maj 2015 · 1 pkt", "Zadanie 3 · maj 2016 · 1 pkt", "Zadanie 4 · maj 2017 · 1 pkt", "Zadanie 5 · czerwiec 2017 · 1 pkt", "Zadanie 6 · maj 2018 · 1 pkt", "Zadanie 7 · maj 2018 · 1 pkt", "Zadanie 8 · czerwiec 2018 · 1 pkt", "Zadanie 9 · czerwiec 2018 · 1 pkt", "Zadanie 10 · maj 2019 · 1 pkt", "Zadanie 11 · czerwiec 2020 · 1 pkt", "Zadanie 12 · lipiec 2020 · 1 pkt", "Zadanie 13 · marzec 2021 · 1 pkt", "Zadanie 14 · czerwiec 2021 · 1 pkt", "Zadanie 15 · maj 2022 · 1 pkt", "Zadanie 16 · czerwiec 2022 · 1 pkt", "Zadanie 17 · Informator F2023 · 3 pkt", "Zadanie 18 · Arkusz pokazowy F2023 · 3 pkt", "Zadanie 19 · Zbiór zadań F2023 · 3 pkt", "Zadanie 20 · grudzień 2022 · 2 pkt", "Zadanie 21 · czerwiec 2023 · 2 pkt"], "w": [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 2, 2], "tids": ["Z1.1", "Z1.2", "Z1.3", "Z1.4", "Z1.5", "Z1.6", "Z1.7", "Z1.8", "Z1.9", "Z1.10", "Z1.11", "Z1.12", "Z1.13", "Z1.14", "Z1.15", "Z1.16", "Z1.17", "Z1.18", "Z1.19", "Z1.20", "Z1.21"]}, {"id": "Z2", "n": "2", "name": "Funkcja kwadratowa", "h": 12.5, "t": ["Zadanie 1 · maj 2015 · 2 pkt", "Zadanie 2 · maj 2015 · 5 pkt", "Zadanie 3 · czerwiec 2015 · 6 pkt", "Zadanie 4 · maj 2016 · 6 pkt", "Zadanie 5 · maj 2017 · 5 pkt", "Zadanie 6 · czerwiec 2017 · 2 pkt", "Zadanie 7 · czerwiec 2017 · 6 pkt", "Zadanie 8 · maj 2018 · 6 pkt", "Zadanie 9 · czerwiec 2018 · 6 pkt", "Zadanie 10 · czerwiec 2019 · 6 pkt", "Zadanie 11 · czerwiec 2020 · 4 pkt", "Zadanie 12 · lipiec 2020 · 5 pkt", "Zadanie 13 · marzec 2021 · 5 pkt", "Zadanie 14 · maj 2021 · 5 pkt", "Zadanie 15 · maj 2022 · 5 pkt", "Zadanie 16 · Informator F2023 · 4 pkt", "Zadanie 17 · Zbiór zadań F2023 · 4 pkt", "Zadanie 18 · grudzień 2022 · 5 pkt", "Zadanie 19 · maj 2023 · 5 pkt", "Zadanie 20 · czerwiec 2023 · 5 pkt", "Zadanie 21 · maj 2024 · 6 pkt", "Zadanie 22 · czerwiec 2024 · 6 pkt", "Zadanie 23 · grudzień 2024 · 5 pkt", "Zadanie 24 · maj 2025 · 6 pkt", "Zadanie 25 · czerwiec 2025 · 4 pkt"], "w": [2, 5, 6, 6, 5, 2, 6, 6, 6, 6, 4, 5, 5, 5, 5, 4, 4, 5, 5, 5, 6, 6, 5, 6, 4], "tids": ["Z2.1", "Z2.2", "Z2.3", "Z2.4", "Z2.5", "Z2.6", "Z2.7", "Z2.8", "Z2.9", "Z2.10", "Z2.11", "Z2.12", "Z2.13", "Z2.14", "Z2.15", "Z2.16", "Z2.17", "Z2.18", "Z2.19", "Z2.20", "Z2.21", "Z2.22", "Z2.23", "Z2.24", "Z2.25"]}, {"id": "Z3", "n": "3", "name": "Funkcja wielomianowa", "h": 5.0, "t": ["Zadanie 1 · grudzień 2014 · 1 pkt", "Zadanie 2 · maj 2016 · 1 pkt", "Zadanie 3 · maj 2016 · 4 pkt", "Zadanie 4 · maj 2017 · 2 pkt", "Zadanie 5 · maj 2019 · 6 pkt", "Zadanie 6 · czerwiec 2019 · 1 pkt", "Zadanie 7 · czerwiec 2019 · 1 pkt", "Zadanie 8 · czerwiec 2020 · 1 pkt", "Zadanie 9 · lipiec 2020 · 1 pkt", "Zadanie 10 · marzec 2021 · 4 pkt", "Zadanie 11 · maj 2021 · 1 pkt", "Zadanie 12 · czerwiec 2021 · 2 pkt", "Zadanie 13 · czerwiec 2021 · 5 pkt", "Zadanie 14 · maj 2022 · 4 pkt", "Zadanie 15 · czerwiec 2022 · 6 pkt", "Zadanie 16 · Informator F2023 · 3 pkt", "Zadanie 17 · Informator F2023 · 3 pkt", "Zadanie 18 · Arkusz pokazowy F2023 · 5 pkt"], "w": [1, 1, 4, 2, 6, 1, 1, 1, 1, 4, 1, 2, 5, 4, 6, 3, 3, 5], "tids": ["Z3.1", "Z3.2", "Z3.3", "Z3.4", "Z3.5", "Z3.6", "Z3.7", "Z3.8", "Z3.9", "Z3.10", "Z3.11", "Z3.12", "Z3.13", "Z3.14", "Z3.15", "Z3.16", "Z3.17", "Z3.18"]}, {"id": "Z4", "n": "4", "name": "Funkcja wymierna, wykładnicza i logarytmiczna", "h": 4.5, "t": ["Zadanie 1 · grudzień 2014 · 1 pkt", "Zadanie 2 · czerwiec 2015 · 1 pkt", "Zadanie 3 · czerwiec 2015 · 1 pkt", "Zadanie 4 · maj 2016 · 1 pkt", "Zadanie 5 · czerwiec 2016 · 4 pkt", "Zadanie 6 · maj 2018 · 2 pkt", "Zadanie 7 · lipiec 2020 · 4 pkt", "Zadanie 8 · maj 2021 · 3 pkt", "Zadanie 9 · czerwiec 2022 · 3 pkt", "Zadanie 10 · Informator F2023 · 3 pkt", "Zadanie 11 · Zbiór zadań F2023 · 5 pkt", "Zadanie 12 · grudzień 2022 · 5 pkt", "Zadanie 13 · maj 2023 · 2 pkt", "Zadanie 14 · maj 2024 · 2 pkt", "Zadanie 15 · czerwiec 2024 · 2 pkt", "Zadanie 16 · grudzień 2024 · 2 pkt", "Zadanie 17 · maj 2025 · 2 pkt"], "w": [1, 1, 1, 1, 4, 2, 4, 3, 3, 3, 5, 5, 2, 2, 2, 2, 2], "tids": ["Z4.1", "Z4.2", "Z4.3", "Z4.4", "Z4.5", "Z4.6", "Z4.7", "Z4.8", "Z4.9", "Z4.10", "Z4.11", "Z4.12", "Z4.13", "Z4.14", "Z4.15", "Z4.16", "Z4.17"]}, {"id": "Z5", "n": "5", "name": "Funkcje trygonometryczne", "h": 11.0, "t": ["Zadanie 1 · grudzień 2014 · 1 pkt", "Zadanie 2 · grudzień 2014 · 3 pkt", "Zadanie 3 · maj 2015 · 1 pkt", "Zadanie 4 · czerwiec 2015 · 1 pkt", "Zadanie 5 · czerwiec 2015 · 4 pkt", "Zadanie 7 · czerwiec 2016 · 1 pkt", "Zadanie 9 · maj 2017 · 4 pkt", "Zadanie 10 · czerwiec 2017 · 4 pkt", "Zadanie 11 · maj 2018 · 4 pkt", "Zadanie 12 · maj 2019 · 1 pkt", "Zadanie 13 · maj 2019 · 4 pkt", "Zadanie 14 · czerwiec 2019 · 4 pkt", "Zadanie 15 · czerwiec 2020 · 4 pkt", "Zadanie 16 · lipiec 2020 · 4 pkt", "Zadanie 17 · marzec 2021 · 4 pkt", "Zadanie 18 · maj 2021 · 1 pkt", "Zadanie 19 · maj 2021 · 5 pkt", "Zadanie 20 · czerwiec 2021 · 1 pkt", "Zadanie 21 · czerwiec 2021 · 4 pkt", "Zadanie 22 · maj 2022 · 1 pkt", "Zadanie 23 · maj 2022 · 4 pkt", "Zadanie 24 · czerwiec 2022 · 4 pkt", "Zadanie 25 · Informator F2023 · 3 pkt", "Zadanie 26 · Arkusz pokazowy F2023 · 4 pkt", "Zadanie 27 · Zbiór zadań F2023 · 5 pkt", "Zadanie 28 · Zbiór zadań F2023 · 3 pkt", "Zadanie 29 · grudzień 2022 · 4 pkt", "Zadanie 30 · maj 2023 · 3 pkt", "Zadanie 31 · czerwiec 2023 · 4 pkt", "Zadanie 32 · maj 2024 · 5 pkt", "Zadanie 33 · czerwiec 2024 · 4 pkt", "Zadanie 34 · grudzień 2024 · 4 pkt", "Zadanie 35 · maj 2025 · 5 pkt", "Zadanie 36 · czerwiec 2025 · 4 pkt"], "w": [1, 3, 1, 1, 4, 1, 4, 4, 4, 1, 4, 4, 4, 4, 4, 1, 5, 1, 4, 1, 4, 4, 3, 4, 5, 3, 4, 3, 4, 5, 4, 4, 5, 4], "tids": ["Z5.1", "Z5.2", "Z5.3", "Z5.4", "Z5.5", "Z5.7", "Z5.9", "Z5.10", "Z5.11", "Z5.12", "Z5.13", "Z5.14", "Z5.15", "Z5.16", "Z5.17", "Z5.18", "Z5.19", "Z5.20", "Z5.21", "Z5.22", "Z5.23", "Z5.24", "Z5.25", "Z5.26", "Z5.27", "Z5.28", "Z5.29", "Z5.30", "Z5.31", "Z5.32", "Z5.33", "Z5.34", "Z5.35", "Z5.36"]}, {"id": "Z6", "n": "6", "name": "Ciągi", "h": 14.5, "t": ["Zadanie 1 · grudzień 2014 · 2 pkt", "Zadanie 2 · grudzień 2014 · 3 pkt", "Zadanie 3 · maj 2015 · 2 pkt", "Zadanie 4 · maj 2015 · 6 pkt", "Zadanie 5 · czerwiec 2015 · 1 pkt", "Zadanie 6 · maj 2016 · 1 pkt", "Zadanie 7 · maj 2016 · 2 pkt", "Zadanie 8 · czerwiec 2016 · 1 pkt", "Zadanie 9 · czerwiec 2016 · 2 pkt", "Zadanie 10 · czerwiec 2016 · 3 pkt", "Zadanie 11 · maj 2017 · 1 pkt", "Zadanie 12 · maj 2017 · 6 pkt", "Zadanie 13 · czerwiec 2017 · 1 pkt", "Zadanie 14 · czerwiec 2017 · 5 pkt", "Zadanie 15 · maj 2018 · 4 pkt", "Zadanie 16 · czerwiec 2018 · 4 pkt", "Zadanie 17 · czerwiec 2018 · 4 pkt", "Zadanie 18 · maj 2019 · 2 pkt", "Zadanie 19 · maj 2019 · 6 pkt", "Zadanie 20 · czerwiec 2019 · 1 pkt", "Zadanie 21 · czerwiec 2020 · 1 pkt", "Zadanie 22 · czerwiec 2020 · 5 pkt", "Zadanie 23 · lipiec 2020 · 2 pkt", "Zadanie 24 · lipiec 2020 · 3 pkt", "Zadanie 25 · marzec 2021 · 1 pkt", "Zadanie 26 · marzec 2021 · 5 pkt", "Zadanie 27 · maj 2021 · 2 pkt", "Zadanie 28 · czerwiec 2021 · 1 pkt", "Zadanie 29 · maj 2022 · 2 pkt", "Zadanie 30 · maj 2022 · 4 pkt", "Zadanie 31 · czerwiec 2022 · 4 pkt", "Zadanie 32 · Informator F2023 · 4 pkt", "Zadanie 33 · Informator F2023 · 2 pkt", "Zadanie 34 · Informator F2023 · 3 pkt", "Zadanie 35 · Arkusz pokazowy F2023 · 4 pkt", "Zadanie 36 · Zbiór zadań F2023 · 5 pkt", "Zadanie 37 · maj 2023 · 4 pkt", "Zadanie 38 · czerwiec 2023 · 5 pkt", "Zadanie 39 · czerwiec 2023 · 4 pkt", "Zadanie 40 · maj 2024 · 4 pkt", "Zadanie 41 · czerwiec 2024 · 4 pkt", "Zadanie 42 · grudzień 2024 · 5 pkt", "Zadanie 43 · grudzień 2024 · 4 pkt", "Zadanie 44 · maj 2025 · 4 pkt", "Zadanie 45 · czerwiec 2025 · 5 pkt"], "w": [2, 3, 2, 6, 1, 1, 2, 1, 2, 3, 1, 6, 1, 5, 4, 4, 4, 2, 6, 1, 1, 5, 2, 3, 1, 5, 2, 1, 2, 4, 4, 4, 2, 3, 4, 5, 4, 5, 4, 4, 4, 5, 4, 4, 5], "tids": ["Z6.1", "Z6.2", "Z6.3", "Z6.4", "Z6.5", "Z6.6", "Z6.7", "Z6.8", "Z6.9", "Z6.10", "Z6.11", "Z6.12", "Z6.13", "Z6.14", "Z6.15", "Z6.16", "Z6.17", "Z6.18", "Z6.19", "Z6.20", "Z6.21", "Z6.22", "Z6.23", "Z6.24", "Z6.25", "Z6.26", "Z6.27", "Z6.28", "Z6.29", "Z6.30", "Z6.31", "Z6.32", "Z6.33", "Z6.34", "Z6.35", "Z6.36", "Z6.37", "Z6.38", "Z6.39", "Z6.40", "Z6.41", "Z6.42", "Z6.43", "Z6.44", "Z6.45"]}, {"id": "Z7", "n": "7", "name": "Wartość bezwzględna", "h": 3.5, "t": ["Zadanie 1 · maj 2015 · 1 pkt", "Zadanie 2 · maj 2015 · 1 pkt", "Zadanie 3 · czerwiec 2015 · 2 pkt", "Zadanie 5 · czerwiec 2016 · 4 pkt", "Zadanie 6 · czerwiec 2017 · 1 pkt", "Zadanie 7 · maj 2018 · 1 pkt", "Zadanie 8 · czerwiec 2018 · 1 pkt", "Zadanie 11 · maj 2021 · 1 pkt", "Zadanie 13 · maj 2022 · 3 pkt", "Zadanie 14 · Informator F2023 · 6 pkt", "Zadanie 15 · Zbiór zadań F2023 · 3 pkt", "Zadanie 18 · maj 2023 · 4 pkt", "Zadanie 19 · grudzień 2024 · 4 pkt", "Zadanie 20 · maj 2025 · 4 pkt"], "w": [1, 1, 2, 4, 1, 1, 1, 1, 3, 6, 3, 4, 4, 4], "tids": ["Z7.1", "Z7.2", "Z7.3", "Z7.5", "Z7.6", "Z7.7", "Z7.8", "Z7.11", "Z7.13", "Z7.14", "Z7.15", "Z7.18", "Z7.19", "Z7.20"]}, {"id": "Z8", "n": "8", "name": "Planimetria", "h": 11.5, "t": ["Zadanie 1 · grudzień 2014 · 2 pkt", "Zadanie 2 · maj 2015 · 4 pkt", "Zadanie 3 · czerwiec 2015 · 4 pkt", "Zadanie 4 · czerwiec 2016 · 1 pkt", "Zadanie 5 · czerwiec 2016 · 4 pkt", "Zadanie 6 · maj 2017 · 1 pkt", "Zadanie 7 · czerwiec 2017 · 6 pkt", "Zadanie 8 · czerwiec 2018 · 5 pkt", "Zadanie 9 · maj 2019 · 4 pkt", "Zadanie 10 · czerwiec 2019 · 4 pkt", "Zadanie 11 · czerwiec 2020 · 2 pkt", "Zadanie 12 · lipiec 2020 · 6 pkt", "Zadanie 13 · marzec 2021 · 4 pkt", "Zadanie 14 · maj 2021 · 4 pkt", "Zadanie 15 · czerwiec 2021 · 5 pkt", "Zadanie 16 · czerwiec 2022 · 1 pkt", "Zadanie 17 · Informator F2023 · 5 pkt", "Zadanie 18 · Zbiór zadań F2023 · 6 pkt", "Zadanie 19 · Zbiór zadań F2023 · 6 pkt", "Zadanie 20 · Zbiór zadań F2023 · 4 pkt", "Zadanie 21 · Zbiór zadań F2023 · 3 pkt", "Zadanie 22 · grudzień 2022 · 5 pkt", "Zadanie 23 · maj 2023 · 4 pkt", "Zadanie 24 · czerwiec 2023 · 5 pkt", "Zadanie 25 · maj 2024 · 4 pkt", "Zadanie 26 · czerwiec 2024 · 4 pkt", "Zadanie 27 · grudzień 2024 · 5 pkt", "Zadanie 28 · maj 2025 · 3 pkt", "Zadanie 29 · czerwiec 2025 · 5 pkt"], "w": [2, 4, 4, 1, 4, 1, 6, 5, 4, 4, 2, 6, 4, 4, 5, 1, 5, 6, 6, 4, 3, 5, 4, 5, 4, 4, 5, 3, 5], "tids": ["Z8.1", "Z8.2", "Z8.3", "Z8.4", "Z8.5", "Z8.6", "Z8.7", "Z8.8", "Z8.9", "Z8.10", "Z8.11", "Z8.12", "Z8.13", "Z8.14", "Z8.15", "Z8.16", "Z8.17", "Z8.18", "Z8.19", "Z8.20", "Z8.21", "Z8.22", "Z8.23", "Z8.24", "Z8.25", "Z8.26", "Z8.27", "Z8.28", "Z8.29"]}, {"id": "Z9", "n": "9", "name": "Geometria analityczna", "h": 14.5, "t": ["Zadanie 1 · grudzień 2014 · 1 pkt", "Zadanie 2 · grudzień 2014 · 6 pkt", "Zadanie 3 · maj 2015 · 1 pkt", "Zadanie 4 · czerwiec 2015 · 2 pkt", "Zadanie 5 · maj 2016 · 5 pkt", "Zadanie 6 · czerwiec 2016 · 5 pkt", "Zadanie 7 · maj 2017 · 5 pkt", "Zadanie 8 · maj 2017 · 1 pkt", "Zadanie 9 · czerwiec 2017 · 5 pkt", "Zadanie 11 · maj 2018 · 6 pkt", "Zadanie 12 · czerwiec 2018 · 1 pkt", "Zadanie 13 · czerwiec 2018 · 5 pkt", "Zadanie 15 · czerwiec 2019 · 6 pkt", "Zadanie 16 · czerwiec 2019 · 1 pkt", "Zadanie 18 · lipiec 2020 · 6 pkt", "Zadanie 19 · marzec 2021 · 5 pkt", "Zadanie 21 · maj 2021 · 6 pkt", "Zadanie 22 · czerwiec 2021 · 1 pkt", "Zadanie 23 · czerwiec 2021 · 4 pkt", "Zadanie 24 · maj 2022 · 6 pkt", "Zadanie 25 · czerwiec 2022 · 6 pkt", "Zadanie 26 · czerwiec 2022 · 1 pkt", "Zadanie 27 · Informator F2023 · 5 pkt", "Zadanie 28 · Informator F2023 · 4 pkt", "Zadanie 29 · Informator F2023 · 3 pkt", "Zadanie 30 · Arkusz pokazowy F2023 · 6 pkt", "Zadanie 31 · Zbiór zadań F2023 · 3 pkt", "Zadanie 32 · Zbiór zadań F2023 · 2 pkt", "Zadanie 33 · maj 2023 · 6 pkt", "Zadanie 34 · czerwiec 2023 · 4 pkt", "Zadanie 35 · maj 2024 · 5 pkt", "Zadanie 36 · czerwiec 2024 · 6 pkt", "Zadanie 37 · grudzień 2024 · 4 pkt", "Zadanie 38 · maj 2025 · 5 pkt", "Zadanie 39 · czerwiec 2025 · 6 pkt"], "w": [1, 6, 1, 2, 5, 5, 5, 1, 5, 6, 1, 5, 6, 1, 6, 5, 6, 1, 4, 6, 6, 1, 5, 4, 3, 6, 3, 2, 6, 4, 5, 6, 4, 5, 6], "tids": ["Z9.1", "Z9.2", "Z9.3", "Z9.4", "Z9.5", "Z9.6", "Z9.7", "Z9.8", "Z9.9", "Z9.11", "Z9.12", "Z9.13", "Z9.15", "Z9.16", "Z9.18", "Z9.19", "Z9.21", "Z9.22", "Z9.23", "Z9.24", "Z9.25", "Z9.26", "Z9.27", "Z9.28", "Z9.29", "Z9.30", "Z9.31", "Z9.32", "Z9.33", "Z9.34", "Z9.35", "Z9.36", "Z9.37", "Z9.38", "Z9.39"]}, {"id": "Z10", "n": "10", "name": "Stereometria", "h": 9.5, "t": ["Zadanie 1 · maj 2015 · 5 pkt", "Zadanie 2 · czerwiec 2015 · 5 pkt", "Zadanie 3 · maj 2016 · 6 pkt", "Zadanie 4 · czerwiec 2016 · 1 pkt", "Zadanie 5 · maj 2017 · 4 pkt", "Zadanie 6 · maj 2018 · 4 pkt", "Zadanie 7 · czerwiec 2019 · 6 pkt", "Zadanie 8 · czerwiec 2020 · 6 pkt", "Zadanie 9 · marzec 2021 · 4 pkt", "Zadanie 10 · czerwiec 2021 · 4 pkt", "Zadanie 11 · maj 2022 · 5 pkt", "Zadanie 12 · czerwiec 2022 · 5 pkt", "Zadanie 13 · Informator F2023 · 3 pkt", "Zadanie 14 · Informator F2023 · 5 pkt", "Zadanie 15 · Arkusz pokazowy F2023 · 6 pkt", "Zadanie 16 · grudzień 2022 · 5 pkt", "Zadanie 17 · maj 2023 · 4 pkt", "Zadanie 18 · czerwiec 2024 · 4 pkt", "Zadanie 19 · grudzień 2024 · 3 pkt", "Zadanie 20 · maj 2025 · 5 pkt", "Zadanie 21 · czerwiec 2025 · 5 pkt"], "w": [5, 5, 6, 1, 4, 4, 6, 6, 4, 4, 5, 5, 3, 5, 6, 5, 4, 4, 3, 5, 5], "tids": ["Z10.1", "Z10.2", "Z10.3", "Z10.4", "Z10.5", "Z10.6", "Z10.7", "Z10.8", "Z10.9", "Z10.10", "Z10.11", "Z10.12", "Z10.13", "Z10.14", "Z10.15", "Z10.16", "Z10.17", "Z10.18", "Z10.19", "Z10.20", "Z10.21"]}, {"id": "Z11", "n": "11", "name": "Optymalizacja", "h": 31.5, "t": ["Zadanie 1 · grudzień 2014 · 2 pkt", "Zadanie 2 · grudzień 2014 · 1 pkt", "Zadanie 3 · grudzień 2014 · 3 pkt", "Zadanie 4 · grudzień 2014 · 7 pkt", "Zadanie 5 · maj 2015 · 4 pkt", "Zadanie 6 · maj 2015 · 7 pkt", "Zadanie 7 · czerwiec 2015 · 1 pkt", "Zadanie 8 · czerwiec 2015 · 7 pkt", "Zadanie 9 · maj 2016 · 1 pkt", "Zadanie 10 · maj 2016 · 7 pkt", "Zadanie 11 · czerwiec 2016 · 7 pkt", "Zadanie 12 · maj 2017 · 3 pkt", "Zadanie 13 · maj 2017 · 7 pkt", "Zadanie 14 · czerwiec 2017 · 1 pkt", "Zadanie 15 · czerwiec 2017 · 7 pkt", "Zadanie 16 · maj 2018 · 1 pkt", "Zadanie 17 · maj 2018 · 3 pkt", "Zadanie 18 · maj 2018 · 7 pkt", "Zadanie 19 · czerwiec 2018 · 2 pkt", "Zadanie 20 · czerwiec 2018 · 7 pkt", "Zadanie 21 · maj 2019 · 2 pkt", "Zadanie 22 · maj 2019 · 7 pkt", "Zadanie 23 · czerwiec 2019 · 2 pkt", "Zadanie 24 · czerwiec 2019 · 7 pkt", "Zadanie 25 · czerwiec 2020 · 7 pkt", "Zadanie 26 · lipiec 2020 · 1 pkt", "Zadanie 27 · lipiec 2020 · 1 pkt", "Zadanie 28 · lipiec 2020 · 7 pkt", "Zadanie 29 · marzec 2021 · 1 pkt", "Zadanie 30 · marzec 2021 · 7 pkt", "Zadanie 31 · maj 2021 · 7 pkt", "Zadanie 32 · czerwiec 2021 · 5 pkt", "Zadanie 33 · czerwiec 2021 · 7 pkt", "Zadanie 34 · maj 2022 · 1 pkt", "Zadanie 35 · maj 2022 · 7 pkt", "Zadanie 36 · czerwiec 2022 · 1 pkt", "Zadanie 37 · czerwiec 2022 · 7 pkt", "Zadanie 38 · Informator F2023 · 8 pkt", "Zadanie 39 · Informator F2023 · 4 pkt", "Zadanie 40 · Informator F2023 · 4 pkt", "Zadanie 41 · Informator F2023 · 4 pkt", "Zadanie 42 · Informator F2023 · 4 pkt", "Zadanie 43 · Arkusz pokazowy F2023 · 3 pkt", "Zadanie 44 · Arkusz pokazowy F2023 · 8 pkt", "Zadanie 45 · Zbiór zadań F2023 · 4 pkt", "Zadanie 46 · Zbiór zadań F2023 · 6 pkt", "Zadanie 47 · Zbiór zadań F2023 · 6 pkt", "Zadanie 48 · Zbiór zadań F2023 · 6 pkt", "Zadanie 49 · Zbiór zadań F2023 · 4 pkt", "Zadanie 50 · Zbiór zadań F2023 · 6 pkt", "Zadanie 51 · Zbiór zadań F2023 · 7 pkt", "Zadanie 52 · Zbiór zadań F2023 · 3 pkt", "Zadanie 53 · Zbiór zadań F2023 · 3 pkt", "Zadanie 54 · grudzień 2022 · 6 pkt", "Zadanie 55 · grudzień 2022 · 4 pkt", "Zadanie 56 · maj 2023 · 6 pkt", "Zadanie 57 · maj 2023 · 3 pkt", "Zadanie 58 · czerwiec 2023 · 3 pkt", "Zadanie 59 · czerwiec 2023 · 6 pkt", "Zadanie 60 · maj 2024 · 2 pkt", "Zadanie 61 · maj 2024 · 3 pkt", "Zadanie 62 · maj 2024 · 6 pkt", "Zadanie 63 · czerwiec 2024 · 2 pkt", "Zadanie 64 · czerwiec 2024 · 3 pkt", "Zadanie 65 · czerwiec 2024 · 6 pkt", "Zadanie 66 · grudzień 2024 · 6 pkt", "Zadanie 67 · maj 2025 · 6 pkt", "Zadanie 68 · czerwiec 2025 · 6 pkt", "Zadanie 69 · czerwiec 2025 · 4 pkt"], "w": [2, 1, 3, 7, 4, 7, 1, 7, 1, 7, 7, 3, 7, 1, 7, 1, 3, 7, 2, 7, 2, 7, 2, 7, 7, 1, 1, 7, 1, 7, 7, 5, 7, 1, 7, 1, 7, 8, 4, 4, 4, 4, 3, 8, 4, 6, 6, 6, 4, 6, 7, 3, 3, 6, 4, 6, 3, 3, 6, 2, 3, 6, 2, 3, 6, 6, 6, 6, 4], "tids": ["Z11.1", "Z11.2", "Z11.3", "Z11.4", "Z11.5", "Z11.6", "Z11.7", "Z11.8", "Z11.9", "Z11.10", "Z11.11", "Z11.12", "Z11.13", "Z11.14", "Z11.15", "Z11.16", "Z11.17", "Z11.18", "Z11.19", "Z11.20", "Z11.21", "Z11.22", "Z11.23", "Z11.24", "Z11.25", "Z11.26", "Z11.27", "Z11.28", "Z11.29", "Z11.30", "Z11.31", "Z11.32", "Z11.33", "Z11.34", "Z11.35", "Z11.36", "Z11.37", "Z11.38", "Z11.39", "Z11.40", "Z11.41", "Z11.42", "Z11.43", "Z11.44", "Z11.45", "Z11.46", "Z11.47", "Z11.48", "Z11.49", "Z11.50", "Z11.51", "Z11.52", "Z11.53", "Z11.54", "Z11.55", "Z11.56", "Z11.57", "Z11.58", "Z11.59", "Z11.60", "Z11.61", "Z11.62", "Z11.63", "Z11.64", "Z11.65", "Z11.66", "Z11.67", "Z11.68", "Z11.69"]}, {"id": "Z12", "n": "12", "name": "Prawdopodobieństwo i kombinatoryka", "h": 12.5, "t": ["Zadanie 1 · grudzień 2014 · 5 pkt", "Zadanie 2 · maj 2015 · 4 pkt", "Zadanie 3 · czerwiec 2015 · 5 pkt", "Zadanie 4 · maj 2016 · 3 pkt", "Zadanie 5 · maj 2016 · 2 pkt", "Zadanie 6 · czerwiec 2016 · 4 pkt", "Zadanie 7 · czerwiec 2016 · 2 pkt", "Zadanie 8 · maj 2017 · 4 pkt", "Zadanie 9 · czerwiec 2017 · 4 pkt", "Zadanie 10 · maj 2018 · 4 pkt", "Zadanie 11 · czerwiec 2018 · 4 pkt", "Zadanie 12 · maj 2019 · 3 pkt", "Zadanie 13 · maj 2019 · 1 pkt", "Zadanie 14 · czerwiec 2019 · 3 pkt", "Zadanie 15 · czerwiec 2019 · 2 pkt", "Zadanie 16 · czerwiec 2020 · 4 pkt", "Zadanie 17 · czerwiec 2020 · 1 pkt", "Zadanie 18 · lipiec 2020 · 3 pkt", "Zadanie 19 · marzec 2021 · 2 pkt", "Zadanie 20 · marzec 2021 · 1 pkt", "Zadanie 21 · maj 2021 · 4 pkt", "Zadanie 22 · czerwiec 2021 · 4 pkt", "Zadanie 23 · maj 2022 · 1 pkt", "Zadanie 24 · czerwiec 2022 · 3 pkt", "Zadanie 25 · czerwiec 2022 · 2 pkt", "Zadanie 26 · Informator F2023 · 4 pkt", "Zadanie 27 · Informator F2023 · 3 pkt", "Zadanie 28 · Informator F2023 · 4 pkt", "Zadanie 29 · Arkusz pokazowy F2023 · 4 pkt", "Zadanie 30 · grudzień 2022 · 3 pkt", "Zadanie 31 · maj 2023 · 3 pkt", "Zadanie 32 · czerwiec 2023 · 3 pkt", "Zadanie 33 · czerwiec 2023 · 3 pkt", "Zadanie 34 · maj 2024 · 3 pkt", "Zadanie 35 · maj 2024 · 3 pkt", "Zadanie 36 · czerwiec 2024 · 3 pkt", "Zadanie 37 · grudzień 2024 · 3 pkt", "Zadanie 38 · maj 2025 · 3 pkt", "Zadanie 39 · czerwiec 2025 · 3 pkt", "Zadanie 40 · czerwiec 2025 · 3 pkt"], "w": [5, 4, 5, 3, 2, 4, 2, 4, 4, 4, 4, 3, 1, 3, 2, 4, 1, 3, 2, 1, 4, 4, 1, 3, 2, 4, 3, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], "tids": ["Z12.1", "Z12.2", "Z12.3", "Z12.4", "Z12.5", "Z12.6", "Z12.7", "Z12.8", "Z12.9", "Z12.10", "Z12.11", "Z12.12", "Z12.13", "Z12.14", "Z12.15", "Z12.16", "Z12.17", "Z12.18", "Z12.19", "Z12.20", "Z12.21", "Z12.22", "Z12.23", "Z12.24", "Z12.25", "Z12.26", "Z12.27", "Z12.28", "Z12.29", "Z12.30", "Z12.31", "Z12.32", "Z12.33", "Z12.34", "Z12.35", "Z12.36", "Z12.37", "Z12.38", "Z12.39", "Z12.40"]}, {"id": "Z13", "n": "13", "name": "Dowodzenie", "h": 19.5, "t": ["Zadanie 1 · grudzień 2014 · 3 pkt", "Zadanie 2 · grudzień 2014 · 4 pkt", "Zadanie 3 · grudzień 2014 · 3 pkt", "Zadanie 4 · maj 2015 · 3 pkt", "Zadanie 5 · maj 2015 · 3 pkt", "Zadanie 6 · czerwiec 2015 · 3 pkt", "Zadanie 7 · czerwiec 2015 · 3 pkt", "Zadanie 8 · czerwiec 2015 · 4 pkt", "Zadanie 9 · maj 2016 · 3 pkt", "Zadanie 10 · maj 2016 · 3 pkt", "Zadanie 11 · czerwiec 2016 · 3 pkt", "Zadanie 12 · czerwiec 2016 · 3 pkt", "Zadanie 13 · maj 2017 · 3 pkt", "Zadanie 14 · maj 2017 · 3 pkt", "Zadanie 15 · czerwiec 2017 · 3 pkt", "Zadanie 16 · czerwiec 2017 · 3 pkt", "Zadanie 17 · maj 2018 · 3 pkt", "Zadanie 18 · maj 2018 · 3 pkt", "Zadanie 19 · czerwiec 2018 · 3 pkt", "Zadanie 20 · czerwiec 2018 · 3 pkt", "Zadanie 22 · maj 2019 · 3 pkt", "Zadanie 23 · maj 2019 · 3 pkt", "Zadanie 24 · czerwiec 2019 · 3 pkt", "Zadanie 25 · czerwiec 2019 · 3 pkt", "Zadanie 26 · czerwiec 2020 · 3 pkt", "Zadanie 27 · czerwiec 2020 · 3 pkt", "Zadanie 28 · lipiec 2020 · 3 pkt", "Zadanie 29 · lipiec 2020 · 3 pkt", "Zadanie 30 · marzec 2021 · 3 pkt", "Zadanie 31 · marzec 2021 · 3 pkt", "Zadanie 32 · maj 2021 · 3 pkt", "Zadanie 33 · maj 2021 · 3 pkt", "Zadanie 34 · czerwiec 2021 · 3 pkt", "Zadanie 35 · czerwiec 2021 · 3 pkt", "Zadanie 36 · maj 2022 · 3 pkt", "Zadanie 37 · maj 2022 · 3 pkt", "Zadanie 38 · czerwiec 2022 · 3 pkt", "Zadanie 39 · czerwiec 2022 · 3 pkt", "Zadanie 40 · Informator F2023 · 3 pkt", "Zadanie 41 · Informator F2023 · 3 pkt", "Zadanie 42 · Informator F2023 · 3 pkt", "Zadanie 43 · Informator F2023 · 3 pkt", "Zadanie 44 · Arkusz pokazowy F2023 · 3 pkt", "Zadanie 45 · Arkusz pokazowy F2023 · 4 pkt", "Zadanie 46 · Zbiór zadań F2023 · 4 pkt", "Zadanie 47 · Zbiór zadań F2023 · 4 pkt", "Zadanie 48 · Zbiór zadań F2023 · 3 pkt", "Zadanie 49 · grudzień 2022 · 3 pkt", "Zadanie 50 · grudzień 2022 · 4 pkt", "Zadanie 51 · maj 2023 · 3 pkt", "Zadanie 52 · maj 2023 · 3 pkt", "Zadanie 53 · czerwiec 2023 · 3 pkt", "Zadanie 54 · czerwiec 2023 · 3 pkt", "Zadanie 55 · maj 2024 · 3 pkt", "Zadanie 56 · maj 2024 · 3 pkt", "Zadanie 57 · czerwiec 2024 · 3 pkt", "Zadanie 58 · czerwiec 2024 · 3 pkt", "Zadanie 59 · grudzień 2024 · 3 pkt", "Zadanie 60 · grudzień 2024 · 2 pkt", "Zadanie 61 · maj 2025 · 3 pkt", "Zadanie 62 · maj 2025 · 4 pkt", "Zadanie 63 · czerwiec 2025 · 3 pkt", "Zadanie 64 · czerwiec 2025 · 3 pkt"], "w": [3, 4, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 3, 4, 3, 3], "tids": ["Z13.1", "Z13.2", "Z13.3", "Z13.4", "Z13.5", "Z13.6", "Z13.7", "Z13.8", "Z13.9", "Z13.10", "Z13.11", "Z13.12", "Z13.13", "Z13.14", "Z13.15", "Z13.16", "Z13.17", "Z13.18", "Z13.19", "Z13.20", "Z13.22", "Z13.23", "Z13.24", "Z13.25", "Z13.26", "Z13.27", "Z13.28", "Z13.29", "Z13.30", "Z13.31", "Z13.32", "Z13.33", "Z13.34", "Z13.35", "Z13.36", "Z13.37", "Z13.38", "Z13.39", "Z13.40", "Z13.41", "Z13.42", "Z13.43", "Z13.44", "Z13.45", "Z13.46", "Z13.47", "Z13.48", "Z13.49", "Z13.50", "Z13.51", "Z13.52", "Z13.53", "Z13.54", "Z13.55", "Z13.56", "Z13.57", "Z13.58", "Z13.59", "Z13.60", "Z13.61", "Z13.62", "Z13.63", "Z13.64"]}]});
 
-const CATALOG=[{id:"mat"},{name:"Język polski rozszerzony"},{name:"Język angielski rozszerzony"},{id:"bio"},{name:"Chemia rozszerzona"},{name:"Fizyka rozszerzona"},{name:"Geografia rozszerzona"},{name:"Historia rozszerzona"}];
+/* ======================= CHEMIA ROZSZERZONA (podstawa programowa od 2023) ======================= */
+SUBJECTS.push({id:"chem",name:"Chemia rozszerzona",short:"Chemia roz.",units:[
+  {id:"C1",n:"1",name:"Atomy, cząsteczki i stechiometria",h:7,t:[
+    "Nuklid, izotop, mol, stała Avogadra",
+    "Masa molowa związków z układu okresowego",
+    "Masa atomowa a skład izotopowy",
+    "Przemiany promieniotwórcze (α, β−) i reakcje jądrowe",
+    "Wzór empiryczny i rzeczywisty",
+    "Interpretacja równania: mole, masy, objętości gazów",
+    "Obliczenia stechiometryczne, wydajność, nadmiar substratu",
+    "Równanie Clapeyrona"]},
+  {id:"C2",n:"2",name:"Budowa atomu",h:4,t:[
+    "Liczby kwantowe, powłoka, podpowłoka, spin",
+    "Zakaz Pauliego i reguła Hunda",
+    "Konfiguracje elektronowe do Z=38 i jonów (pełne, skrócone, klatkowe)",
+    "Bloki s, p, d; położenie w układzie okresowym a właściwości"]},
+  {id:"C3",n:"3",name:"Wiązania chemiczne i oddziaływania",h:6,t:[
+    "Rodzaje wiązań, elektroujemność, polaryzacja",
+    "Wzory elektronowe cząsteczek i jonów",
+    "Hybrydyzacja orbitali",
+    "Typ hybrydyzacji (sp, sp², sp³), VSEPR, kształt drobin",
+    "Wiązania σ i π",
+    "Wiązania i oddziaływania a właściwości fizyczne; polarność",
+    "Kryształy jonowe, kowalencyjne, molekularne, metaliczne",
+    "Alotropia: diament, grafit, grafen, fullereny"]},
+  {id:"C4",n:"4",name:"Kinetyka, równowaga i energetyka reakcji",h:7,t:[
+    "Szybkość reakcji – definicja i obliczenia",
+    "Czynniki wpływające na szybkość reakcji (doświadczenia)",
+    "Równanie kinetyczne i rząd reakcji",
+    "Reakcje egzo- i endoenergetyczne, energia aktywacji",
+    "Katalizator a energia aktywacji",
+    "Równowaga dynamiczna i stała równowagi",
+    "Obliczenia stałej i stężeń równowagowych",
+    "Reguła przekory (Le Chateliera–Brauna)",
+    "Entalpia ΔH° i efekt energetyczny reakcji"]},
+  {id:"C5",n:"5",name:"Roztwory",h:4,t:[
+    "Układy homo- i heterogeniczne, emulsje",
+    "Stężenie procentowe i molowe, rozpuszczalność – obliczenia",
+    "Przygotowanie roztworu o danym stężeniu (doświadczenie)",
+    "Rozdzielanie roztworów: ekstrakcja, chromatografia, elektroforeza",
+    "Rozdzielanie mieszanin niejednorodnych (doświadczenie)"]},
+  {id:"C6",n:"6",name:"Reakcje w roztworach wodnych",h:8,t:[
+    "Dysocjacja elektrolityczna, także stopniowa",
+    "Stopień dysocjacji",
+    "pKw, pH, Ka, Kb, Ks",
+    "Obliczenia: stała i stopień dysocjacji, pH, iloczyn rozpuszczalności, prawo Ostwalda",
+    "Moc elektrolitów",
+    "Odczyn po zmieszaniu substancji",
+    "Teoria Brønsteda–Lowry'ego, sprzężone pary",
+    "Odczyn roztworów kwasów, zasad, amoniaku i soli (hydroliza)",
+    "Zobojętnianie, wytrącanie osadów – zapis jonowy"]},
+  {id:"C7",n:"7",name:"Systematyka związków nieorganicznych",h:8,t:[
+    "Klasyfikacja: tlenki, wodorki, wodorotlenki, kwasy, sole, hydraty",
+    "Nazwy i wzory związków nieorganicznych",
+    "Otrzymywanie tlenków",
+    "Właściwości tlenków (Z 1–20 oraz Cr, Cu, Zn, Mn, Fe)",
+    "Charakter chemiczny tlenków (doświadczenie)",
+    "Charakter chemiczny wodorków",
+    "Otrzymywanie wodorotlenków, kwasów i soli",
+    "Charakter wodorotlenków, amfoteryczność, hydroksokompleksy",
+    "Właściwości kwasów",
+    "Podział kwasów: tlenowe, beztlenowe, moc, utleniające",
+    "Reakcje soli z kwasami i zasadami"]},
+  {id:"C8",n:"8",name:"Reakcje utleniania i redukcji",h:5,t:[
+    "Stopień utlenienia, utleniacz, reduktor",
+    "Wskazywanie utleniacza i reduktora w reakcji",
+    "Typowe stopnie utlenienia z konfiguracji",
+    "Obliczanie stopni utlenienia",
+    "Bilans elektronowo-jonowy",
+    "Kierunek reakcji redoks z potencjałów standardowych"]},
+  {id:"C9",n:"9",name:"Elektrochemia i ogniwa",h:4,t:[
+    "Półogniwo, anoda, katoda, klucz elektrolityczny, SEM",
+    "Schemat ogniwa odwracalnego i nieodwracalnego",
+    "Reakcje na elektrodach, projektowanie ogniwa",
+    "Obliczanie SEM",
+    "Korozja elektrochemiczna i ochrona metali",
+    "Współczesne źródła prądu"]},
+  {id:"C10",n:"10",name:"Metale, niemetale i ich związki",h:6,t:[
+    "Zmienność właściwości w grupach i okresach",
+    "Właściwości fizyczne metali a wiązanie metaliczne",
+    "Metale grup 1. i 2.",
+    "Glin i pasywacja",
+    "Reakcje metali z wodą i kwasami, HNO₃ z Al, Fe, Cu, Ag",
+    "Redukcja MnO₄⁻ i Cr₂O₇²⁻",
+    "Otrzymywanie wodoru",
+    "Otrzymywanie tlenu i chloru",
+    "Właściwości chemiczne niemetali",
+    "Fluorowce"]},
+  {id:"C11",n:"11",name:"Zastosowania związków nieorganicznych",h:2,t:[
+    "Tlenek krzemu(IV) i jego odmiany",
+    "Produkcja i rodzaje szkła",
+    "Skały wapienne (doświadczenie)",
+    "Twardość wody i jej usuwanie",
+    "Hydraty, gips, twardnienie zaprawy",
+    "Nawozy naturalne i sztuczne"]},
+  {id:"C12",n:"12",name:"Wstęp do chemii organicznej",h:6,t:[
+    "Klasyfikacja i nazewnictwo związków organicznych",
+    "Homologi, rzędowość, rodzaje izomerii",
+    "Izomery konstytucyjne – rysowanie i wskazywanie",
+    "Izomeria geometryczna cis-trans",
+    "Izomeria optyczna, projekcja Fischera, chiralność",
+    "Właściwości w szeregach homologicznych i izomerów",
+    "Typy i mechanizmy reakcji organicznych"]},
+  {id:"C13",n:"13",name:"Węglowodory",h:7,t:[
+    "Rzędowość atomów węgla",
+    "Alkany: spalanie, substytucja",
+    "Alkeny: addycja, Markownikow, polimeryzacja, KMnO₄",
+    "Ciągi przemian (np. alkan → alken)",
+    "Alkiny: spalanie, addycja",
+    "Polimery i monomery",
+    "Tworzywa sztuczne i zagrożenia",
+    "Benzen i delokalizacja elektronów",
+    "Benzen i toluen; wpływ kierujący podstawników",
+    "Odróżnianie węglowodorów (doświadczenia)",
+    "Ropa naftowa i węgiel kamienny",
+    "Liczba oktanowa, kraking, reforming"]},
+  {id:"C14",n:"14",name:"Alkohole i fenole",h:5,t:[
+    "Budowa alkoholi i fenoli, rzędowość alkoholi",
+    "Właściwości chemiczne alkoholi",
+    "Alkohole mono- i polihydroksylowe (doświadczenie)",
+    "Utlenianie alkoholi różnej rzędowości",
+    "KMnO₄ z alkoholami",
+    "Właściwości fenoli, odróżnianie od alkoholi",
+    "Kwasowy charakter fenolu",
+    "Ciągi przemian do alkoholi i fenoli",
+    "Otrzymywanie i zastosowania alkoholi i fenoli"]},
+  {id:"C15",n:"15",name:"Aldehydy i ketony",h:2,t:[
+    "Budowa aldehydów i ketonów",
+    "Próba Tollensa i Trommera",
+    "Otrzymywanie i zastosowania"]},
+  {id:"C16",n:"16",name:"Kwasy karboksylowe",h:4,t:[
+    "Grupa karboksylowa i reszta kwasowa",
+    "Otrzymywanie kwasów karboksylowych",
+    "Dysocjacja kwasów karboksylowych",
+    "Sole, estry, amidy – reakcje",
+    "Czynniki wpływające na moc kwasów",
+    "Porównanie mocy kwasów (doświadczenie)",
+    "Zastosowania kwasów karboksylowych",
+    "Hydroksykwasy, laktydy, laktony"]},
+  {id:"C17",n:"17",name:"Estry i tłuszcze",h:4,t:[
+    "Budowa estrów i wiązanie estrowe",
+    "Estryfikacja, rola stężonego H₂SO₄",
+    "Równowaga estryfikacji i hydrolizy",
+    "Hydroliza estrów kwasowa i zasadowa",
+    "Budowa tłuszczów",
+    "Usuwanie brudu",
+    "Substancje powierzchniowo czynne",
+    "Ciągi przemian związków organicznych",
+    "Właściwości i zastosowania estrów i tłuszczów"]},
+  {id:"C18",n:"18",name:"Związki organiczne zawierające azot",h:5,t:[
+    "Budowa i rzędowość amin",
+    "Amoniak a aminy – wzory elektronowe",
+    "Aminy alifatyczne i aromatyczne (anilina)",
+    "Zasadowe właściwości amin",
+    "Reakcje amin z wodą i kwasami",
+    "α-aminokwasy, szereg L",
+    "Właściwości kwasowo-zasadowe aminokwasów, jon obojnaczy",
+    "Kondensacja aminokwasów, wiązanie peptydowe",
+    "Di- i tripeptydy",
+    "Hydroliza peptydów",
+    "Reakcja biuretowa"]},
+  {id:"C19",n:"19",name:"Białka",h:2,t:[
+    "Budowa, właściwości i znaczenie białek",
+    "Denaturacja i wysalanie",
+    "Struktura II- i III-rzędowa",
+    "Identyfikacja białek: reakcja biuretowa i ksantoproteinowa"]},
+  {id:"C20",n:"20",name:"Cukry",h:4,t:[
+    "Podział cukrów, szereg D",
+    "Pochodzenie cukrów prostych",
+    "Projekcja Fischera i wzory Hawortha glukozy i fruktozy",
+    "Właściwości redukujące glukozy, grupy OH (doświadczenia)",
+    "Odróżnianie glukozy i fruktozy",
+    "Wiązanie O-glikozydowe",
+    "Maltoza a sacharoza – właściwości redukujące",
+    "Skrobia i celuloza"]},
+  {id:"C21",n:"21",name:"Chemia wokół nas",h:2,t:[
+    "Właściwości lecznicze i toksyczne substancji",
+    "Składniki popularnych leków",
+    "Kawa, herbata, mleko, woda mineralna, cola",
+    "Chemia w kuchni: ciasto, wino, jogurty, sery",
+    "Środki czystości"]},
+  {id:"C22",n:"22",name:"Elementy ochrony środowiska",h:1.5,t:[
+    "Sorpcyjne właściwości i kwasowość gleby",
+    "Zanieczyszczenia powietrza, wody i gleby",
+    "Ochrona środowiska i zrównoważony rozwój",
+    "Przemysł chemiczny i zielona chemia"]}
+]});
+
+{const ORD=["bio","mat","chem","zad"];SUBJECTS.sort((a,b)=>ORD.indexOf(a.id)-ORD.indexOf(b.id))}
+const CATALOG=[{id:"mat"},{name:"Język polski rozszerzony"},{name:"Język angielski rozszerzony"},{id:"bio"},{id:"chem"},{name:"Fizyka rozszerzona"},{name:"Geografia rozszerzona"},{name:"Historia rozszerzona"}];
 const TASKSETS=[{id:"zad",desc:"Zadania CKE z lat 2015–2025 z podziałem na działy (431 zadań)"}];
-const ABBR={bio:"bio",mat:"mat",zad:"zad"};
+const ABBR={bio:"bio",mat:"mat",chem:"chem",zad:"zad"};
 
 /* ======================= DATES ======================= */
 const DAYS=["niedziela","poniedziałek","wtorek","środa","czwartek","piątek","sobota"];
@@ -796,15 +1059,17 @@ const fmtN=(x,dig=1)=>(Math.round(x*10**dig)/10**dig).toString().replace(".",","
 
 /* ======================= STATE ======================= */
 const LS="planer-matura-v1";
-const DEF={bio:{deadline:"2027-03-01",start:"",days:[1,2,3],hpd:2.5},mat:{deadline:"2027-03-01",start:"",days:[4,5,6,0],hpd:1.5},zad:{deadline:"2027-05-03",start:"2027-03-01",days:[1,2,3,4,5,6,0],hpd:2.5}};
-const DEF_ON={bio:true,mat:true,zad:false};
+const DEF={bio:{deadline:"2027-03-01",start:"",days:[1,2,3],hpd:2.5},mat:{deadline:"2027-03-01",start:"",days:[4,5,6,0],hpd:1.5},chem:{deadline:"2027-03-01",start:"",days:[1,3,5],hpd:2},zad:{deadline:"2027-03-01",start:"",days:[1,2,3,4,5,6,0],hpd:2.5}};
+const DEF_ON={bio:true,mat:true,chem:false,zad:false};
 const clone=o=>JSON.parse(JSON.stringify(o));
-function freshState(){return{v:2,createdAt:iso(todayD()),updatedAt:0,subject:"bio",enabled:clone(DEF_ON),settings:clone(DEF),done:{},hours:{},skip:[]}}
+function freshState(){return{v:2,createdAt:iso(todayD()),updatedAt:0,subject:"bio",enabled:clone(DEF_ON),settings:clone(DEF),done:{},hours:{},skip:[],frozen:{},rate:{},rev:{},time:{},exams:[],timer:null,paceFrom:{},onboarded:false}}
 function normalize(raw){const s=Object.assign(freshState(),raw||{});let st=s.settings||{};
   if(Array.isArray(st.days)){const bio={deadline:st.deadline,days:st.days,hpd:st.hpd};const mat=clone(DEF.mat);
     mat.days=mat.days.filter(d=>!bio.days.includes(d));st={bio,mat}}
+  if(st.zad&&st.zad.start==="2027-03-01"&&st.zad.deadline==="2027-05-03"){st.zad.start="";st.zad.deadline="2027-03-01"}
   for(const k of Object.keys(DEF))st[k]=Object.assign({},DEF[k],st[k]||{});
-  s.settings=st;s.done=s.done||{};s.hours=s.hours||{};s.skip=Array.isArray(s.skip)?s.skip:[];s.v=2;
+  for(const k of ["rate","rev","time","paceFrom"])if(!s[k]||typeof s[k]!=="object")s[k]={};if(!Array.isArray(s.exams))s.exams=[];if(!raw||raw.onboarded===undefined)s.onboarded=true;
+  s.settings=st;s.frozen=s.frozen&&typeof s.frozen==="object"?s.frozen:{};s.done=s.done||{};s.hours=s.hours||{};s.skip=Array.isArray(s.skip)?s.skip:[];s.v=2;
   s.enabled=Object.assign(clone(DEF_ON),s.enabled||{});
   if(!s.enabled[s.subject]){const f=SUBJECTS.find(x=>s.enabled[x.id]);s.subject=f?f.id:"bio"}return s}
 let state=freshState();
@@ -851,9 +1116,11 @@ function totals(sid){let tot=0,done=0,todayH=0;const t=iso(todayD());
   return{tot,done,rem:Math.max(0,tot-done),todayH,pct:tot?done/tot*100:0}}
 function isStudy(d,sid){return cfg(sid).days.includes(d.getDay())&&!state.skip.includes(iso(d))}
 const anyStudy=d=>ACTIVE().some(s=>isStudy(d,s.id));
-function schedule(sid,limitDays=500){
-  const q=[];for(const u of SUB(sid).units){u.t.forEach((_,i)=>{if(!state.done[tid(u,i)])q.push({u,i,rem:topicH(u,i)})})}
-  const out=[];const T=totals(sid);let d=startD(sid);const todayKey=iso(todayD());const hpd=cfg(sid).hpd;let finish=null;
+function schedule(sid,opts={}){const limitDays=500;
+  const res=opts.plain?{}:frozenMap(true,true);const todayKey=iso(todayD());
+  const q=[];for(const u of SUB(sid).units){u.t.forEach((_,i)=>{const t=tid(u,i);if(state.done[t])return;const rem=topicH(u,i)-(res[t]||0);if(rem>1e-6)q.push({u,i,rem})})}
+  const out=[];const T=totals(sid);let d=startD(sid);
+  const fz=state.frozen[todayKey];if(!opts.plain&&fz&&fz.s[sid]&&iso(d)===todayKey)d=addDays(d,1);const hpd=cfg(sid).hpd;let finish=null;
   if(!cfg(sid).days.length||hpd<=0)return{days:out,finish:null};
   for(let k=0;k<limitDays&&q.length;k++,d=addDays(d,1)){
     if(!isStudy(d,sid))continue;
@@ -865,7 +1132,8 @@ function schedule(sid,limitDays=500){
     if(items.length)out.push({date:new Date(d),items});
     if(!q.length)finish=new Date(d)}
   return{days:out,finish}}
-function combined(){const map=new Map();
+function combined(){const map=new Map();const tk=iso(todayD());
+  const fz=state.frozen[tk];if(fz&&!state.skip.includes(tk)){const g=groupItems(fz.it);if(g.length)map.set(tk,{date:todayD(),items:g})}
   for(const s of ACTIVE())for(const d of schedule(s.id).days){const k=iso(d.date);
     if(!map.has(k))map.set(k,{date:d.date,items:[]});map.get(k).items.push(...d.items)}
   return[...map.values()].sort((a,b)=>a.date-b.date)}
@@ -878,25 +1146,250 @@ function needsBackup(){if(!Object.keys(state.done).length)return false;if(!state
 let downloads=null;try{window.claude&&window.claude.use&&window.claude.use("downloads").then(d=>{downloads=d}).catch(()=>{})}catch(e){}
 function importText(txt){try{const r=JSON.parse(txt);if(!r||typeof r!=="object"||!r.settings||!r.done)throw 0;state=normalize(r);commit();toast("Wczytano kopię postępu")}catch(_){toast("To nie wygląda na kopię z planera")}}
 const dayOwner=wd=>SUBJECTS.find(s=>cfg(s.id).days.includes(wd));
+/* ======================= ZALEGŁOŚCI (zamrożony plan dni) =======================
+   Plan każdego dnia zamraża się, gdy ten dzień nadchodzi (state.frozen[data]).
+   Niezrobione tematy z minionych dni zostają jako zaległości i nie przesuwają reszty planu,
+   dopóki użytkownik sam nie zdecyduje: dodać je do dzisiejszego planu albo rozłożyć na kolejne dni. */
+const TIDX={};for(const s of SUBJECTS)for(const u of s.units)u.t.forEach((_,i)=>{TIDX[tid(u,i)]={sid:s.id,u,i}});
+function frozenMap(past,today){const tk=iso(todayD()),m={};
+  for(const[k,f]of Object.entries(state.frozen)){if((k<tk&&past)||(k===tk&&today))for(const x of f.it)m[x.t]=(m[x.t]||0)+x.h}return m}
+function doneHoursOn(sid,key){let h=0;for(const u of SUB(sid).units)u.t.forEach((_,i)=>{if(state.done[tid(u,i)]===key)h+=topicH(u,i)});return h}
+function planDay(sid,d,reserved){const key=iso(d);let cap=cfg(sid).hpd-doneHoursOn(sid,key);const out=[];
+  for(const u of SUB(sid).units){if(cap<=1e-6)break;u.t.forEach((_,i)=>{if(cap<=1e-6)return;const t=tid(u,i);if(state.done[t])return;
+    const rem=topicH(u,i)-(reserved[t]||0);if(rem<=1e-6)return;const take=Math.min(cap,rem);cap-=take;reserved[t]=(reserved[t]||0)+take;out.push({s:sid,t,h:take})})}
+  return out}
+function catchUp(){const t=todayD(),tk=iso(t);let changed=false;
+  let d=state.lastFreeze?addDays(parse(state.lastFreeze),1):t;if(d>t)d=t;if((t-d)/864e5>60)d=addDays(t,-60);
+  const reserved=frozenMap(true,true);
+  for(;d<=t;d=addDays(d,1)){const key=iso(d);
+    for(const s of ACTIVE()){const sid=s.id,st=cfg(sid).start;
+      if(!isStudy(d,sid)||(st&&parse(st)>d))continue;
+      const f=state.frozen[key]||(state.frozen[key]={s:{},it:[]});if(f.s[sid])continue;
+      f.s[sid]=1;f.it.push(...planDay(sid,d,reserved));changed=true}}
+  if(state.lastFreeze!==tk){state.lastFreeze=tk;changed=true}
+  for(const[k,f]of Object.entries(state.frozen)){if(k<iso(addDays(t,-90))||(k<tk&&f.it.every(x=>state.done[x.t]))){if(k<iso(addDays(t,-7))){delete state.frozen[k];changed=true}}}
+  return changed}
+function refreezeToday(){const f=state.frozen[iso(todayD())];if(f){f.it=f.it.filter(x=>x.m);f.s={}}}
+function groupItems(items){const out=[];
+  for(const x of items){const r=TIDX[x.t];if(!r||!state.enabled[r.sid])continue;const last=out[out.length-1];const dn=state.done[x.t]?1:0;
+    if(last&&last.u===r.u&&r.i===last.to+1){last.to=r.i;last.h+=x.h;last.n++;last.doneN+=dn}
+    else out.push({sid:r.sid,u:r.u,from:r.i,to:r.i,h:x.h,n:1,doneN:dn})}
+  return out}
+function backlogDays(sid){const tk=iso(todayD());
+  return Object.keys(state.frozen).filter(k=>k<tk).sort().map(k=>({date:parse(k),key:k,items:state.frozen[k].it.filter(x=>{const r=TIDX[x.t];return r&&state.enabled[r.sid]&&(!sid||r.sid===sid)&&!state.done[x.t]})})).filter(d=>d.items.length)}
+const backlogH=sid=>backlogDays(sid).reduce((a,d)=>a+d.items.reduce((b,x)=>b+x.h,0),0);
+function backlogToToday(){const tk=iso(todayD());const f=state.frozen[tk]||(state.frozen[tk]={s:{},it:[]});
+  for(const d of backlogDays()){const keep=[];for(const x of state.frozen[d.key].it){if(d.items.includes(x))f.it.push({...x,m:1});else keep.push(x)}state.frozen[d.key].it=keep}}
+function backlogSpread(){for(const d of backlogDays())state.frozen[d.key].it=state.frozen[d.key].it.filter(x=>!d.items.includes(x))}
+
+/* ======================= DODATKI: powtórki, oceny, wykres, stoper, arkusze, odliczanie, kalendarz, start ======================= */
+const ONBOARD_ENABLED=true; // w wersji publicznej włączane przy budowaniu
+const IN_CLAUDE=!!(window.claude&&window.claude.use);
+const EXAM={bio:"2027-05-10",mat:"2027-05-11",chem:"2027-05-13",zad:"2027-05-11"};
+const EXAM_NAME={bio:"biologii",mat:"matematyki",chem:"chemii",zad:"matematyki"};
+const MSHORT=["sty","lut","mar","kwi","maj","cze","lip","sie","wrz","paź","lis","gru"];
+const shortDate=d=>`${d.getDate()} ${MSHORT[d.getMonth()]}`;
+const daysBetween=(a,b)=>Math.round((b-a)/864e5);
+const plural=(n,one,few,many)=>n===1?one:(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?few:many;
+
+/* --- powtórki i oceny --- */
+const REV_INT=[3,7,30],REV_MIN=10;
+const canReview=sid=>!isTasks(sid);
+function onTicked(k){const r=TIDX[k];if(!r||!canReview(r.sid))return;state.rev[k]={lvl:0,due:iso(addDays(todayD(),REV_INT[0]))}}
+function onUnticked(k){delete state.rev[k];delete state.rate[k]}
+function setRate(k,v){state.rate[k]=v;const r=state.rev[k];
+  if(v==="weak"){if(r){r.due=iso(addDays(todayD(),2));r.lvl=Math.max(0,r.lvl-1)}else state.rev[k]={lvl:0,due:iso(addDays(todayD(),2))}}}
+function reviewAction(k,ok){const r=state.rev[k];if(!r)return;
+  if(ok){state.rate[k]="ok";r.lvl++;if(r.lvl>=REV_INT.length){delete state.rev[k];return"mastered"}r.due=iso(addDays(todayD(),REV_INT[r.lvl]))}
+  else{state.rate[k]="weak";r.lvl=Math.max(0,r.lvl-1);r.due=iso(addDays(todayD(),2))}}
+function dueReviews(){const tk=iso(todayD());
+  return Object.entries(state.rev).filter(([k,r])=>r.due<=tk&&TIDX[k]&&state.enabled[TIDX[k].sid]&&state.done[k]).map(([k,r])=>({k,r,...TIDX[k]})).sort((a,b)=>a.r.due<b.r.due?-1:1)}
+function weakTopics(sid){return Object.entries(state.rate).filter(([k,v])=>v==="weak"&&TIDX[k]&&TIDX[k].sid===sid&&state.done[k]).map(([k])=>({k,...TIDX[k]}))}
+function addGroupToReviews(sid,n){let c=0;const tk=iso(todayD());
+  for(const u of SUB(sid).units.filter(u=>u.n===n))u.t.forEach((_,i)=>{const k=tid(u,i);if(state.done[k]){state.rev[k]={lvl:0,due:tk};state.rate[k]="weak";c++}});return c}
+
+/* --- wykres postępu: plan a rzeczywistość --- */
+function chartStart(sid){let s=parse(state.createdAt||iso(todayD()));
+  for(const u of SUB(sid).units)u.t.forEach((_,i)=>{const d=state.done[tid(u,i)];if(d&&parse(d)<s)s=parse(d)});
+  const st=cfg(sid).start;if(st&&parse(st)<s)s=parse(st);return s}
+function studyDaysIn(sid,a,b){let n=0;for(let d=new Date(a);d<=b;d=addDays(d,1))if(cfg(sid).days.includes(d.getDay()))n++;return n}
+function progressData(sid){const T=totals(sid),s=chartStart(sid),e=parse(cfg(sid).deadline),t=todayD();
+  const N=Math.max(1,studyDaysIn(sid,s,e));const doneByDay={};
+  for(const u of SUB(sid).units)u.t.forEach((_,i)=>{const d=state.done[tid(u,i)];if(d)doneByDay[d]=(doneByDay[d]||0)+topicH(u,i)});
+  const plan=d=>T.tot*Math.min(1,studyDaysIn(sid,s,d)/N);let acc=0;const act=[];
+  for(const k of Object.keys(doneByDay).filter(k=>k<iso(s)))acc+=doneByDay[k];
+  for(let d=new Date(s);d<=t&&d<=e;d=addDays(d,1)){acc+=doneByDay[iso(d)]||0;act.push([new Date(d),acc])}
+  return{T,s,e,t,plan,act,delta:acc-plan(t<e?t:e)}}
+function chartSvg(sid){const D=progressData(sid);if(D.e<=D.s||D.T.tot<=0)return"";
+  const W=320,H=150,L=8,R=8,TP=14,B=22,x=d=>L+(W-L-R)*Math.min(1,Math.max(0,(d-D.s)/(D.e-D.s))),y=v=>TP+(H-TP-B)*(1-v/D.T.tot);
+  const pts=[];for(let d=new Date(D.s);d<=D.e;d=addDays(d,Math.max(1,Math.round(daysBetween(D.s,D.e)/60))))pts.push([d,D.plan(d)]);pts.push([D.e,D.plan(D.e)]);
+  const pl=pts.map(([d,v])=>`${x(d).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const ac=D.act.map(([d,v])=>`${x(d).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const last=D.act[D.act.length-1],tx=x(D.t<D.e?D.t:D.e);
+  const area=D.act.length?`${x(D.act[0][0]).toFixed(1)},${y(0)} ${ac} ${x(last[0]).toFixed(1)},${y(0)}`:"";
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Wykres postępu: plan a rzeczywistość">
+    <line x1="${L}" x2="${W-R}" y1="${y(0)}" y2="${y(0)}" class="ax"/><line x1="${L}" x2="${W-R}" y1="${y(D.T.tot)}" y2="${y(D.T.tot)}" class="grid"/>
+    <line x1="${tx}" x2="${tx}" y1="${TP-6}" y2="${y(0)}" class="today"/>
+    <polyline points="${pl}" class="plan"/>${area?`<polygon points="${area}" class="area"/>`:""}${ac?`<polyline points="${ac}" class="act"/>`:""}
+    ${last?`<circle cx="${x(last[0])}" cy="${y(last[1])}" r="4" class="dot"/>`:""}
+    <text x="${L}" y="${H-6}" class="lab">${shortDate(D.s)}</text>${tx-x(D.s)>40&&x(D.e)-tx>40?`<text x="${tx}" y="${H-6}" class="lab" text-anchor="middle">dziś</text>`:""}<text x="${W-R}" y="${H-6}" class="lab" text-anchor="end">${shortDate(D.e)}</text>
+    <text x="${W-R}" y="${TP-4}" class="lab" text-anchor="end">${fmtH(D.T.tot)}</text></svg>`}
+function chartCard(sid){
+  if(!SUB(sid).units.some(u=>u.t.some((_,i)=>state.done[tid(u,i)])))return `<section class="card chartcard subj-${sid}"><h3 style="font-size:16px">Postęp a plan</h3>
+    <p class="hint">Wykres pojawi się po odhaczeniu ${isTasks(sid)?"pierwszego zadania":"pierwszego tematu"}.</p></section>`;
+  const D=progressData(sid),svg=chartSvg(sid);if(!svg)return"";const d=D.delta;
+  const msg=Math.abs(d)<0.25?"Idziesz równo z planem.":d>0?`Jesteś <b>${fmtH(d)} do przodu</b> względem planu.`:`Jesteś <b>${fmtH(-d)} do tyłu</b> względem planu.`;
+  return `<section class="card chartcard subj-${sid}"><div class="row"><h3 style="font-size:16px">Postęp a plan</h3>
+    <span class="legend"><i class="lp"></i>plan <i class="la"></i>Ty</span></div>${svg}<p class="hint">${msg}</p></section>`}
+
+/* --- stoper i tempo nauki --- */
+let timerT=null;
+function timerMin(){return state.timer?Math.floor((Date.now()-state.timer.start)/60000):0}
+function fmtClock(ms){const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor(s%3600/60),ss=s%60;return(h?h+":":"")+String(m).padStart(h?2:1,"0")+":"+String(ss).padStart(2,"0")}
+function renderTimerBar(){let el=$("#timerBar");
+  if(!state.timer){if(el)el.remove();clearInterval(timerT);timerT=null;return}
+  if(!el){el=document.createElement("div");el.id="timerBar";el.className="timerbar";document.body.appendChild(el)}
+  const s=SUB(state.timer.sid);el.className=`timerbar subj-${state.timer.sid}`;
+  el.innerHTML=`<span class="tdot"></span><span class="tl">${esc(s?s.short:"Nauka")}</span><b class="num" id="timerClock">${fmtClock(Date.now()-state.timer.start)}</b><button class="btn" data-timer-stop>Stop</button>`;
+  if(!timerT)timerT=setInterval(()=>{const c=$("#timerClock");if(c&&state.timer)c.textContent=fmtClock(Date.now()-state.timer.start)},1000)}
+function stopTimer(){if(!state.timer)return 0;const m=timerMin(),sid=state.timer.sid,k=iso(todayD());
+  if(m>=1){state.time[k]=state.time[k]||{};state.time[k][sid]=(state.time[k][sid]||0)+m}state.timer=null;return m}
+const minutesOn=(k,sid)=>((state.time[k]||{})[sid]||0);
+function pace(sid){const from=(state.paceFrom||{})[sid]||"";let act=0,plan=0,days=0;
+  for(const k of Object.keys(state.time)){if(k<from)continue;const m=minutesOn(k,sid);if(!m)continue;const p=doneHoursOn(sid,k);if(p<=0)continue;act+=m/60;plan+=p;days++}
+  if(days<2||plan<3)return null;return act/plan}
+function paceCard(sid){const f=pace(sid);if(!f||Math.abs(f-1)<0.15)return"";
+  return `<section class="card subj-${sid}"><h3 style="font-size:16px">Twoje tempo</h3>
+    <p class="hint">Według stopera przerabiasz tematy <b>${fmtN(f,1)}× ${f>1?"wolniej":"szybciej"}</b>, niż zakłada plan.</p>
+    <div class="btns"><button class="btn" data-pace-apply="${sid}">Dopasuj czas działów</button><button class="btn ghost" data-pace-skip="${sid}">Nie teraz</button></div></section>`}
+
+/* --- arkusze próbne --- */
+function groupsOf(sid){const out=[];for(const u of SUB(sid).units){if(!out.some(g=>g.n===u.n))out.push({n:u.n,name:u.g||u.name})}return out}
+const MATH_TO_TASKS={"I":["Z1"],"II":["Z3"],"III":["Z3","Z7"],"V":["Z2","Z4"],"VI":["Z6"],"VII":["Z5"],"VIII":["Z8"],"IX":["Z9"],"X":["Z10"],"XI":["Z12"],"XII":["Z12"],"XIII":["Z11"]};
+let examDraft={weak:[]},examDel=null;
+function examChart(list){if(list.length<1)return"";const W=320,H=130,L=26,R=10,TP=10,B=20;const s=list.map(e=>parse(e.date)),a=Math.min(...s),b=Math.max(...s);
+  const x=i=>list.length===1?(L+W-R)/2:L+(W-L-R)*i/(list.length-1),y=v=>TP+(H-TP-B)*(1-v/100);
+  const pts=list.map((e,i)=>`${x(i).toFixed(1)},${y(e.pct).toFixed(1)}`).join(" ");
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Wyniki arkuszy">
+    ${[0,50,100].map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" class="${v?"grid":"ax"}"/><text x="${L-4}" y="${y(v)+4}" class="lab" text-anchor="end">${v}%</text>`).join("")}
+    <polyline points="${pts}" class="act"/>${list.map((e,i)=>`<circle cx="${x(i)}" cy="${y(e.pct)}" r="4" class="dot"/>`).join("")}
+    <text x="${L}" y="${H-4}" class="lab">${shortDate(new Date(a))}</text>${list.length>1?`<text x="${W-R}" y="${H-4}" class="lab" text-anchor="end">${shortDate(new Date(b))}</text>`:""}</svg>`}
+function viewResults(){const S=subj(),sid=S.id==="zad"?"mat":S.id,SS=SUB(sid);
+  const list=state.exams.filter(e=>e.sid===sid).sort((a,b)=>a.date<b.date?-1:1);
+  const ed=parse(EXAM[sid]),left=daysBetween(todayD(),ed);
+  const cnt={};for(const e of list)for(const n of e.weak||[])cnt[n]=(cnt[n]||0)+1;
+  const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,5),G=groupsOf(sid);
+  const gname=n=>(G.find(g=>g.n===n)||{name:n}).name;
+  const avg=list.length?Math.round(list.reduce((a,e)=>a+e.pct,0)/list.length):0;
+  return `${header("Wyniki")}
+  <section class="card countdown subj-${sid}"><div class="eyebrow">Matura z ${EXAM_NAME[sid]}</div>
+    <div class="cd"><b class="num">${Math.max(0,left)}</b><span>${plural(left,"dzień","dni","dni")} do ${longDate(ed)} ${ed.getFullYear()}</span></div></section>
+  <section class="card subj-${sid}"><h3 style="font-size:16px">Arkusze próbne: ${esc(SS.name)}</h3>
+    ${list.length?`${examChart(list)}<p class="hint num">Ostatni: <b>${list[list.length-1].pct}%</b> · średnia: ${avg}% · arkuszy: ${list.length}</p>`:`<p class="hint">Wpisuj tu wyniki próbnych matur, a zobaczysz na wykresie, jak rosną.</p>`}
+    <div class="form">
+      <label>Arkusz<input id="exName" type="text" placeholder="np. CKE maj 2024" value="${esc(examDraft.name||"")}"></label>
+      <div class="dates"><label>Data<input id="exDate" type="date" value="${examDraft.date||iso(todayD())}"></label><label>Wynik w %<input id="exPct" type="number" inputmode="numeric" min="0" max="100" placeholder="np. 64" value="${examDraft.pct??""}"></label></div>
+      <div class="slabel">Gdzie straciłeś punkty? (opcjonalnie)</div>
+      <div class="pick">${G.map(g=>`<button class="chip" aria-pressed="${examDraft.weak.includes(g.n)}" data-exweak="${g.n}">${esc(g.n)}. ${esc(g.name)}</button>`).join("")}</div>
+      <button class="btn" data-exsave>Zapisz wynik</button></div></section>
+  ${top.length?`<section class="card subj-${sid}"><h3 style="font-size:16px">Najczęściej tracisz punkty</h3>
+    ${top.map(([n,c])=>{const tasks=(sid==="mat"&&state.enabled.zad)?(MATH_TO_TASKS[n]||[]):[];
+      return `<div class="wrow"><span><b>${esc(gname(n))}</b><small>${c} ${plural(c,"arkusz","arkusze","arkuszy")}</small></span>
+      ${tasks.length?`<button class="btn ghost" data-unit="${tasks[0]}">Poćwicz zadania</button>`:`<button class="btn ghost" data-exrev="${sid}|${n}">Do powtórek</button>`}</div>`}).join("")}</section>`:""}
+  ${list.length?`<section class="card"><h3 style="font-size:16px">Historia</h3>${list.slice().reverse().map(e=>`<div class="wrow"><span><b class="num">${e.pct}%</b> ${esc(e.name||"Arkusz")}<small>${longDate(parse(e.date))}${(e.weak||[]).length?` · słabo: ${e.weak.map(n=>esc(gname(n))).join(", ")}`:""}</small></span>
+    ${examDel===e.id?`<button class="btn danger" data-exdel-yes="${e.id}">Usuń</button>`:`<button class="link" data-exdel="${e.id}">Usuń</button>`}</div>`).join("")}</section>`:""}`}
+
+/* --- kalendarz (.ics) --- */
+function icsText(){const pad2=n=>String(n).padStart(2,"0"),stamp=new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d+/,"");
+  const [hh,mm]=(state.calTime||"17:00").split(":").map(Number);const BY=["SU","MO","TU","WE","TH","FR","SA"];
+  const ev=ACTIVE().filter(s=>cfg(s.id).days.length).map(s=>{const c=cfg(s.id);let d=startD(s.id);for(let i=0;i<7&&!c.days.includes(d.getDay());i++)d=addDays(d,1);
+    const dl=parse(c.deadline),mins=Math.round(c.hpd*60);
+    const dt=`${d.getFullYear()}${pad2(d.getMonth()+1)}${pad2(d.getDate())}T${pad2(hh)}${pad2(mm)}00`;
+    return ["BEGIN:VEVENT",`UID:planer-${s.id}-${Date.now()}@planer`,`DTSTAMP:${stamp}`,`DTSTART:${dt}`,`DURATION:PT${Math.floor(mins/60)}H${mins%60}M`,
+      `RRULE:FREQ=WEEKLY;BYDAY=${c.days.map(x=>BY[x]).join(",")};UNTIL=${dl.getFullYear()}${pad2(dl.getMonth()+1)}${pad2(dl.getDate())}T235959Z`,
+      `SUMMARY:Nauka: ${s.short} (${fmtH(c.hpd)})`,"DESCRIPTION:Plan na dziś znajdziesz w Planerze Maturalnym.",
+      "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Czas na naukę","TRIGGER:-PT10M","END:VALARM","END:VEVENT"].join("\r\n")});
+  return ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Planer Maturalny//PL","CALSCALE:GREGORIAN",...ev,"END:VCALENDAR"].join("\r\n")}
+function addToCalendar(){const ics=icsText();
+  if(/iPhone|iPad|iPod/.test(navigator.userAgent)){location.href="data:text/calendar;charset=utf-8,"+encodeURIComponent(ics);return}
+  try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([ics],{type:"text/calendar"}));a.download="planer-nauka.ics";document.body.appendChild(a);a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);toast("Otwórz pobrany plik, żeby dodać do kalendarza")}catch(_){toast("Nie udało się utworzyć pliku kalendarza")}}
+function calendarCard(){if(IN_CLAUDE)return"";
+  return `<section class="card"><h3 style="font-size:16px">Przypomnienia w kalendarzu</h3>
+    <p class="hint">Dodaje Twoje dni nauki do kalendarza w telefonie, z przypomnieniem 10 minut wcześniej.</p>
+    <div class="row"><span>Godzina nauki</span><input type="time" id="calTime" value="${state.calTime||"17:00"}"></div>
+    <button class="btn ghost" data-cal>Dodaj do kalendarza</button></section>`}
+
+/* --- ekran startowy dla nowych osób --- */
+let onb=null;
+function onbStart(){onb={step:0,on:{bio:false,mat:false,chem:false,zad:false},deadline:"2027-03-01",set:clone(state.settings)}}
+function renderOnboarding(){let el=$("#onb");
+  if(!ONBOARD_ENABLED||state.onboarded){if(el)el.remove();return}
+  if(!onb)onbStart();if(!el){el=document.createElement("div");el.id="onb";el.className="onb";document.body.appendChild(el)}
+  const chosen=SUBJECTS.filter(s=>onb.on[s.id]);const order=[1,2,3,4,5,6,0];const st=onb.step;
+  const dots=`<div class="odots">${[0,1,2,3].map(i=>`<i class="${i<=st?"on":""}"></i>`).join("")}</div>`;
+  let body="";
+  if(st===0)body=`<h2>Co zdajesz na rozszerzeniu?</h2><p class="hint">Zaznacz przedmioty. Później możesz to zmienić w Ustawieniach.</p>
+    <div class="srows">${SUBJECTS.filter(s=>s.id!=="zad").map(s=>`<button class="srow" role="switch" aria-pressed="${onb.on[s.id]}" data-onb-on="${s.id}"><span>${esc(s.name)}</span><span class="sw"></span></button>`).join("")}
+    ${CATALOG.filter(c=>!c.id).map(c=>`<button class="srow" disabled><span>${esc(c.name)}</span><span class="soon">wkrótce</span></button>`).join("")}</div>
+    <div class="slabel">Zbiory zadań</div><div class="srows"><button class="srow" role="switch" aria-pressed="${onb.on.zad}" data-onb-on="zad"><span>${esc(SUB("zad").name)}<small>${esc(TASKSETS[0].desc)}</small></span><span class="sw"></span></button></div>
+    <button class="btn" data-onb-next ${chosen.length?"":"disabled"}>Dalej</button>`;
+  if(st===1)body=`<h2>Do kiedy chcesz przerobić materiał?</h2><p class="hint">Potem zostaje czas na arkusze i powtórki przed maturą.</p>
+    <label class="bigdate">Kończę do<input type="date" id="onbDeadline" value="${onb.deadline}"></label>
+    <div class="btns"><button class="btn ghost" data-onb-back>Wstecz</button><button class="btn" data-onb-next>Dalej</button></div>`;
+  if(st===2)body=`<h2>Kiedy się uczysz?</h2><p class="hint">Wybierz dni i ile godzin dziennie dla każdego przedmiotu.</p>
+    ${chosen.map(s=>{const c=onb.set[s.id];return `<div class="card subj-${s.id}"><b>${esc(s.short)}</b>
+      <div class="days">${order.map(d=>`<button data-onb-day="${s.id}|${d}" aria-pressed="${c.days.includes(d)}">${DSHORT[d]}</button>`).join("")}</div>
+      <div class="row"><span>Godzin dziennie</span><div class="stepper"><button data-onb-h="${s.id}|-0.5" aria-label="Mniej">−</button><output class="num">${fmtH(c.hpd)}</output><button data-onb-h="${s.id}|0.5" aria-label="Więcej">+</button></div></div></div>`}).join("")}
+    <div class="btns"><button class="btn ghost" data-onb-back>Wstecz</button><button class="btn" data-onb-next>Dalej</button></div>`;
+  if(st===3){const prev=state;const tmp=clone(state);tmp.enabled=Object.fromEntries(SUBJECTS.map(s=>[s.id,!!onb.on[s.id]]));
+    for(const s of chosen){tmp.settings[s.id]=Object.assign({},onb.set[s.id],{deadline:onb.deadline,start:""})}
+    state=tmp;const rows=chosen.map(s=>{const X=statusFor(s.id);return `<div class="wrow subj-${s.id}"><span><b>${esc(s.short)}</b><small>${esc(X.h)}</small></span><span class="pill ${X.cls}">${X.cls==="ok"?"✓":"!"}</span></div>`}).join("");state=prev;
+    body=`<h2>Twój plan jest gotowy</h2><p class="hint">Tak to wygląda przy Twoich ustawieniach. Jeśli coś się nie zgadza, wróć i dodaj dzień albo godzinę.</p>
+    <div class="card">${rows}</div>
+    ${typeof IS_STANDALONE==="function"&&!IS_STANDALONE()?`<div class="card"><b>Dodaj planer na ekran telefonu</b><p class="hint">Wtedy działa jak zwykła aplikacja i bez internetu.</p><button class="btn ghost" data-install-go>Pokaż jak</button></div>`:""}
+    <div class="btns"><button class="btn ghost" data-onb-back>Wstecz</button><button class="btn" data-onb-finish>Zaczynam</button></div>`}
+  el.innerHTML=`<div class="onb-in">${dots}${body}</div>`}
+function onbFinish(){const chosen=SUBJECTS.filter(s=>onb.on[s.id]);
+  state.enabled=Object.fromEntries(SUBJECTS.map(s=>[s.id,!!onb.on[s.id]]));
+  for(const s of chosen)state.settings[s.id]=Object.assign({},onb.set[s.id],{deadline:onb.deadline,start:""});
+  state.subject=chosen[0].id;state.onboarded=true;state.frozen={};state.lastFreeze="";onb=null;commit();toast("Powodzenia! Plan na dziś jest gotowy.")}
+
+
+
 
 /* ======================= UI ======================= */
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-let tab="plan",showDays=8,openUnit=null,confirmReset=false;
+let tab="plan",showDays=8,showRev=6,openUnit=null,confirmReset=false;
 const FLAME='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c.6 3.2-1.1 5-2.7 6.7C7.8 10.3 6 12.1 6 15a6 6 0 0 0 12 0c0-2.3-1-4.2-2.2-5.6-.3 1.6-1 2.8-2.3 3.4.7-3.4-.4-7.6-1.5-10.8Z"/></svg>';
 const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
 
 function render(){
+  if((state.onboarded||!ONBOARD_ENABLED)&&catchUp()){saveLocal();schedulePush()}
   document.querySelectorAll(".tabbar button").forEach(b=>b.setAttribute("aria-current",b.dataset.tab===tab?"page":"false"));
-  const app=$("#app");app.className=`wrap subj-${subj().id}`;app.innerHTML=tab==="plan"?viewPlan():tab==="units"?viewUnits():viewSettings();
+  const app=$("#app");app.className=`wrap subj-${subj().id}`;app.innerHTML=tab==="plan"?viewPlan():tab==="units"?viewUnits():tab==="results"?viewResults():viewSettings();
   if(openUnit)renderSheet();
+  renderBacklogModal();renderTimerBar();renderOnboarding();
 }
+function renderBacklogModal(){const tk=iso(todayD());let el=$("#blModal");
+  const days=backlogDays(),b=days.reduce((a,d)=>a+d.items.reduce((s,x)=>s+x.h,0),0);
+  if(tab!=="plan"||b<=1e-6||state.blAsked===tk){if(el)el.remove();return}
+  const names=days.map(d=>`${DAYS[d.date.getDay()]} ${longDate(d.date)}`);
+  if(!el){el=document.createElement("div");el.id="blModal";el.className="modal";document.body.appendChild(el)}
+  el.innerHTML=`<div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="blTitle">
+    <div class="eyebrow" style="color:var(--bad)">Zaległości</div><h3 id="blTitle">Zostało ${fmtH(b)} z ${days.length===1?"poprzedniego dnia":"poprzednich dni"}</h3>
+    <p class="hint">${esc(names.slice(-3).join(", "))}${names.length>3?` i ${names.length-3} wcześniej`:""}. Co z tym robisz?</p>
+    <button class="btn" data-bl-today>Dodaj do dzisiejszego planu</button>
+    <button class="btn ghost" data-bl-spread>Rozłóż na kolejne dni</button>
+    <p class="hint" style="margin-top:-4px">Rozłożenie przesunie plan i może opóźnić koniec materiału.</p>
+    <button class="link" data-bl-later>Zdecyduję później</button></div>`}
 function header(title){
   return `<header class="top"><h1>${title}</h1>
   <div class="subj">${ACTIVE().map(s=>`<button class="chip" aria-pressed="${s.id===subj().id}" data-subj="${s.id}">${s.short} <span class="num">${Math.floor(totals(s.id).pct)}%</span></button>`).join("")}</div></header>`}
 
 function statusFor(sid){
-  const T=totals(sid),S=schedule(sid),c=cfg(sid),dl=parse(c.deadline),sd=studyDaysUntil(sid);
+  const T=totals(sid),S=schedule(sid,{plain:true}),c=cfg(sid),dl=parse(c.deadline),sd=studyDaysUntil(sid);
   const avail=Math.max(0,sd*c.hpd-(isStudy(todayD(),sid)?T.todayH:0));const need=sd?T.rem/sd:Infinity;
   let cls,ico,h,p;
   if(T.rem<=1e-6){cls="ok";ico="✓";h="Cały materiał przerobiony";p="Czas na zadania maturalne i arkusze."}
@@ -906,6 +1399,7 @@ function statusFor(sid){
   else{const short=T.rem-avail;cls=short<c.hpd*3?"warn":"bad";ico="!";
     h=`Brakuje ${fmtH(short)} do ${longDate(dl)}`;
     p=`${S.finish?`W tym tempie kończysz ${longDate(S.finish)}. `:""}Żeby zdążyć, ucz się ${fmtH(Math.ceil(need*4)/4)} w każdy dzień nauki albo dodaj kolejny dzień tygodnia.`}
+  const bl=backlogH(sid);if(bl>1e-6&&T.rem>1e-6){p+=` Zaległości z poprzednich dni: ${fmtH(bl)}.`;if(cls==="ok")cls="warn"}
   return{T,sd,need,cls,ico,h,p,dl,c}}
 
 function viewPlan(){
@@ -914,30 +1408,43 @@ function viewPlan(){
   const daysHtml=C.slice(0,showDays).map(d=>{
     const key=iso(d.date),isToday=key===today;
     const sum=d.items.reduce((a,b)=>a+b.h,0),multi=new Set(d.items.map(i=>i.sid)).size>1;
-    return `<section class="day"><div class="day-h"><div><h3>${cap(DAYS[d.date.getDay()])}, ${longDate(d.date)}${isToday?'<span class="tag">dziś</span>':""}</h3>${multi?`<span class="meta num">razem ${fmtH(sum)}</span>`:""}</div>
+    const doneH=isToday?d.items.reduce((a,b)=>a+(b.n?b.h*b.doneN/b.n:0),0):0;
+    let meta=isToday&&doneH>1e-6?`zrobione ${fmtH(doneH)} z ${fmtH(sum)}`:multi||isToday&&d.items.length>1?`razem ${fmtH(sum)}`:"";
+    if(isToday){const tm=ACTIVE().reduce((a,s)=>a+minutesOn(key,s.id),0);if(tm)meta+=(meta?" · ":"")+`stoper: ${tm} min`}
+    return `<section class="day"><div class="day-h"><div><h3>${cap(DAYS[d.date.getDay()])}, ${longDate(d.date)}${isToday?'<span class="tag">dziś</span>':""}</h3>${meta?`<span class="meta num">${meta}</span>`:""}</div>
       <button class="skipbtn" data-skip="${key}">Odpuszczam</button></div>
       ${d.items.map(taskCard).join("")}</section>`}).join("");
-  const todayInPlan=C[0]&&iso(C[0].date)===today;
+  const todayDay=C[0]&&iso(C[0].date)===today?C[0]:null;
   let todayNote="";
   if(state.skip.includes(today))todayNote=`<div class="empty">Dziś odpuszczone. <button class="link" data-unskip="${today}">Cofnij</button></div>`;
-  else{const planned=ACTIVE().filter(s=>cfg(s.id).days.includes(wd)&&startD(s.id)<=todayD());
-    const done=planned.filter(s=>totals(s.id).rem>0&&!(todayInPlan&&C[0].items.some(i=>i.sid===s.id)));
-    if(done.length)todayNote=`<div class="empty">Dzisiejszy plan zrobiony: ${done.map(s=>`${esc(s.short)} (${fmtH(totals(s.id).todayH)})`).join(", ")}. Dobra robota.</div>`;
-    else if(!planned.length)todayNote=`<div class="empty">${cap(DAYS[wd])} to dzień wolny od nauki. Jeśli chcesz, odhacz tematy w zakładce Działy, a plan sam się przesunie.</div>`;}
+  else if(todayDay&&todayDay.items.every(i=>i.n&&i.doneN===i.n))todayNote=`<div class="empty done-note">Dzisiejszy plan zrobiony 🎉 Dobra robota.</div>`;
+  else if(!todayDay&&!ACTIVE().some(s=>isStudy(todayD(),s.id)))todayNote=`<div class="empty">${cap(DAYS[wd])} to dzień wolny od nauki. Jeśli chcesz, odhacz tematy w zakładce Działy, a plan sam się przesunie.</div>`;
+  const BL=backlogDays(),blH=BL.reduce((a,d)=>a+d.items.reduce((s,x)=>s+x.h,0),0);
+  const blHtml=blH>1e-6?`<section class="backlog"><div class="sec-h"><h2>Zaległości</h2><span class="bl-h num">${fmtH(blH)}</span></div>
+    ${BL.map(d=>`<div class="day"><div class="day-h"><h3>${cap(DAYS[d.date.getDay()])}, ${longDate(d.date)}</h3></div>${groupItems(d.items).map(taskCard).join("")}</div>`).join("")}
+    <div class="btns"><button class="btn" data-bl-today>Dodaj do dzisiejszego planu</button><button class="btn ghost" data-bl-spread>Rozłóż na kolejne dni</button></div></section>`:"";
   const skippedUpcoming=state.skip.filter(s=>s>today).sort();
   return `${header("Plan nauki")}${installCard()}
   <section class="hero subj-${sid}" aria-label="Postęp">
-    <div class="hero-row"><div><div class="lbl">${esc(subj().name)}</div><div class="pct num">${Math.floor(T.pct)}<small>%</small></div></div>
+    <div class="hero-row"><div><div class="lbl">${esc(subj().name)}</div><div class="cdline">Matura za ${Math.max(0,daysBetween(todayD(),parse(EXAM[sid])))} dni · ${longDate(parse(EXAM[sid]))}</div><div class="pct num">${Math.floor(T.pct)}<small>%</small></div></div>
     <div class="streak ${st?"":"off"}" title="Seria dni nauki z rzędu">${FLAME}<span class="num">${st} ${st===1?"dzień":"dni"}</span></div></div>
     <div class="bar"><i style="width:${Math.min(100,T.pct)}%"></i></div>
     <div class="hero-foot num"><span>${fmtH(T.done)} z ${fmtH(T.tot)}</span><span>zostało ${fmtH(T.rem)}</span></div>
   </section>
   <section class="status ${X.cls}"><div class="ico">${X.ico}</div><div><h3>${X.h}</h3><p>${X.p}</p></div></section>
+  ${chartCard(sid)}${paceCard(sid)}
   <div class="stats">
     <div class="stat"><b class="num">${X.sd}</b><span>dni nauki do ${longDate(X.dl)}</span></div>
     <div class="stat"><b class="num">${fmtH(X.c.hpd)}</b><span>planujesz na dzień</span></div>
     <div class="stat"><b class="num">${isFinite(X.need)?fmtH(Math.ceil(X.need*4)/4):"–"}</b><span>potrzeba na dzień</span></div>
   </div>
+  ${blHtml}
+  ${(()=>{const R=dueReviews();if(!R.length)return"";const show=R.slice(0,showRev);
+    return `<section class="reviews"><div class="sec-h"><h2>Powtórki na dziś</h2><span class="meta num">${R.length} × ~${REV_MIN} min</span></div>
+    ${show.map(x=>`<div class="rv subj-${x.sid}"><div class="rv-t"><span class="t0">${esc(SUB(x.sid).short)} · ${esc(x.u.name)}${state.rate[x.k]==="weak"?' · <span class="weak">słabo</span>':""}</span><span class="t1">${esc(tText(x.u.t[x.i]))}</span></div>
+      <div class="rv-b"><button class="btn ghost" data-rev-no="${x.k}">Słabo</button><button class="btn" data-rev-ok="${x.k}">Umiem</button></div></div>`).join("")}
+    ${R.length>show.length?`<button class="link" data-rev-more>Pokaż wszystkie (${R.length})</button>`:""}</section>`})()}
+  ${state.timer?"":`<button class="btn ghost timerbtn subj-${sid}" data-timer-start>▶ Uczę się: ${esc(subj().short)}</button>`}
   <div class="sec-h"><h2>Najbliższe dni</h2><button class="link" data-tab-go="settings">Zmień dni</button></div>
   ${todayNote}
   ${daysHtml}
@@ -949,8 +1456,9 @@ function taskCard(it){
   const num=i=>u.tids?u.tids[i].split(".").pop():i+1;
   const range=u.w?(it.from===it.to?`Zadanie ${num(it.from)}`:`Zadania ${num(it.from)}–${num(it.to)}`)+` · ${it.to-it.from+1} ${it.to===it.from?"zadanie":"zadań"}`
     :it.from===it.to?`Temat ${it.from+1}: ${tText(u.t[it.from])}`:`Tematy ${it.from+1}–${it.to+1}: ${tText(u.t[it.from])}`;
-  return `<button class="task subj-${it.sid}" data-unit="${u.id}">${badge(u)}
-   <span class="body"><span class="t0">${esc(s.short)}</span><span class="t1">${esc(u.name)}</span><span class="t2">${esc(range)}</span></span>
+  const allDone=it.n&&it.doneN===it.n,part=it.n&&it.doneN>0&&!allDone;
+  return `<button class="task subj-${it.sid}${allDone?" done":""}" data-unit="${u.id}">${badge(u)}
+   <span class="body"><span class="t0">${esc(s.short)}${allDone?" · zrobione ✓":part?` · zrobione ${it.doneN}/${it.n}`:""}</span><span class="t1">${esc(u.name)}</span><span class="t2">${esc(range)}</span></span>
    <span class="hrs num">${fmtH(it.h)}</span></button>`}
 
 function siblings(u){const f=findUnit(u.id);return f?f.s.units.filter(x=>x.n===u.n):[u]}
@@ -964,7 +1472,10 @@ function viewUnits(){
   const S=subj(),T=totals(S.id);
   const groups=[];for(const u of S.units){const g=groups[groups.length-1];if(g&&g.n===u.n)g.units.push(u);else groups.push({n:u.n,units:[u]})}
   const split=groups.filter(g=>g.units.length>1).length;
+  const WK=weakTopics(S.id);
   return `${header("Działy")}
+  ${WK.length?`<section class="card weakcard subj-${S.id}"><h3 style="font-size:16px">Do dopracowania</h3><p class="hint">Tematy oznaczone jako „słabo”. Wracają częściej w powtórkach.</p>
+    ${WK.slice(0,8).map(x=>`<button class="wrow wbtn" data-unit="${x.u.id}"><span><b>${esc(tText(x.u.t[x.i]))}</b><small>${esc(x.u.name)}</small></span><span class="weak">słabo</span></button>`).join("")}${WK.length>8?`<p class="hint">i ${WK.length-8} więcej</p>`:""}</section>`:""}
   <p class="hint">${esc(S.name)}: ${groups.length} działów · ${S.units.reduce((a,u)=>a+u.t.length,0)} ${noun(S.id)} · ${fmtH(T.tot)} łącznie.${split?` Duże działy są podzielone na części, żeby łatwiej je planować.`:""} Kliknij dział, żeby odhaczać ${isTasks(S.id)?"zadania":"tematy"} i zmieniać czas.</p>
   <div class="units">${groups.map(g=>{
     const n=g.units.reduce((a,u)=>a+u.t.length,0),d=g.units.reduce((a,u)=>a+u.t.filter((_,i)=>state.done[tid(u,i)]).length,0);
@@ -989,6 +1500,7 @@ function viewSettings(){
     <div class="row"><span>Godzin w dzień nauki</span>
       <div class="stepper"><button data-hpd="-0.5" aria-label="Mniej">−</button><output class="num">${fmtH(s.hpd)}</output><button data-hpd="0.5" aria-label="Więcej">+</button></div></div>
     <p class="hint">${studyDaysUntil(sid)} dni nauki do ${longDate(parse(s.deadline))}, do zrobienia ${fmtH(T.rem)}. Inny przedmiot ustawisz przyciskiem u góry.</p></section>
+  ${calendarCard()}
   ${extraSettings()}
   <section class="card"><div class="row"><h3 style="font-size:16px">Kopia zapasowa</h3><span class="sync" id="sync">${syncHtml()}</span></div>
     <div class="mini"><button class="btn ghost" data-dl>Pobierz kopię</button><label class="btn ghost filebtn" for="importFile">Wczytaj kopię</label><input type="file" id="importFile" accept=".json,application/json,text/plain" hidden>
@@ -1012,8 +1524,10 @@ function renderSheet(){
      <div class="mbar"><i style="width:${d/n*100}%"></i></div>
      <p class="hint">${u.w?`Około ${Math.round(uHours(u)*60/u.w.reduce((a,b)=>a+b,0))} min na punkt, więc dłuższe zadania dostają więcej czasu.`:`Około ${fmtH(per)} na temat.`} Zmień czas działu, jeśli idzie Ci szybciej albo wolniej.</p></section>
    <div class="topics">${u.t.map((t,i)=>{const dd=state.done[tid(u,i)];
-     return `<button class="topic ${dd===today?"today-pick":""}" role="checkbox" aria-checked="${!!dd}" data-topic="${i}">
-      <span class="box">${CHECK}</span><span class="tx">${u.w?"":`${i+1}. `}${esc(tText(t))}${isR(t)?' <span class="rtag">rozszerzenie</span>':""}${dd?`<small>Zrobione ${dd===today?"dziś":longDate(parse(dd))}</small>`:""}</span></button>`}).join("")}</div>
+     const k=tid(u,i),rt=state.rate[k],rv=state.rev[k];
+     return `<div class="topic ${dd===today?"today-pick":""}"><button class="tick" role="checkbox" aria-checked="${!!dd}" data-topic="${i}">
+      <span class="box">${CHECK}</span><span class="tx">${u.w?"":`${i+1}. `}${esc(tText(t))}${isR(t)?' <span class="rtag">rozszerzenie</span>':""}${dd?`<small>Zrobione ${dd===today?"dziś":longDate(parse(dd))}${rv?` · powtórka ${rv.due<=iso(todayD())?"dziś":longDate(parse(rv.due))}`:dd&&canReview(s.id)&&!rv?" · opanowane":""}</small>`:""}</span></button>
+      ${dd&&canReview(s.id)?`<div class="rate"><button data-rate="${i}" data-v="ok" aria-pressed="${rt==="ok"}">Umiem</button><button data-rate="${i}" data-v="weak" aria-pressed="${rt==="weak"}">Słabo</button></div>`:""}</div>`}).join("")}</div>
    <div class="btns"><button class="btn ghost" data-all="${d===n?"0":"1"}">${d===n?"Odznacz wszystkie":"Zaznacz wszystkie"}</button></div></div>`;
   sh.hidden=false;sh.scrollTop=y;document.body.style.overflow="hidden";
 }
@@ -1029,22 +1543,48 @@ document.addEventListener("click",async e=>{
     if(state.enabled[id]&&ACTIVE().length===1){toast("Zostaw włączony chociaż jeden przedmiot");return}
     state.enabled[id]=!state.enabled[id];
     if(state.enabled[id]){state.subject=id;toast(`Włączono: ${SUB(id).short}`)}else if(state.subject===id){state.subject=ACTIVE()[0].id}
-    commit();return}
+    refreezeToday();commit();return}
   if(b.dataset.unit){openUnit=b.dataset.unit;$("#sheet").scrollTop=0;renderSheet();return}
   if(b.hasAttribute("data-close")){closeSheet();return}
   if(b.hasAttribute("data-more")){showDays+=8;render();return}
-  if(b.dataset.skip){if(!state.skip.includes(b.dataset.skip))state.skip.push(b.dataset.skip);commit();toast("Plan przesunięty na kolejne dni");return}
-  if(b.dataset.unskip){state.skip=state.skip.filter(s=>s!==b.dataset.unskip);commit();return}
+  if(b.dataset.skip){if(!state.skip.includes(b.dataset.skip))state.skip.push(b.dataset.skip);if(b.dataset.skip===iso(todayD()))delete state.frozen[b.dataset.skip];commit();toast("Plan przesunięty na kolejne dni");return}
+  if(b.dataset.unskip){state.skip=state.skip.filter(s=>s!==b.dataset.unskip);if(b.dataset.unskip===iso(todayD()))refreezeToday();commit();return}
+  if(b.hasAttribute("data-bl-today")){const x=backlogH();backlogToToday();state.blAsked=iso(todayD());commit();toast(`Dodano ${fmtH(x)} do dzisiejszego planu`);return}
+  if(b.hasAttribute("data-bl-spread")){backlogSpread();state.blAsked=iso(todayD());commit();toast("Zaległości rozłożone na kolejne dni");return}
+  if(b.hasAttribute("data-bl-later")){state.blAsked=iso(todayD());commit();return}
   if(b.dataset.topic!==undefined){const{u}=findUnit(openUnit),k=tid(u,+b.dataset.topic);
-    if(state.done[k])delete state.done[k];else state.done[k]=iso(todayD());commit();return}
+    if(state.done[k]){delete state.done[k];onUnticked(k)}else{state.done[k]=iso(todayD());onTicked(k)}commit();return}
+  if(b.dataset.rate!==undefined){const{u}=findUnit(openUnit),k=tid(u,+b.dataset.rate);setRate(k,b.dataset.v);commit();return}
   if(b.dataset.all!==undefined){const{u}=findUnit(openUnit);const t=iso(todayD());
-    u.t.forEach((_,i)=>{const k=tid(u,i);if(b.dataset.all==="1"){if(!state.done[k])state.done[k]=t}else delete state.done[k]});commit();return}
-  if(b.dataset.uh){const{u}=findUnit(openUnit);state.hours[u.id]=Math.max(0.5,uHours(u)+Number(b.dataset.uh));commit();return}
-  if(b.dataset.hpd){const c=cfg(subj().id);c.hpd=Math.min(12,Math.max(0.5,c.hpd+Number(b.dataset.hpd)));commit();return}
+    u.t.forEach((_,i)=>{const k=tid(u,i);if(b.dataset.all==="1"){if(!state.done[k]){state.done[k]=t;onTicked(k)}}else{delete state.done[k];onUnticked(k)}});commit();return}
+  if(b.dataset.revOk){const r=reviewAction(b.dataset.revOk,true);commit();toast(r==="mastered"?"Opanowane! Ten temat nie wróci już w powtórkach.":"Następna powtórka za kilka dni");return}
+  if(b.dataset.revNo){reviewAction(b.dataset.revNo,false);commit();toast("Wróci za 2 dni");return}
+  if(b.hasAttribute("data-rev-more")){showRev=999;render();return}
+  if(b.hasAttribute("data-timer-start")){state.timer={sid:subj().id,start:Date.now()};commit();toast("Stoper włączony. Zatrzymaj go po nauce.");return}
+  if(b.hasAttribute("data-timer-stop")){const m=stopTimer();commit();toast(m>=1?`Zapisano ${m} min nauki`:"Za krótko, żeby zapisać");return}
+  if(b.dataset.paceApply){const sid=b.dataset.paceApply,f=pace(sid);if(f){for(const u of SUB(sid).units){if(u.t.some((_,i)=>!state.done[tid(u,i)]))state.hours[u.id]=Math.max(0.5,Math.round(uHours(u)*f*2)/2)}}
+    state.paceFrom[sid]=iso(todayD());refreezeToday();commit();toast("Czas działów dopasowany do Twojego tempa");return}
+  if(b.dataset.paceSkip){state.paceFrom[b.dataset.paceSkip]=iso(todayD());commit();return}
+  if(b.dataset.exweak){const n=b.dataset.exweak;examDraft.weak=examDraft.weak.includes(n)?examDraft.weak.filter(x=>x!==n):[...examDraft.weak,n];render();return}
+  if(b.hasAttribute("data-exsave")){const pct=Number(examDraft.pct);if(!(examDraft.pct!==""&&examDraft.pct!=null&&pct>=0&&pct<=100)){toast("Wpisz wynik od 0 do 100%");return}
+    const sid=subj().id==="zad"?"mat":subj().id;state.exams.push({id:Date.now().toString(36),sid,date:examDraft.date||iso(todayD()),name:(examDraft.name||"").trim()||"Arkusz próbny",pct:Math.round(pct),weak:examDraft.weak});
+    examDraft={weak:[]};commit();toast("Zapisano wynik");return}
+  if(b.dataset.exdel){examDel=b.dataset.exdel;render();return}
+  if(b.dataset.exdelYes){state.exams=state.exams.filter(e=>e.id!==b.dataset.exdelYes);examDel=null;commit();return}
+  if(b.dataset.exrev){const[sid,n]=b.dataset.exrev.split("|");const c=addGroupToReviews(sid,n);commit();toast(c?`Dodano ${c} ${plural(c,"temat","tematy","tematów")} do dzisiejszych powtórek`:"W tym dziale nie masz jeszcze przerobionych tematów");return}
+  if(b.hasAttribute("data-cal")){addToCalendar();return}
+  if(b.dataset.onbOn){onb.on[b.dataset.onbOn]=!onb.on[b.dataset.onbOn];renderOnboarding();return}
+  if(b.hasAttribute("data-onb-next")){onb.step++;renderOnboarding();$("#onb").scrollTop=0;return}
+  if(b.hasAttribute("data-onb-back")){onb.step--;renderOnboarding();return}
+  if(b.dataset.onbDay){const[sid,d]=b.dataset.onbDay.split("|");const c=onb.set[sid];const x=+d;c.days=c.days.includes(x)?c.days.filter(y=>y!==x):[...c.days,x];renderOnboarding();return}
+  if(b.dataset.onbH){const[sid,dv]=b.dataset.onbH.split("|");const c=onb.set[sid];c.hpd=Math.min(12,Math.max(0.5,c.hpd+Number(dv)));renderOnboarding();return}
+  if(b.hasAttribute("data-onb-finish")){onbFinish();return}
+  if(b.dataset.uh){const{u}=findUnit(openUnit);state.hours[u.id]=Math.max(0.5,uHours(u)+Number(b.dataset.uh));refreezeToday();commit();return}
+  if(b.dataset.hpd){const c=cfg(subj().id);c.hpd=Math.min(12,Math.max(0.5,c.hpd+Number(b.dataset.hpd)));refreezeToday();commit();return}
   if(b.dataset.day){const d=+b.dataset.day,c=cfg(subj().id);
     if(c.days.includes(d))c.days=c.days.filter(x=>x!==d);
     else c.days=[...c.days,d];
-    commit();return}
+    refreezeToday();commit();return}
   if(b.hasAttribute("data-copy")){const ta=$("#backup");try{await navigator.clipboard.writeText(ta.value);toast("Skopiowano")}catch(_){ta.focus();ta.select();toast("Zaznaczone – skopiuj ręcznie")}return}
   if(b.hasAttribute("data-import")){importText($("#backup").value);return}
   if(b.hasAttribute("data-dl")){
@@ -1055,7 +1595,8 @@ document.addEventListener("click",async e=>{
     return}
   if(b.dataset.reset){if(b.dataset.reset==="ask")confirmReset=true;else if(b.dataset.reset==="yes"){const keep=state.settings,sub=state.subject,en=state.enabled;state=freshState();state.settings=keep;state.subject=sub;state.enabled=en;confirmReset=false;commit();toast("Wyczyszczono");return}else confirmReset=false;render();return}
 });
-document.addEventListener("change",e=>{if(e.target.id==="start"&&e.target.value){cfg(subj().id).start=e.target.value<=iso(todayD())?"":e.target.value;commit();return}if(e.target.id==="importFile"&&e.target.files&&e.target.files[0]){const fr=new FileReader();fr.onload=()=>importText(String(fr.result));fr.readAsText(e.target.files[0]);e.target.value="";return}if(e.target.id==="deadline"&&e.target.value){cfg(subj().id).deadline=e.target.value;commit()}});
+document.addEventListener("input",e=>{const id=e.target.id;if(id==="exName")examDraft.name=e.target.value;if(id==="exPct")examDraft.pct=e.target.value;if(id==="exDate")examDraft.date=e.target.value});
+document.addEventListener("change",e=>{if(e.target.id==="calTime"&&e.target.value){state.calTime=e.target.value;commit();return}if(e.target.id==="onbDeadline"&&e.target.value){onb.deadline=e.target.value;return}if(e.target.id==="exDate"){examDraft.date=e.target.value;return}if(e.target.id==="start"&&e.target.value){cfg(subj().id).start=e.target.value<=iso(todayD())?"":e.target.value;refreezeToday();commit();return}if(e.target.id==="importFile"&&e.target.files&&e.target.files[0]){const fr=new FileReader();fr.onload=()=>importText(String(fr.result));fr.readAsText(e.target.files[0]);e.target.value="";return}if(e.target.id==="deadline"&&e.target.value){cfg(subj().id).deadline=e.target.value;commit()}});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&openUnit)closeSheet()});
 /* ======================= INSTALACJA NA EKRANIE TELEFONU ======================= */
 const UA=navigator.userAgent||"";
