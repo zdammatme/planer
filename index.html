@@ -218,7 +218,7 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;f
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
   display:flex;justify-content:center;padding:6px max(16px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
-.tabbar .in{display:grid;grid-template-columns:repeat(4,1fr);width:100%;max-width:560px}
+.tabbar .in{display:grid;grid-template-columns:repeat(5,1fr);width:100%;max-width:560px}
 .tabbar button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;font-size:11.5px;font-weight:600;color:var(--muted)}
 .tabbar button svg{width:24px;height:24px}
 .tabbar button[aria-current="page"]{color:var(--accent)}
@@ -294,6 +294,89 @@ input[type=time]{width:auto}
 .bigdate{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted)}
 .bigdate input{font:inherit;font-size:18px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;-webkit-appearance:none;appearance:none;width:100%;box-sizing:border-box}
 .btn[disabled]{opacity:.45;cursor:default}
+.plant{display:block;width:100%;height:auto}
+.plant .soil{fill:#8B6B4A;opacity:.22}
+.plant.big{width:150px}
+.plant.sm{width:46px}
+.focus{position:fixed;inset:0;z-index:55;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg);
+  padding:calc(env(safe-area-inset-top,0px) + 10px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 30px) max(16px,env(safe-area-inset-left,0px))}
+.focus.run{background:linear-gradient(180deg,var(--accent-soft),var(--bg) 70%)}
+.focus-in{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.focus-in.run{align-items:center;text-align:center;padding-top:30px}
+.focus h2{font-family:var(--f-display);font-weight:700;font-size:24px}
+.fpreview{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.fpreview b{font-size:15px}
+.species{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.sp{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:14px;border:1px solid var(--line);background:var(--surface);font-size:12.5px;font-weight:600;text-align:center}
+.sp[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.sp[disabled],.sp.locked{opacity:.5}
+.sp.locked .plant{filter:saturate(.35)}
+.coll .plant.sm{width:66px}
+.sp small{font-weight:500;color:var(--muted);font-size:11px}
+.btn.big{padding:14px;font-size:16px}
+.pick.fpick .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.ring{position:relative;width:min(78vw,280px);aspect-ratio:1;max-width:100%}
+.ring>svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .rbg{fill:none;stroke:var(--line);stroke-width:10}
+.ring .rfg{fill:none;stroke:var(--accent);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.ring-plant{position:absolute;inset:16%;display:grid;place-items:center}
+.ring-plant .plant{width:100%}
+.ring-plant .plant g{transition:transform 1s linear}
+.clock{font-family:var(--f-display);font-weight:700;font-size:52px;letter-spacing:-.02em;line-height:1}
+.focus-in.run .btns{justify-content:center}
+.gsum{gap:12px}
+.gsum .link{align-self:center}
+.demo-note{background:var(--warn-soft);border-radius:12px;padding:10px 12px;font-size:14px}
+.gstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.gstats b{display:block;font-family:var(--f-display);font-size:24px;color:var(--g-accent)}
+.gstats span{font-size:12px;color:var(--muted)}
+.gweek{display:flex;flex-direction:column;gap:8px}
+.plot{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:10px;border-radius:20px;
+  background:linear-gradient(180deg,#DCEFD6 0%,#C5E3BC 100%);border:1px solid #B5D6AA}
+.tile{position:relative}
+.tile .tl{position:absolute;right:2px;top:2px;font-size:10px;font-weight:700;background:var(--accent);color:var(--accent-ink);border-radius:6px;padding:0 4px;opacity:.9}
+.tile.dead .tl{background:#9C8F80;color:#fff}
+.tile.new .plant{animation:pop .9s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{0%{transform:scale(.2)}100%{transform:scale(1)}}
+.plot-empty{grid-column:1/-1;margin:0;padding:16px 4px;text-align:center;color:#4C6B45;font-size:14px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .plot{background:linear-gradient(180deg,#1E3324,#17291C);border-color:#2A4430}:root:not([data-theme="light"]) .plot-empty{color:#9CC59E}}
+:root[data-theme="dark"] .plot{background:linear-gradient(180deg,#1E3324,#17291C);border-color:#2A4430}
+:root[data-theme="dark"] .plot-empty{color:#9CC59E}
+.tabbar button{font-size:10.5px}
+.collhead{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:none;border:0;padding:0;text-align:left}
+.collhead span:first-child{display:flex;flex-direction:column;gap:2px;min-width:0}
+.collhead small{color:var(--muted);font-size:13px}
+.chev{font-size:18px;color:var(--muted)}
+.gpanel{background:linear-gradient(180deg,#2F5E3A 0%,#244A2E 100%);border-radius:24px;padding:14px 12px 16px;display:flex;flex-direction:column;gap:10px;color:#F1F7EF;box-shadow:0 8px 24px rgba(20,50,25,.18)}
+.gtabs{display:grid;grid-template-columns:repeat(4,1fr);background:rgba(0,0,0,.22);border-radius:12px;padding:3px;gap:3px}
+.gtabs button{border:0;background:none;color:#DDEBD9;font-weight:600;font-size:14px;padding:7px 0;border-radius:9px}
+.gtabs button[aria-pressed="true"]{background:#F6FAF4;color:#1F3B25}
+.gnav{display:flex;align-items:center;justify-content:center;gap:12px}
+.gnav b{font-family:var(--f-display);font-weight:500;font-size:16px;min-width:150px;text-align:center}
+.gnav button{border:0;background:rgba(255,255,255,.12);color:#fff;width:34px;height:34px;border-radius:50%;font-size:20px;line-height:1}
+.gnav button[disabled]{opacity:.3}
+.gnav .gnow{width:auto;padding:0 10px;font-size:12px;border-radius:99px;height:26px}
+.iso{width:100%;height:auto;display:block}
+.iso .g1{fill:#8FCB5E}.iso .g2{fill:#84C255}
+.iso .d1{fill:#A69A6C}.iso .d2{fill:#9C9063}
+.iso .sl{fill:#8A5A35}.iso .sr{fill:#6E4527}.iso .sgl{fill:#6DAA43}.iso .sgr{fill:#5A9437}
+.iso .shadow{fill:#2C5A1C;opacity:.22}
+.gcount{display:flex;justify-content:flex-end;gap:14px;font-size:14px;padding-right:6px}
+.gcount .dc{opacity:.75}
+.gtheme{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.gtheme .gtabs{flex:1;grid-template-columns:1fr 1fr;background:var(--surface-2)}
+.gtheme .gtabs button{color:var(--muted);font-size:13px}
+.gtheme .gtabs button[aria-pressed="true"]{background:var(--g-accent);color:#fff}
+.gempty{margin:0;text-align:center;color:#CFE3CA;font-size:14px}
+.chart .bar{fill:var(--g-accent)}
+.sidrow{display:flex;flex-wrap:wrap;gap:6px}
+.sidchip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;background:var(--surface-2);border-radius:99px;padding:4px 10px}
+.sidchip i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.dow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;height:110px;align-items:end}
+.dow div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%}
+.dow i{display:block;width:70%;min-height:3px;background:var(--line);border-radius:6px 6px 2px 2px}
+.dow .top i{background:var(--g-accent)}
+.dow span{font-size:12px;color:var(--muted)}.dow .top span{color:var(--ink);font-weight:700}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -305,6 +388,7 @@ input[type=time]{width:auto}
 <nav class="tabbar" aria-label="Nawigacja"><div class="in">
   <button data-tab="plan" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18M8 15h3"/></svg>Plan</button>
   <button data-tab="units"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="m3.5 6 1 1 2-2M3.5 12l1 1 2-2M3.5 18l1 1 2-2"/></svg>Działy</button>
+  <button data-tab="garden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12C12 7 8.5 4 4 4c0 5 3.5 8 8 8Z"/><path d="M12 14c0-4 3-7 8-7 0 4-3 7-8 7Z"/><path d="M6 21h12"/></svg>Sprzątanie</button>
   <button data-tab="results"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Wyniki</button>
   <button data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Ustawienia</button>
 </div></nav>
@@ -1062,13 +1146,13 @@ const LS="planer-matura-v1";
 const DEF={bio:{deadline:"2027-03-01",start:"",days:[1,2,3],hpd:2.5},mat:{deadline:"2027-03-01",start:"",days:[4,5,6,0],hpd:1.5},chem:{deadline:"2027-03-01",start:"",days:[1,3,5],hpd:2},zad:{deadline:"2027-03-01",start:"",days:[1,2,3,4,5,6,0],hpd:2.5}};
 const DEF_ON={bio:true,mat:true,chem:false,zad:false};
 const clone=o=>JSON.parse(JSON.stringify(o));
-function freshState(){return{v:2,createdAt:iso(todayD()),updatedAt:0,subject:"bio",enabled:clone(DEF_ON),settings:clone(DEF),done:{},hours:{},skip:[],frozen:{},rate:{},rev:{},time:{},exams:[],timer:null,paceFrom:{},onboarded:false}}
+function freshState(){return{v:2,createdAt:iso(todayD()),updatedAt:0,subject:"bio",enabled:clone(DEF_ON),settings:clone(DEF),done:{},hours:{},skip:[],frozen:{},rate:{},rev:{},time:{},exams:[],timer:null,paceFrom:{},onboarded:false,garden:[],focus:null,strict:false,theme:"clean"}}
 function normalize(raw){const s=Object.assign(freshState(),raw||{});let st=s.settings||{};
   if(Array.isArray(st.days)){const bio={deadline:st.deadline,days:st.days,hpd:st.hpd};const mat=clone(DEF.mat);
     mat.days=mat.days.filter(d=>!bio.days.includes(d));st={bio,mat}}
   if(st.zad&&st.zad.start==="2027-03-01"&&st.zad.deadline==="2027-05-03"){st.zad.start="";st.zad.deadline="2027-03-01"}
   for(const k of Object.keys(DEF))st[k]=Object.assign({},DEF[k],st[k]||{});
-  for(const k of ["rate","rev","time","paceFrom"])if(!s[k]||typeof s[k]!=="object")s[k]={};if(!Array.isArray(s.exams))s.exams=[];if(!raw||raw.onboarded===undefined)s.onboarded=true;
+  for(const k of ["rate","rev","time","paceFrom"])if(!s[k]||typeof s[k]!=="object")s[k]={};if(!Array.isArray(s.exams))s.exams=[];if(!Array.isArray(s.garden))s.garden=[];if(!raw||raw.onboarded===undefined)s.onboarded=true;
   s.settings=st;s.frozen=s.frozen&&typeof s.frozen==="object"?s.frozen:{};s.done=s.done||{};s.hours=s.hours||{};s.skip=Array.isArray(s.skip)?s.skip:[];s.v=2;
   s.enabled=Object.assign(clone(DEF_ON),s.enabled||{});
   if(!s.enabled[s.subject]){const f=SUBJECTS.find(x=>s.enabled[x.id]);s.subject=f?f.id:"bio"}return s}
@@ -1355,22 +1439,247 @@ function onbFinish(){const chosen=SUBJECTS.filter(s=>onb.on[s.id]);
   for(const s of chosen)state.settings[s.id]=Object.assign({},onb.set[s.id],{deadline:onb.deadline,start:""});
   state.subject=chosen[0].id;state.onboarded=true;state.frozen={};state.lastFreeze="";onb=null;commit();toast("Powodzenia! Plan na dziś jest gotowy.")}
 
+/* ======================= OGRÓD: sesje skupienia (pomodoro) z roślinami ======================= */
+const SPECIES=[
+  {id:"daisy",name:"Stokrotka",tn:"Dąb",need:0,fl:"daisy",petal:"#FFFFFF",core:"#F2B51E",tree:"round",crown:"#3E9B4F",crown2:"#2F7D3E",trunk:"#7A5233"},
+  {id:"tulip",name:"Tulipan",tn:"Sosna",need:2,fl:"tulip",petal:"#E5484D",core:"#B92F35",tree:"pine",crown:"#2E7D4F",crown2:"#215E3B",trunk:"#6B4528"},
+  {id:"sun",name:"Słonecznik",tn:"Brzoza",need:5,fl:"sun",petal:"#F7C531",core:"#7A4B1E",tree:"birch",crown:"#8CC152",crown2:"#6FA33B",trunk:"#EDE7DC"},
+  {id:"lav",name:"Lawenda",tn:"Wiśnia",need:10,fl:"spike",petal:"#9C7BDB",core:"#7B5BC0",tree:"blossom",crown:"#F4A9C4",crown2:"#E883A8",trunk:"#6E4A3A"},
+  {id:"rose",name:"Róża",tn:"Klon",need:20,fl:"rose",petal:"#D6336C",core:"#A61E4D",tree:"maple",crown:"#F08C2E",crown2:"#D9480F",trunk:"#6B4528"},
+  {id:"gold",name:"Złote drzewo",tn:"Złote drzewo",need:40,fl:"sun",petal:"#FFD43B",core:"#E8590C",tree:"round",crown:"#FCC419",crown2:"#F59F00",trunk:"#7A5233"}
+];
+const DEAD={petal:"#A8A29E",core:"#8B8178",crown:"#B5A99A",crown2:"#9C8F80",trunk:"#8B7B6B"};
+const KINDS=[{min:0,id:"flower",name:"kwiatek"},{min:30,id:"bush",name:"krzaczek"},{min:60,id:"tree",name:"drzewo"},{min:90,id:"big",name:"wielkie drzewo"}];
+const kindFor=m=>KINDS.filter(k=>m>=k.min).pop();
+const DURS=[25,45,60,90];
+const spById=id=>SPECIES.find(s=>s.id===id)||SPECIES[0];
+const focusHours=()=>state.garden.filter(p=>!p.dead).reduce((a,p)=>a+p.min,0)/60;
+const unlocked=()=>SPECIES.filter(s=>focusHours()>=s.need);
+
+function flowerSvg(x,s,sp,c){const top=90-30*s,r=6*s;let head="";
+  if(sp.fl==="daisy")head=[0,1,2,3,4,5,6,7].map(i=>{const a=i*Math.PI/4;return`<ellipse cx="${x+Math.cos(a)*r}" cy="${top+Math.sin(a)*r}" rx="${3.4*s}" ry="${2*s}" transform="rotate(${i*45} ${x+Math.cos(a)*r} ${top+Math.sin(a)*r})" fill="${c.petal}" stroke="#0001"/>`}).join("")+`<circle cx="${x}" cy="${top}" r="${3.2*s}" fill="${c.core}"/>`;
+  if(sp.fl==="tulip")head=`<path d="M${x-7*s} ${top-6*s} Q${x-8*s} ${top+7*s} ${x} ${top+7*s} Q${x+8*s} ${top+7*s} ${x+7*s} ${top-6*s} L${x+3.5*s} ${top-1*s} L${x} ${top-8*s} L${x-3.5*s} ${top-1*s}Z" fill="${c.petal}"/><path d="M${x} ${top-8*s} L${x-3.5*s} ${top-1*s} Q${x} ${top+4*s} ${x+3.5*s} ${top-1*s}Z" fill="${c.core}" opacity=".5"/>`;
+  if(sp.fl==="sun")head=[...Array(12)].map((_,i)=>{const a=i*Math.PI/6;return`<ellipse cx="${x+Math.cos(a)*r*1.35}" cy="${top+Math.sin(a)*r*1.35}" rx="${4*s}" ry="${1.9*s}" transform="rotate(${i*30} ${x+Math.cos(a)*r*1.35} ${top+Math.sin(a)*r*1.35})" fill="${c.petal}"/>`}).join("")+`<circle cx="${x}" cy="${top}" r="${5*s}" fill="${c.core}"/>`;
+  if(sp.fl==="spike")head=[0,1,2,3,4].map(i=>`<ellipse cx="${x+(i%2?1.6:-1.6)*s}" cy="${top+6*s-i*4*s}" rx="${2.6*s}" ry="${2.2*s}" fill="${i%2?c.petal:c.core}"/>`).join("");
+  if(sp.fl==="rose")head=`<circle cx="${x}" cy="${top}" r="${6.5*s}" fill="${c.petal}"/><circle cx="${x+1*s}" cy="${top-.5*s}" r="${4.2*s}" fill="${c.core}"/><path d="M${x-2*s} ${top} q${2*s} ${-3*s} ${4*s} 0" stroke="${c.petal}" stroke-width="${1.2*s}" fill="none"/>`;
+  return`<path d="M${x} 90 Q${x-2*s} ${(90+top)/2} ${x} ${top+3*s}" stroke="${c.dead?"#9C8F80":"#3E8E41"}" stroke-width="${2*s}" fill="none"/>
+    <ellipse cx="${x+4*s}" cy="${90-11*s}" rx="${4.5*s}" ry="${1.8*s}" transform="rotate(-30 ${x+4*s} ${90-11*s})" fill="${c.dead?"#B5A99A":"#55A85A"}"/>${head}`}
+function treeSvg(x,s,sp,c){const h=46*s,tw=5*s,top=90-h;let crown="";
+  const T=sp.tree;
+  if(T==="pine")crown=[0,1,2].map(i=>{const w=(22-i*5)*s,y=top+18*s+i*-9*s;return`<path d="M${x-w} ${y+8*s} L${x} ${y-12*s} L${x+w} ${y+8*s}Z" fill="${i%2?c.crown2:c.crown}"/>`}).join("");
+  else if(T==="maple")crown=`<circle cx="${x-9*s}" cy="${top+6*s}" r="${11*s}" fill="${c.crown2}"/><circle cx="${x+9*s}" cy="${top+5*s}" r="${11*s}" fill="${c.crown}"/><circle cx="${x}" cy="${top-5*s}" r="${13*s}" fill="${c.crown}"/><circle cx="${x+3*s}" cy="${top-1*s}" r="${2*s}" fill="${c.crown2}"/>`;
+  else if(T==="blossom")crown=`<circle cx="${x-10*s}" cy="${top+4*s}" r="${11*s}" fill="${c.crown}"/><circle cx="${x+10*s}" cy="${top+4*s}" r="${11*s}" fill="${c.crown}"/><circle cx="${x}" cy="${top-6*s}" r="${13*s}" fill="${c.crown}"/>`+(c.dead?"":[[-8,0],[6,-8],[10,6],[-2,4],[-12,-4],[2,-14]].map(([a,b])=>`<circle cx="${x+a*s}" cy="${top+b*s}" r="${1.8*s}" fill="${c.crown2}"/>`).join(""));
+  else crown=`<circle cx="${x}" cy="${top}" r="${16*s}" fill="${c.crown}"/><circle cx="${x+6*s}" cy="${top+5*s}" r="${10*s}" fill="${c.crown2}"/><circle cx="${x-5*s}" cy="${top-5*s}" r="${7*s}" fill="${c.crown}" opacity=".7"/>`;
+  const trunk=`<path d="M${x-tw/2} 90 L${x-tw/3} ${top+8*s} L${x+tw/3} ${top+8*s} L${x+tw/2} 90Z" fill="${c.trunk}"/>`+(T==="birch"&&!c.dead?[0,1,2].map(i=>`<rect x="${x-tw/2.2}" y="${90-10*s-i*9*s}" width="${tw/2}" height="${1.4*s}" fill="#3B3B3B"/>`).join(""):"");
+  return trunk+crown}
+function plantBody(kind,spId,dead){const sp=spById(spId),c=dead?{...DEAD,dead:true}:{...sp};let body="";
+  if(kind==="flower")body=flowerSvg(50,1.8,sp,c);
+  if(kind==="bush")body=flowerSvg(30,1.3,sp,c)+flowerSvg(70,1.4,sp,c)+flowerSvg(50,1.85,sp,c);
+  if(kind==="tree")body=treeSvg(50,1.3,sp,c);
+  if(kind==="big")body=treeSvg(28,.9,sp,c)+treeSvg(58,1.45,sp,c)+flowerSvg(86,1.1,sp,c);
+  return body}
+function plantSvg(kind,spId,g=1,dead=false,cls="plant"){const body=plantBody(kind,spId,dead);
+  const sc=Math.max(.12,g);
+  return`<svg class="${cls}" viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="92" rx="34" ry="5" class="soil"/>
+    <g transform="translate(50 91) scale(${sc}) translate(-50 -91)" ${dead?'opacity=".9"':""}>${body}</g></svg>`}
+
+/* --- sesja --- */
+let lockOk=false,hiddenHadLock=false,gardenDemo=false,focusSheet=false,focusPick={dur:25,sid:null,sp:null},focusT=null,focusConfirm=false,audioCtx=null,wakeLock=null;
+function chime(){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const t=audioCtx.currentTime;
+  [523.25,659.25,783.99].forEach((f,i)=>{const o=audioCtx.createOscillator(),gn=audioCtx.createGain();o.frequency.value=f;o.type="sine";
+    gn.gain.setValueAtTime(0,t+i*.18);gn.gain.linearRampToValueAtTime(.25,t+i*.18+.02);gn.gain.exponentialRampToValueAtTime(.001,t+i*.18+.9);o.connect(gn).connect(audioCtx.destination);o.start(t+i*.18);o.stop(t+i*.18+1)})}catch(e){}
+  try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}}
+async function lockScreen(on){try{if(on&&"wakeLock" in navigator&&!wakeLock){wakeLock=await navigator.wakeLock.request("screen");lockOk=true;wakeLock.addEventListener&&wakeLock.addEventListener("release",()=>{wakeLock=null})}if(!on&&wakeLock){await wakeLock.release();wakeLock=null;lockOk=false}}catch(e){wakeLock=null;lockOk=false}}
+const focusElapsed=()=>state.focus?Math.max(0,Date.now()-state.focus.start):0;
+function startFocus(){const sid=focusPick.sid||subj().id,sp=focusPick.sp||unlocked().slice(-1)[0].id;
+  try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();audioCtx.resume&&audioCtx.resume()}catch(e){}
+  state.focus={sid,sp,dur:focusPick.dur,start:Date.now()};focusSheet=false;focusConfirm=false;lockScreen(true);commit()}
+function creditTime(sid,min,startMs){const k=iso(new Date(startMs));state.time[k]=state.time[k]||{};state.time[k][sid]=(state.time[k][sid]||0)+min}
+function endFocus(ok){const f=state.focus;if(!f)return;const min=Math.floor(focusElapsed()/60000),planned=f.dur||min;
+  const realMin=f.dur?Math.min(min,f.dur):min;
+  if(ok&&realMin>=10){const kind=kindFor(f.dur?f.dur:realMin).id;state.garden.push({d:iso(new Date(f.start)),t:f.start,sid:f.sid,min:realMin,kind,sp:f.sp});creditTime(f.sid,realMin,f.start);
+    const before=SPECIES.filter(s=>(focusHours()-realMin/60)>=s.need).length,after=unlocked().length;
+    state.focus=null;lockScreen(false);commit();chime();
+    toast(after>before?`Nowy gatunek odblokowany: ${isClean()?unlocked().slice(-1)[0].tn:unlocked().slice(-1)[0].name}! 🌱`:isClean()?`Posprzątane! Zbudowano ${CKIND[kind]} (${realMin} min)`:`Zasadzono ${KINDS.find(k=>k.id===kind).name} (${realMin} min)`);
+    gardenFlash=state.garden.length-1}
+  else if(ok){state.focus=null;lockScreen(false);commit();toast(isClean()?"Za krótko, żeby posprzątać. Potrzeba co najmniej 10 minut.":"Za krótko na roślinę. Potrzeba co najmniej 10 minut.")}
+  else{if(realMin>=1)creditTime(f.sid,realMin,f.start);
+    state.garden.push({d:iso(new Date(f.start)),t:f.start,sid:f.sid,min:realMin,kind:kindFor(planned).id,sp:f.sp,dead:true});state.focus=null;lockScreen(false);commit();toast(isClean()?"Śmieci wróciły. Następnym razem się uda!":"Roślina uschła. Następnym razem się uda!")}}
+function checkFocusDone(){const f=state.focus;if(f&&f.dur&&focusElapsed()>=f.dur*60000)endFocus(true)}
+let hiddenAt=0;
+document.addEventListener("visibilitychange",()=>{if(!state.focus)return;
+  if(document.hidden){hiddenAt=Date.now();hiddenHadLock=lockOk;return}
+  const away=hiddenAt?Date.now()-hiddenAt:0;hiddenAt=0;
+  if(state.strict&&hiddenHadLock&&away>15000&&!(state.focus.dur&&focusElapsed()>=state.focus.dur*60000)){endFocus(false);toast("Wyszedłeś z aplikacji, więc roślina uschła.");return}
+  lockScreen(true);checkFocusDone();render()});
+function renderFocus(){let el=$("#focus");const f=state.focus;
+  if(!f&&!focusSheet){if(el)el.remove();clearInterval(focusT);focusT=null;return}
+  if(!el){el=document.createElement("div");el.id="focus";document.body.appendChild(el)}
+  if(!f){const sid=focusPick.sid||subj().id,U=unlocked(),sp=focusPick.sp&&U.some(s=>s.id===focusPick.sp)?focusPick.sp:U[U.length-1].id,kind=kindFor(focusPick.dur||25).id;
+    el.className=`focus sheetmode subj-${sid}`;
+    el.innerHTML=`<div class="focus-in"><button class="back" data-focus-close>‹ Wróć</button>
+      <h2>${isClean()?"Posprzątaj kawałek świata":"Zasadź roślinę"}</h2><p class="hint">${isClean()?"Ucz się bez przerwy, a sprzątniesz kawałek wysypiska i zbudujesz w tym miejscu coś ładnego. Przerwiesz, to śmieci wrócą.":"Ucz się bez przerwy, a roślina wyrośnie i trafi do Twojego ogrodu. Przerwiesz, to uschnie."}</p>
+      <div class="fpreview">${themeSvg(kind,sp,1,false,"plant big")}<b>${isClean()?CKIND_N[kind]:KINDS.find(k=>k.id===kind).name[0].toUpperCase()+KINDS.find(k=>k.id===kind).name.slice(1)}${focusPick.dur?"":" (zależy od czasu)"}</b></div>
+      <div class="slabel">Przedmiot</div><div class="pick fpick">${ACTIVE().map(s=>`<button class="chip" aria-pressed="${s.id===sid}" data-fsid="${s.id}">${esc(s.short)}</button>`).join("")}</div>
+      <div class="slabel">Czas</div><div class="pick fpick">${DURS.map(d=>`<button class="chip" aria-pressed="${focusPick.dur===d}" data-fdur="${d}">${d} min</button>`).join("")}<button class="chip" aria-pressed="${focusPick.dur===0}" data-fdur="0">Stoper</button></div>
+      <p class="hint">${isClean()?"25 min = sadzonka · 30 min = ławka z koszem · 60 min = drzewo · 90 min = staw z kaczką":"25 min = kwiatek · 30 min = krzaczek · 60 min = drzewo · 90 min = wielkie drzewo"}</p>
+      <div class="slabel">${isClean()?"Gatunek drzewa":"Roślina"}</div><div class="species">${SPECIES.map(s=>{const ok=focusHours()>=s.need;
+        return`<button class="sp" ${ok?"":"disabled"} aria-pressed="${s.id===sp}" data-fsp="${s.id}">${plantSvg(isClean()?"tree":"flower",s.id,1,false,"plant sm")}<span>${esc(isClean()?s.tn:s.name)}</span>${ok?"":`<small>od ${s.need} h</small>`}</button>`}).join("")}</div>
+      <button class="btn big" data-focus-start>${isClean()?"Zacznij sprzątać":"Zasadź i zacznij"}</button></div>`;return}
+  const el2=el;el.className=`focus run subj-${f.sid}`;
+  const draw=()=>{if(!state.focus)return;const e=focusElapsed(),tot=f.dur*60000,prog=f.dur?Math.min(1,e/tot):Math.min(1,e/(90*60000));
+    const left=f.dur?Math.max(0,tot-e):e,kind=f.dur?kindFor(f.dur).id:kindFor(Math.floor(e/60000)).id;
+    const R=118,C=2*Math.PI*R;
+    el2.innerHTML=`<div class="focus-in run"><div class="eyebrow">${esc(SUB(f.sid).short)} · ${f.dur?`${f.dur} min`:"stoper"}</div>
+      <div class="ring"><svg viewBox="0 0 260 260"><circle cx="130" cy="130" r="${R}" class="rbg"/><circle cx="130" cy="130" r="${R}" class="rfg" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-prog)}"/></svg>
+        <div class="ring-plant">${isClean()&&prog<.15?`<svg class="plant big" viewBox="0 0 100 100">${heapBody()}</svg>`:themeSvg(kind,f.sp,.2+.8*prog,false,"plant big")}</div></div>
+      <div class="clock num">${fmtClock(left)}</div>
+      <p class="hint">${f.dur?(isClean()?"Nie przerywaj, a teren zostanie posprzątany.":"Nie przerywaj, a roślina wyrośnie."):(isClean()?"Zakończ, kiedy chcesz. Od 10 minut sprzątasz kafelek.":"Zakończ, kiedy chcesz. Od 10 minut dostajesz roślinę.")}${state.strict?" Nie wychodź z aplikacji.":""}</p>
+      ${f.dur?(focusConfirm?`<div class="btns"><button class="btn danger" data-focus-giveup>${isClean()?"Tak, przerwij (śmieci wrócą)":"Tak, przerwij (uschnie)"}</button><button class="btn ghost" data-focus-cancel>Uczę się dalej</button></div>`:`<button class="btn ghost" data-focus-quit>Przerwij</button>`)
+        :`<button class="btn" data-focus-harvest>Zakończ i zbierz</button>`}</div>`;
+    if(f.dur&&e>=tot)endFocus(true)};
+  draw();clearInterval(focusT);focusT=setInterval(draw,1000)}
+
+/* --- widok ogrodu --- */
+let gardenFlash=-1;
+/* ======================= MOTYW: SPRZĄTANIE ŚWIATA ======================= */
+const isClean=()=>true;
+const CKIND={flower:"sadzonkę",bush:"ławkę",tree:"drzewo",big:"staw"};
+const CKIND_N={flower:"Sadzonka",bush:"Ławka z koszem",tree:"Drzewo",big:"Staw z kaczką"};
+function litterBody(seed){let s=seed%2147483647||7;const r=()=>(s=(s*16807)%2147483647)/2147483647;
+  const items=[];const n=1+Math.floor(r()*3);
+  for(let i=0;i<n;i++){const x=24+r()*52,y=80+r()*10,t=Math.floor(r()*5),rot=Math.floor(r()*70-35);
+    if(t===0)items.push(`<g transform="rotate(${rot} ${x} ${y})"><rect x="${x-3}" y="${y-14}" width="6" height="14" rx="2" fill="#5FB0A8" opacity=".85"/><rect x="${x-1.5}" y="${y-18}" width="3" height="5" fill="#3E7E78"/></g>`);
+    if(t===1)items.push(`<g transform="rotate(${rot+80} ${x} ${y})"><rect x="${x-4}" y="${y-9}" width="8" height="10" rx="1.5" fill="#D64545"/><rect x="${x-4}" y="${y-6}" width="8" height="2.5" fill="#F1F1F1"/></g>`);
+    if(t===2)items.push(`<path d="M${x-9} ${y} Q${x-11} ${y-14} ${x-2} ${y-17} L${x} ${y-21} L${x+2} ${y-17} Q${x+11} ${y-14} ${x+9} ${y}Z" fill="#2B2B2E"/><path d="M${x-4} ${y-12} q3 2 7 0" stroke="#4A4A50" fill="none"/>`);
+    if(t===3)items.push(`<ellipse cx="${x}" cy="${y-5}" rx="10" ry="6" fill="#2A2A2A"/><ellipse cx="${x}" cy="${y-5}" rx="4.5" ry="2.6" fill="#77706A"/>`);
+    if(t===4)items.push(`<g transform="rotate(${rot/3} ${x} ${y})"><path d="M${x-8} ${y} L${x-8} ${y-9} L${x+8} ${y-9} L${x+8} ${y}Z" fill="#C49A63"/><path d="M${x-8} ${y-9} L${x-3} ${y-13} L${x+12} ${y-13} L${x+8} ${y-9}Z" fill="#D9B27C"/><path d="M${x+8} ${y} L${x+12} ${y-4} L${x+12} ${y-13} L${x+8} ${y-9}Z" fill="#A87F4D"/></g>`)}
+  return items.join("")}
+function heapBody(){return`<ellipse cx="50" cy="88" rx="30" ry="6" fill="#6B5A48" opacity=".5"/>
+  <path d="M26 90 Q24 70 38 66 L40 61 L43 66 Q54 70 52 90Z" fill="#2B2B2E"/><path d="M48 90 Q47 64 62 60 L64 54 L66 60 Q80 66 76 90Z" fill="#35353A"/>
+  <ellipse cx="38" cy="86" rx="11" ry="6" fill="#222"/><ellipse cx="38" cy="86" rx="4.5" ry="2.5" fill="#6E6760"/>
+  <rect x="64" y="78" width="7" height="12" rx="2" fill="#5FB0A8" opacity=".85" transform="rotate(25 67 84)"/><rect x="52" y="82" width="8" height="8" rx="1" fill="#D64545"/>
+  <path d="M30 60 q3 -6 0 -12 M44 56 q3 -6 0 -12" stroke="#8C8C8C" stroke-width="1.5" fill="none" opacity=".6"/>`}
+function saplingBody(sp){const c=spById(sp);return`<ellipse cx="50" cy="89" rx="14" ry="4" fill="#6E4A2E" opacity=".55"/>
+  <line x1="58" y1="90" x2="58" y2="52" stroke="#B08455" stroke-width="2.5"/><path d="M50 90 L50 62" stroke="#6B4528" stroke-width="3"/>
+  <path d="M50 70 L58 66" stroke="#B08455" stroke-width="1.2"/>
+  <circle cx="50" cy="56" r="10" fill="${c.crown}"/><circle cx="54" cy="60" r="6" fill="${c.crown2}"/>
+  ${[[28,90,"#F2B51E"],[34,91,"#FFFFFF"],[70,90,"#E5484D"],[75,91,"#9C7BDB"]].map(([x,y,col])=>`<path d="M${x} ${y} L${x} ${y-8}" stroke="#3E8E41" stroke-width="1.4"/><circle cx="${x}" cy="${y-9}" r="2.6" fill="${col}"/>`).join("")}`}
+function benchBody(sp){const c=spById(sp);return`<ellipse cx="50" cy="90" rx="30" ry="4" fill="#3E7B32" opacity=".35"/>
+  <rect x="24" y="70" width="40" height="4" rx="1.5" fill="#B5793F"/><rect x="24" y="62" width="40" height="4" rx="1.5" fill="#C98A4B"/>
+  <rect x="24" y="76" width="40" height="4" rx="1.5" fill="#A86B34"/>
+  <rect x="27" y="80" width="3" height="10" fill="#3B3B3B"/><rect x="58" y="80" width="3" height="10" fill="#3B3B3B"/><rect x="27" y="60" width="3" height="20" fill="#3B3B3B"/><rect x="58" y="60" width="3" height="20" fill="#3B3B3B"/>
+  <path d="M68 90 L69 70 L79 70 L80 90Z" fill="#2F8F57"/><rect x="67" y="67" width="14" height="4" rx="1" fill="#226B41"/><path d="M71 76 L77 76 M71 81 L77 81" stroke="#5CC08A" stroke-width="1"/>
+  ${[[18,"#F2B51E"],[86,c.petal]].map(([x,col])=>`<path d="M${x} 91 L${x} 83" stroke="#3E8E41" stroke-width="1.4"/><circle cx="${x}" cy="82" r="2.8" fill="${col}"/>`).join("")}`}
+function pondBody(sp){return`<ellipse cx="46" cy="84" rx="34" ry="10" fill="#5C8F4A"/><ellipse cx="46" cy="84" rx="30" ry="8" fill="#4DA3D9"/><ellipse cx="40" cy="82" rx="14" ry="3" fill="#8CCBF0" opacity=".7"/>
+  <g transform="translate(46 79)"><ellipse cx="0" cy="0" rx="7" ry="4" fill="#FFFFFF"/><circle cx="5" cy="-4" r="3" fill="#FFFFFF"/><path d="M7.5 -4 l3 1 -3 1z" fill="#F59F00"/><circle cx="5.8" cy="-4.6" r=".7" fill="#222"/></g>
+  ${[14,18,76].map(x=>`<path d="M${x} 86 Q${x-1} 72 ${x+1} 66" stroke="#5E8C3A" stroke-width="2" fill="none"/><ellipse cx="${x+1}" cy="68" rx="1.6" ry="4" fill="#7A4E2B"/>`).join("")}
+  ${treeSvg(80,.75,spById(sp),{...spById(sp)})}`}
+function cleanBody(kind,sp,dead){if(dead)return heapBody();
+  if(kind==="flower")return saplingBody(sp);if(kind==="bush")return benchBody(sp);if(kind==="tree")return treeSvg(50,1.25,spById(sp),{...spById(sp)})+`<path d="M30 90 l4 -6 M70 90 l-3 -6" stroke="#3E8E41" stroke-width="1.5"/>`;return pondBody(sp)}
+function themeBody(kind,sp,dead){return isClean()?cleanBody(kind,sp,dead):plantBody(kind,sp,dead)}
+function themeSvg(kind,sp,g=1,dead=false,cls="plant"){if(!isClean())return plantSvg(kind,sp,g,dead,cls);
+  const sc=Math.max(.12,g);return`<svg class="${cls}" viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="92" rx="34" ry="5" class="soil"/><g transform="translate(50 91) scale(${sc}) translate(-50 -91)">${cleanBody(kind,sp,dead)}</g></svg>`}
+function weekStart(d){const x=new Date(d);const k=(x.getDay()+6)%7;return addDays(new Date(x.getFullYear(),x.getMonth(),x.getDate()),-k)}
+const MNOM=["Styczeń","Luty","Marzec","Kwiecień","Maj","Czerwiec","Lipiec","Sierpień","Wrzesień","Październik","Listopad","Grudzień"];
+let gPeriod="week",gOffset=0;
+function demoGarden(){const out=[],k=["flower","bush","tree","big"],m=[25,45,60,90],sids=ACTIVE().map(s=>s.id);let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+  for(let back=0;back<75;back++){const day=addDays(todayD(),-back);const n=rnd()<.25?0:1+Math.floor(rnd()*3);
+    for(let i=0;i<n;i++){const kk=Math.floor(rnd()*4),sp=SPECIES[Math.floor(rnd()*SPECIES.length)].id,h=8+Math.floor(rnd()*13);
+      out.push({d:iso(day),t:new Date(day.getFullYear(),day.getMonth(),day.getDate(),h,Math.floor(rnd()*60)).getTime(),sid:sids[Math.floor(rnd()*sids.length)],min:m[kk],kind:k[kk],sp,dead:rnd()<.08})}}
+  return out}
+function gRange(){const t=todayD(),o=gOffset;
+  if(gPeriod==="day"){const a=addDays(t,o);return{a,b:a,label:`${a.getDate()} ${MSHORT[a.getMonth()]} ${a.getFullYear()}`}}
+  if(gPeriod==="week"){const a=addDays(weekStart(t),7*o),b=addDays(a,6);return{a,b,label:`${a.getDate()} ${MSHORT[a.getMonth()]} – ${b.getDate()} ${MSHORT[b.getMonth()]}`}}
+  if(gPeriod==="month"){const a=new Date(t.getFullYear(),t.getMonth()+o,1),b=new Date(a.getFullYear(),a.getMonth()+1,0);return{a,b,label:`${MNOM[a.getMonth()]} ${a.getFullYear()}`}}
+  const a=new Date(t.getFullYear()+o,0,1),b=new Date(a.getFullYear(),11,31);return{a,b,label:String(a.getFullYear())}}
+function seededOrder(n,seed){const idx=[...Array(n).keys()];let s=seed%2147483647||1;const r=()=>(s=(s*16807)%2147483647)/2147483647;
+  const c=(n-1)/2;idx.sort((x,y)=>{const gx=Math.sqrt(n);return 0});
+  for(let i=n-1;i>0;i--){const j=Math.floor(r()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]]}return idx}
+function isoPlot(items,seed){const base={day:4,week:5,month:7,year:10}[gPeriod];
+  const N=Math.min(18,Math.max(base,Math.ceil(Math.sqrt(items.length*1.25))));
+  const W=360,tw=300/N,th=tw/2,cx=W/2,s=tw/42,pad=80*s+6,top=pad,dep=Math.max(10,th*.9),H=top+N*th+dep+6;
+  const P=(i,j)=>[cx+(i-j)*tw/2,top+(i+j)*th/2];
+  const order=seededOrder(N*N,seed),placed=items.slice(0,N*N).map((p,k)=>{const cell=order[k];return{p,i:cell%N,j:Math.floor(cell/N)}});
+  const CL=isClean(),occ={};placed.forEach(x=>occ[x.i+","+x.j]=x.p);
+  let tiles="";for(let i=0;i<N;i++)for(let j=0;j<N;j++){const[x,y]=P(i,j),o=occ[i+","+j],green=!CL||(o&&!o.dead);
+    tiles+=`<path d="M${x} ${y}L${x+tw/2} ${y+th/2}L${x} ${y+th}L${x-tw/2} ${y+th/2}Z" class="${green?((i+j)%2?"g1":"g2"):((i+j)%2?"d1":"d2")}"/>`}
+  const allClean=CL&&placed.filter(x=>!x.p.dead).length>=N*N;
+  const L=P(0,N),R=P(N,0),B=P(N,N),T=P(0,0);
+  const sides=`<path d="M${L[0]} ${L[1]}L${B[0]} ${B[1]}L${B[0]} ${B[1]+dep}L${L[0]} ${L[1]+dep}Z" class="sl"/><path d="M${B[0]} ${B[1]}L${R[0]} ${R[1]}L${R[0]} ${R[1]+dep}L${B[0]} ${B[1]+dep}Z" class="sr"/>
+    <path d="M${L[0]} ${L[1]}L${B[0]} ${B[1]}L${B[0]} ${B[1]+dep*.28}L${L[0]} ${L[1]+dep*.28}Z" class="sgl"/><path d="M${B[0]} ${B[1]}L${R[0]} ${R[1]}L${R[0]} ${R[1]+dep*.28}L${B[0]} ${B[1]+dep*.28}Z" class="sgr"/>`;
+  const litter=[];if(CL)for(let i=0;i<N;i++)for(let j=0;j<N;j++)if(!occ[i+","+j])litter.push({i,j,lit:true});
+  placed.push(...litter);placed.sort((a,b)=>(a.i+a.j)-(b.i+b.j)||a.i-b.i);
+  const plants=placed.map(({p,i,j,lit})=>{const[x,y]=P(i,j),gy=y+th/2;
+    if(lit){const sc=s*.9;return`<g transform="translate(${x-50*sc} ${gy-86*sc}) scale(${sc})">${litterBody(seed*31+i*97+j*13)}</g>`}
+    const sc=s*(p.kind==="big"?1.05:1);
+    return`<ellipse cx="${x}" cy="${gy+1}" rx="${tw*.3}" ry="${th*.22}" class="shadow"/><g transform="translate(${x-50*sc} ${gy-91*sc}) scale(${sc})">${themeBody(p.kind,p.sp,!!p.dead)}</g>`}).join("");
+  return`<svg class="iso" viewBox="0 0 ${W} ${H}" role="img" aria-label="Ogród: ${items.filter(p=>!p.dead).length} roślin">${sides}${tiles}${plants}</svg>`}
+function focusBars(items,a,b){let keys,lab,val;
+  if(gPeriod==="day"){keys=[...Array(24).keys()];lab=k=>k%6===0?`${k}:00`:"";val=k=>items.filter(p=>p.t&&new Date(p.t).getHours()===k).reduce((s,p)=>s+p.min,0)}
+  else if(gPeriod==="year"){keys=[...Array(12).keys()];lab=k=>k%3===0?MSHORT[k]:"";val=k=>items.filter(p=>parse(p.d).getMonth()===k).reduce((s,p)=>s+p.min,0)}
+  else{keys=[];for(let d=new Date(a);d<=b;d=addDays(d,1))keys.push(iso(d));
+    lab=(k,i)=>gPeriod==="week"?DSHORT[parse(k).getDay()]:(i%7===0?`${parse(k).getDate()}.${parse(k).getMonth()+1}`:"");val=k=>items.filter(p=>p.d===k).reduce((s,p)=>s+p.min,0)}
+  const v=keys.map(val),mx=Math.max(60,...v),step=mx<=120?30:mx<=300?60:120,top=Math.ceil(mx/step)*step;
+  const W=320,H=150,Lp=30,Rp=6,Tp=8,Bp=20,bw=(W-Lp-Rp)/keys.length;
+  const y=m=>Tp+(H-Tp-Bp)*(1-m/top);let g="";
+  for(let m=0;m<=top;m+=step)g+=`<line x1="${Lp}" x2="${W-Rp}" y1="${y(m)}" y2="${y(m)}" class="${m?"grid":"ax"}"/><text x="${Lp-4}" y="${y(m)+3.5}" class="lab" text-anchor="end">${m>=60?(m/60)+"h":m+"m"}</text>`;
+  const bars=v.map((m,i)=>m?`<rect x="${Lp+i*bw+bw*.18}" y="${y(m)}" width="${bw*.64}" height="${y(0)-y(m)}" rx="${Math.min(3,bw*.3)}" class="bar"><title>${m} min</title></rect>`:"").join("");
+  const labs=keys.map((k,i)=>{const t=lab(k,i);return t?`<text x="${Lp+i*bw+bw/2}" y="${H-5}" class="lab" text-anchor="middle">${t}</text>`:""}).join("");
+  return`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Czas skupienia">${g}${bars}${labs}</svg>`}
+const fmtHM=m=>`${Math.floor(m/60)} h ${m%60} min`;
+function viewGarden(){const ALL=gardenDemo?demoGarden():state.garden,H=gardenDemo?99:focusHours(),next=SPECIES.find(s=>H<s.need);
+  const R=gRange(),ka=iso(R.a),kb=iso(R.b),items=ALL.filter(p=>p.d>=ka&&p.d<=kb),live=items.filter(p=>!p.dead),dead=items.length-live.length;
+  const tot=items.reduce((s,p)=>s+p.min,0),bySid={};items.forEach(p=>bySid[p.sid]=(bySid[p.sid]||0)+p.min);
+  const tk=iso(todayD()),todayMin=ALL.filter(p=>p.d===tk).reduce((a,p)=>a+p.min,0);
+  const dow=[0,0,0,0,0,0,0];items.forEach(p=>dow[(parse(p.d).getDay()+6)%7]+=p.min);const best=Math.max(...dow);
+  const seed=Number(ka.replace(/-/g,""))+({day:1,week:2,month:3,year:4}[gPeriod]);
+  const CL=isClean();
+  return`${header(CL?"Sprzątanie świata":"Ogród")}
+  <section class="gpanel">
+    <div class="gtabs">${[["day","Dzień"],["week","Tydzień"],["month","Miesiąc"],["year","Rok"]].map(([k,n])=>`<button aria-pressed="${gPeriod===k}" data-gper="${k}">${n}</button>`).join("")}</div>
+    <div class="gnav"><button data-gnav="-1" aria-label="Poprzedni">‹</button><b>${R.label}</b>${gOffset?`<button class="gnow" data-gnav="0">dziś</button>`:""}<button data-gnav="1" ${gOffset>=0?"disabled":""} aria-label="Następny">›</button></div>
+    ${isoPlot(items,seed)}
+    <div class="gcount">${CL?`<span>🧹 posprzątane <b class="num">${live.length}</b></span><span class="dc">🗑️ wróciło <b class="num">${dead}</b></span>`:`<span>🌳 <b class="num">${live.length}</b></span><span class="dc">🥀 <b class="num">${dead}</b></span>`}</div>
+    ${!items.length?`<p class="gempty">${CL?(gOffset===0?"Wysypisko czeka. Pierwsza sesja sprząta pierwszy kafelek!":"W tym okresie nic nie posprzątano."):(gOffset===0?"Pusto. Zasadź pierwszą roślinę!":"W tym okresie nic nie rosło.")}</p>`:""}
+  </section>
+  <section class="card gsum">
+    ${gardenDemo?`<div class="demo-note"><b>To tylko podgląd.</b> Tak może wyglądać Twój ${CL?"park":"ogród"} po kilku tygodniach nauki. Nic się nie zapisuje.</div><button class="btn big" data-garden-demo>Zamknij podgląd</button>`
+      :`<button class="btn big" data-focus-open>${CL?"🧹 Zacznij sprzątać":"🌱 Zasadź roślinę"}</button>`}
+    <p class="hint num">Dziś: ${todayMin} min skupienia · łącznie ${fmtH(H===99?ALL.reduce((a,p)=>a+(p.dead?0:p.min),0)/60:H)}</p></section>
+  <section class="card"><h3 style="font-size:16px">Czas skupienia</h3>
+    <p class="hint">Łącznie: <b class="num">${fmtHM(tot)}</b></p>${focusBars(items,R.a,R.b)}
+    ${Object.keys(bySid).length?`<div class="sidrow">${Object.entries(bySid).sort((a,b)=>b[1]-a[1]).map(([sid,m])=>`<span class="sidchip subj-${sid}"><i></i>${esc(SUB(sid)?SUB(sid).short:sid)} · ${fmtH(m/60)}</span>`).join("")}</div>`:""}</section>
+  ${gPeriod!=="day"&&best?`<section class="card"><h3 style="font-size:16px">Najbardziej skupiony dzień tygodnia</h3>
+    <div class="dow">${dow.map((m,i)=>`<div class="${m===best?"top":""}"><i style="height:${Math.round(m/best*100)}%"></i><span>${DSHORT[(i+1)%7]}</span></div>`).join("")}</div></section>`:""}
+  ${CL?`<section class="card"><h3 style="font-size:16px">Co budujesz po sprzątaniu</h3><p class="hint">Im dłużej się uczysz, tym większa rzecz powstaje na posprzątanym kafelku.</p>
+    <div class="species coll">${[["flower","25 min"],["bush","30 min"],["tree","60 min"],["big","90 min"]].map(([k,t])=>`<div class="sp">${themeSvg(k,unlocked().slice(-1)[0].id,1,false,"plant sm")}<span>${CKIND_N[k]}</span><small>${t}</small></div>`).join("")}
+    <div class="sp">${themeSvg("tree","daisy",1,true,"plant sm")}<span>Hałda śmieci</span><small>przerwana sesja</small></div></div></section>`:""}
+  <section class="card"><h3 style="font-size:16px">${CL?"Drzewa do odblokowania":"Kolekcja roślin"}</h3>
+    ${next?`<p class="hint">${CL?"Następne drzewo":"Następna roślina"}: <b>${esc(CL?next.tn:next.name)}</b>. Odblokujesz je po ${fmtH(next.need)} nauki (zostało ${fmtH(next.need-H)}).</p>`:`<p class="hint">Masz już wszystko odblokowane.</p>`}
+    <div class="species coll">${SPECIES.map(s=>{const ok=H>=s.need;
+    return`<div class="sp ${ok?"":"locked"}">${plantSvg(CL?"tree":"flower",s.id,1,false,"plant sm")}<span>${esc(CL?s.tn:s.name)}</span><small>${ok?"✓ masz":`🔒 po ${s.need} h`}</small></div>`}).join("")}</div>
+    <p class="hint">Wybrane drzewo rośnie w miejscach, które posprzątasz. Wybierasz je przed każdą sesją.</p></section>
+  <section class="card"><button class="srow" role="switch" aria-pressed="${!!state.strict}" data-strict><span>Tryb ścisły<small>Wyjście do innej aplikacji na dłużej niż 15 sekund ${CL?"przywraca śmieci":"zabija roślinę"}. Podczas sesji ekran sam nie gaśnie, więc automatyczne wygaszanie jej nie zabije. Jeśli Twój telefon nie pozwala utrzymać włączonego ekranu, tryb ścisły się nie włącza.</small></span><span class="sw"></span></button></section>`}
+
+
 
 
 
 /* ======================= UI ======================= */
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-let tab="plan",showDays=8,showRev=6,openUnit=null,confirmReset=false;
+let matsOpen=false,tab="plan",showDays=8,showRev=6,openUnit=null,confirmReset=false;
 const FLAME='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c.6 3.2-1.1 5-2.7 6.7C7.8 10.3 6 12.1 6 15a6 6 0 0 0 12 0c0-2.3-1-4.2-2.2-5.6-.3 1.6-1 2.8-2.3 3.4.7-3.4-.4-7.6-1.5-10.8Z"/></svg>';
 const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
 
 function render(){
+  if(state.focus&&state.focus.dur&&Date.now()-state.focus.start>=state.focus.dur*60000){const f=state.focus;setTimeout(()=>{if(state.focus===f)endFocus(true)},0)}
   if((state.onboarded||!ONBOARD_ENABLED)&&catchUp()){saveLocal();schedulePush()}
   document.querySelectorAll(".tabbar button").forEach(b=>b.setAttribute("aria-current",b.dataset.tab===tab?"page":"false"));
-  const app=$("#app");app.className=`wrap subj-${subj().id}`;app.innerHTML=tab==="plan"?viewPlan():tab==="units"?viewUnits():tab==="results"?viewResults():viewSettings();
+  const app=$("#app");app.className=`wrap subj-${subj().id}`;app.innerHTML=tab==="plan"?viewPlan():tab==="units"?viewUnits():tab==="results"?viewResults():tab==="garden"?viewGarden():viewSettings();
   if(openUnit)renderSheet();
-  renderBacklogModal();renderTimerBar();renderOnboarding();
+  renderBacklogModal();renderTimerBar();renderOnboarding();renderFocus();
 }
 function renderBacklogModal(){const tk=iso(todayD());let el=$("#blModal");
   const days=backlogDays(),b=days.reduce((a,d)=>a+d.items.reduce((s,x)=>s+x.h,0),0);
@@ -1444,7 +1753,7 @@ function viewPlan(){
     ${show.map(x=>`<div class="rv subj-${x.sid}"><div class="rv-t"><span class="t0">${esc(SUB(x.sid).short)} · ${esc(x.u.name)}${state.rate[x.k]==="weak"?' · <span class="weak">słabo</span>':""}</span><span class="t1">${esc(tText(x.u.t[x.i]))}</span></div>
       <div class="rv-b"><button class="btn ghost" data-rev-no="${x.k}">Słabo</button><button class="btn" data-rev-ok="${x.k}">Umiem</button></div></div>`).join("")}
     ${R.length>show.length?`<button class="link" data-rev-more>Pokaż wszystkie (${R.length})</button>`:""}</section>`})()}
-  ${state.timer?"":`<button class="btn ghost timerbtn subj-${sid}" data-timer-start>▶ Uczę się: ${esc(subj().short)}</button>`}
+  ${state.timer?"":`<button class="btn ghost timerbtn subj-${sid}" data-focus-open>${isClean()?"🧹":"🌱"} Uczę się: ${esc(subj().short)} ${isClean()?"(posprzątaj świat)":"(zasadź roślinę)"}</button>`}
   <div class="sec-h"><h2>Najbliższe dni</h2><button class="link" data-tab-go="settings">Zmień dni</button></div>
   ${todayNote}
   ${daysHtml}
@@ -1489,10 +1798,10 @@ function viewSettings(){
   const order=[1,2,3,4,5,6,0];
   const row=(id,name,desc)=>`<button class="srow" role="switch" aria-pressed="${!!state.enabled[id]}" data-toggle="${id}"><span>${esc(name)}${desc?`<small>${esc(desc)}</small>`:""}</span><span class="sw"></span></button>`;
   return `${header("Ustawienia")}
-  <section class="card"><h3 style="font-size:16px">Twoje matury</h3>
-    <div class="srows">${CATALOG.map(c=>c.id?row(c.id,SUB(c.id).name):`<button class="srow" disabled><span>${esc(c.name)}</span><span class="soon">wkrótce</span></button>`).join("")}</div>
+  <section class="card"><button class="collhead" data-mats aria-expanded="${matsOpen}"><span><h3 style="font-size:16px">Twoje matury</h3><small>${esc(ACTIVE().map(s=>s.short).join(" · "))}</small></span><span class="chev">${matsOpen?"▴":"▾"}</span></button>
+    ${matsOpen?`<div class="srows">${CATALOG.map(c=>c.id?row(c.id,SUB(c.id).name):`<button class="srow" disabled><span>${esc(c.name)}</span><span class="soon">wkrótce</span></button>`).join("")}</div>
     <div class="slabel">Zbiory zadań</div>
-    <div class="srows">${TASKSETS.map(t=>row(t.id,SUB(t.id).name,t.desc)).join("")}</div></section>
+    <div class="srows">${TASKSETS.map(t=>row(t.id,SUB(t.id).name,t.desc)).join("")}</div>`:""}</section>
   <section class="card subj-${sid}"><h3 style="font-size:16px">Plan: ${esc(S.name)}</h3>
     <div class="dates"><label>Zaczynam od<input type="date" id="start" value="${s.start||iso(todayD())}"></label><label>Kończę do<input type="date" id="deadline" value="${s.deadline}"></label></div>
     <div class="days">${order.map(d=>{const others=ACTIVE().filter(o=>o.id!==sid&&cfg(o.id).days.includes(d));
@@ -1536,7 +1845,7 @@ let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;
 
 document.addEventListener("click",async e=>{
   const b=e.target.closest("button");if(!b)return;
-  if(b.dataset.tab){tab=b.dataset.tab;confirmReset=false;render();scrollTo(0,0);return}
+  if(b.dataset.tab){if(b.dataset.tab!=="garden")gardenDemo=false;tab=b.dataset.tab;confirmReset=false;render();scrollTo(0,0);return}
   if(b.dataset.tabGo){tab=b.dataset.tabGo;render();scrollTo(0,0);return}
   if(b.dataset.subj){state.subject=b.dataset.subj;commit();return}
   if(b.dataset.toggle){const id=b.dataset.toggle;
@@ -1560,6 +1869,22 @@ document.addEventListener("click",async e=>{
   if(b.dataset.revOk){const r=reviewAction(b.dataset.revOk,true);commit();toast(r==="mastered"?"Opanowane! Ten temat nie wróci już w powtórkach.":"Następna powtórka za kilka dni");return}
   if(b.dataset.revNo){reviewAction(b.dataset.revNo,false);commit();toast("Wróci za 2 dni");return}
   if(b.hasAttribute("data-rev-more")){showRev=999;render();return}
+  if(b.hasAttribute("data-focus-open")){focusSheet=true;focusPick.sid=subj().id;render();return}
+  if(b.hasAttribute("data-focus-close")){focusSheet=false;render();return}
+  if(b.dataset.fsid){focusPick.sid=b.dataset.fsid;renderFocus();return}
+  if(b.dataset.fdur!==undefined){focusPick.dur=+b.dataset.fdur;renderFocus();return}
+  if(b.dataset.fsp){focusPick.sp=b.dataset.fsp;renderFocus();return}
+  if(b.hasAttribute("data-focus-start")){if(!focusPick.sp)focusPick.sp=unlocked().slice(-1)[0].id;startFocus();return}
+  if(b.hasAttribute("data-focus-quit")){focusConfirm=true;renderFocus();return}
+  if(b.hasAttribute("data-focus-cancel")){focusConfirm=false;renderFocus();return}
+  if(b.hasAttribute("data-focus-giveup")){endFocus(false);return}
+  if(b.hasAttribute("data-focus-harvest")){endFocus(true);return}
+  if(b.dataset.themeSet){state.theme=b.dataset.themeSet;commit();return}
+  if(b.dataset.gper){gPeriod=b.dataset.gper;gOffset=0;render();return}
+  if(b.dataset.gnav!==undefined){const v=+b.dataset.gnav;gOffset=v===0?0:Math.min(0,gOffset+v);render();return}
+  if(b.hasAttribute("data-mats")){matsOpen=!matsOpen;render();return}
+  if(b.hasAttribute("data-garden-demo")){gardenDemo=!gardenDemo;if(gardenDemo){gPeriod="month";gOffset=-1}else{gOffset=0}render();scrollTo(0,0);return}
+  if(b.hasAttribute("data-strict")){state.strict=!state.strict;commit();return}
   if(b.hasAttribute("data-timer-start")){state.timer={sid:subj().id,start:Date.now()};commit();toast("Stoper włączony. Zatrzymaj go po nauce.");return}
   if(b.hasAttribute("data-timer-stop")){const m=stopTimer();commit();toast(m>=1?`Zapisano ${m} min nauki`:"Za krótko, żeby zapisać");return}
   if(b.dataset.paceApply){const sid=b.dataset.paceApply,f=pace(sid);if(f){for(const u of SUB(sid).units){if(u.t.some((_,i)=>!state.done[tid(u,i)]))state.hours[u.id]=Math.max(0.5,Math.round(uHours(u)*f*2)/2)}}
