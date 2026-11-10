@@ -229,7 +229,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .backlog .task{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 35%,transparent)}
 .backlog .task .t0{color:var(--bad)}
 .backlog .day-h h3{font-size:15px;color:var(--muted)}
-.done-note{border-style:solid;border-color:var(--accent);color:var(--ink);background:var(--accent-soft)}
+.done-note{border-style:solid;border-color:var(--accent);color:var(--ink);background:var(--accent-soft);display:flex;flex-direction:column;gap:10px;align-items:flex-start}
 .modal{position:fixed;inset:0;z-index:45;background:rgba(6,14,10,.55);display:flex;align-items:flex-end;justify-content:center;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .modal-card{background:var(--surface);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px;width:100%;max-width:480px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
 .modal-card h3{font-size:20px;font-weight:700}
@@ -1264,6 +1264,23 @@ function backlogDays(sid){const tk=iso(todayD());
 const backlogH=sid=>backlogDays(sid).reduce((a,d)=>a+d.items.reduce((b,x)=>b+x.h,0),0);
 function backlogToToday(){const tk=iso(todayD());const f=state.frozen[tk]||(state.frozen[tk]={s:{},it:[]});
   for(const d of backlogDays()){const keep=[];for(const x of state.frozen[d.key].it){if(d.items.includes(x))f.it.push({...x,m:1});else keep.push(x)}state.frozen[d.key].it=keep}}
+/* ======================= NAUKA DO PRZODU: dodanie kolejnego dnia do dzisiaj ======================= */
+function nextPlanDay(){const tk=iso(todayD());return combined().find(d=>iso(d.date)>tk)||null}
+function todayAllDone(){const tk=iso(todayD()),f=state.frozen[tk];return !!(f&&f.it.length&&f.it.every(x=>state.done[x.t]||!TIDX[x.t]||!state.enabled[TIDX[x.t].sid]))}
+function pullNextDay(){const nd=nextPlanDay();if(!nd)return null;const tk=iso(todayD());
+  const res=frozenMap(true,true),f=state.frozen[tk]||(state.frozen[tk]={s:{},it:[]});let tot=0;
+  for(const g of nd.items){let left=g.h;for(let i=g.from;i<=g.to&&left>1e-6;i++){const t=tid(g.u,i);if(state.done[t])continue;
+    const rem=topicH(g.u,i)-(res[t]||0);if(rem<=1e-6)continue;const take=Math.min(rem,left);left-=take;tot+=take;res[t]=(res[t]||0)+take;f.it.push({s:g.sid,t,h:take,m:1})}}
+  return{date:nd.date,h:tot}}
+function renderAheadModal(){const tk=iso(todayD());let el=$("#aheadModal");
+  const show=tab==="plan"&&!$("#blModal")&&!state.focus&&state.aheadAsked!==tk&&todayAllDone()&&nextPlanDay()&&!(state.onboarded===false&&ONBOARD_ENABLED);
+  if(!show){if(el)el.remove();return}const nd=nextPlanDay(),hh=nd.items.reduce((a,b)=>a+b.h,0);
+  if(!el){el=document.createElement("div");el.id="aheadModal";el.className="modal";document.body.appendChild(el)}
+  el.innerHTML=`<div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="ahTitle">
+    <div class="eyebrow">Plan na dziś zrobiony 🎉</div><h3 id="ahTitle">Robisz dalej?</h3>
+    <p class="hint">Możesz dodać do dzisiaj plan z dnia <b>${DAYS[nd.date.getDay()]}, ${longDate(nd.date)}</b> (${fmtH(hh)}: ${esc(nd.items.map(i=>i.u.name).join(", "))}). Cały plan przesunie się o jeden dzień nauki do przodu, więc skończysz szybciej.</p>
+    <button class="btn" data-ahead-yes>Dodaj kolejny dzień do dzisiaj</button>
+    <button class="link" data-ahead-no>Na dziś wystarczy</button></div>`}
 function backlogSpread(){for(const d of backlogDays())state.frozen[d.key].it=state.frozen[d.key].it.filter(x=>!d.items.includes(x))}
 
 /* ======================= DODATKI: powtórki, oceny, wykres, stoper, arkusze, odliczanie, kalendarz, start ======================= */
@@ -1679,7 +1696,7 @@ function render(){
   document.querySelectorAll(".tabbar button").forEach(b=>b.setAttribute("aria-current",b.dataset.tab===tab?"page":"false"));
   const app=$("#app");app.className=`wrap subj-${subj().id}`;app.innerHTML=tab==="plan"?viewPlan():tab==="units"?viewUnits():tab==="results"?viewResults():tab==="garden"?viewGarden():viewSettings();
   if(openUnit)renderSheet();
-  renderBacklogModal();renderTimerBar();renderOnboarding();renderFocus();
+  renderBacklogModal();renderAheadModal();renderTimerBar();renderOnboarding();renderFocus();
 }
 function renderBacklogModal(){const tk=iso(todayD());let el=$("#blModal");
   const days=backlogDays(),b=days.reduce((a,d)=>a+d.items.reduce((s,x)=>s+x.h,0),0);
@@ -1726,7 +1743,7 @@ function viewPlan(){
   const todayDay=C[0]&&iso(C[0].date)===today?C[0]:null;
   let todayNote="";
   if(state.skip.includes(today))todayNote=`<div class="empty">Dziś odpuszczone. <button class="link" data-unskip="${today}">Cofnij</button></div>`;
-  else if(todayDay&&todayDay.items.every(i=>i.n&&i.doneN===i.n))todayNote=`<div class="empty done-note">Dzisiejszy plan zrobiony 🎉 Dobra robota.</div>`;
+  else if(todayDay&&todayDay.items.every(i=>i.n&&i.doneN===i.n))todayNote=`<div class="empty done-note">Dzisiejszy plan zrobiony 🎉 Dobra robota.${nextPlanDay()?`<button class="btn" data-ahead-yes>Ucz się dalej: dodaj kolejny dzień do dzisiaj</button>`:""}</div>`;
   else if(!todayDay&&!ACTIVE().some(s=>isStudy(todayD(),s.id)))todayNote=`<div class="empty">${cap(DAYS[wd])} to dzień wolny od nauki. Jeśli chcesz, odhacz tematy w zakładce Działy, a plan sam się przesunie.</div>`;
   const BL=backlogDays(),blH=BL.reduce((a,d)=>a+d.items.reduce((s,x)=>s+x.h,0),0);
   const blHtml=blH>1e-6?`<section class="backlog"><div class="sec-h"><h2>Zaległości</h2><span class="bl-h num">${fmtH(blH)}</span></div>
@@ -1860,6 +1877,8 @@ document.addEventListener("click",async e=>{
   if(b.dataset.unskip){state.skip=state.skip.filter(s=>s!==b.dataset.unskip);if(b.dataset.unskip===iso(todayD()))refreezeToday();commit();return}
   if(b.hasAttribute("data-bl-today")){const x=backlogH();backlogToToday();state.blAsked=iso(todayD());commit();toast(`Dodano ${fmtH(x)} do dzisiejszego planu`);return}
   if(b.hasAttribute("data-bl-spread")){backlogSpread();state.blAsked=iso(todayD());commit();toast("Zaległości rozłożone na kolejne dni");return}
+  if(b.hasAttribute("data-ahead-yes")){const r=pullNextDay();state.aheadAsked=iso(todayD());commit();scrollTo(0,0);if(r)toast(`Dodano ${fmtH(r.h)} do dzisiaj. Plan przesunął się do przodu.`);return}
+  if(b.hasAttribute("data-ahead-no")){state.aheadAsked=iso(todayD());commit();return}
   if(b.hasAttribute("data-bl-later")){state.blAsked=iso(todayD());commit();return}
   if(b.dataset.topic!==undefined){const{u}=findUnit(openUnit),k=tid(u,+b.dataset.topic);
     if(state.done[k]){delete state.done[k];onUnticked(k)}else{state.done[k]=iso(todayD());onTicked(k)}commit();return}
