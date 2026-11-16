@@ -1260,7 +1260,7 @@ function catchUp(){const t=todayD(),tk=iso(t);let changed=false;
     for(const s of ACTIVE()){const sid=s.id,st=cfg(sid).start;
       if(!isStudy(d,sid)||(st&&parse(st)>d))continue;
       const f=state.frozen[key]||(state.frozen[key]={s:{},it:[]});if(f.s[sid])continue;
-      f.s[sid]=1;f.it.push(...planDay(sid,d,reserved));changed=true}}
+      f.s[sid]=1;f.it.push(...planDay(sid,d,reserved));sortFrozen(f);changed=true}}
   if(state.lastFreeze!==tk){state.lastFreeze=tk;changed=true}
   for(const[k,f]of Object.entries(state.frozen)){if(k<iso(addDays(t,-90))||(k<tk&&f.it.every(x=>state.done[x.t]))){if(k<iso(addDays(t,-7))){delete state.frozen[k];changed=true}}}
   return changed}
@@ -1273,8 +1273,10 @@ function groupItems(items){const out=[];
 function backlogDays(sid){const tk=iso(todayD());
   return Object.keys(state.frozen).filter(k=>k<tk).sort().map(k=>({date:parse(k),key:k,items:state.frozen[k].it.filter(x=>{const r=TIDX[x.t];return r&&state.enabled[r.sid]&&(!sid||r.sid===sid)&&!state.done[x.t]})})).filter(d=>d.items.length)}
 const backlogH=sid=>backlogDays(sid).reduce((a,d)=>a+d.items.reduce((b,x)=>b+x.h,0),0);
+function topicOrder(t){const r=TIDX[t];if(!r)return 1e9;const si=SUBJECTS.findIndex(s=>s.id===r.sid),ui=SUB(r.sid).units.indexOf(r.u);return si*1e6+(ui<0?9e5:ui)*1000+r.i}
+function sortFrozen(f){f.it.sort((a,b)=>topicOrder(a.t)-topicOrder(b.t))}
 function backlogToToday(){const tk=iso(todayD());const f=state.frozen[tk]||(state.frozen[tk]={s:{},it:[]});
-  for(const d of backlogDays()){const keep=[];for(const x of state.frozen[d.key].it){if(d.items.includes(x))f.it.push({...x,m:1});else keep.push(x)}state.frozen[d.key].it=keep}}
+  for(const d of backlogDays()){const keep=[];for(const x of state.frozen[d.key].it){if(d.items.includes(x))f.it.push({...x,m:1});else keep.push(x)}state.frozen[d.key].it=keep}sortFrozen(f)}
 /* ======================= NAUKA DO PRZODU: dodanie kolejnego dnia do dzisiaj ======================= */
 function nextPlanDay(){const tk=iso(todayD());return combined().find(d=>iso(d.date)>tk)||null}
 function todayAllDone(){const tk=iso(todayD()),f=state.frozen[tk];return !!(f&&f.it.length&&f.it.every(x=>state.done[x.t]||!TIDX[x.t]||!state.enabled[TIDX[x.t].sid]))}
@@ -1282,7 +1284,7 @@ function pullNextDay(){const nd=nextPlanDay();if(!nd)return null;const tk=iso(to
   const res=frozenMap(true,true),f=state.frozen[tk]||(state.frozen[tk]={s:{},it:[]});let tot=0;
   for(const g of nd.items){let left=g.h;for(let i=g.from;i<=g.to&&left>1e-6;i++){const t=tid(g.u,i);if(state.done[t])continue;
     const rem=topicH(g.u,i)-(res[t]||0);if(rem<=1e-6)continue;const take=Math.min(rem,left);left-=take;tot+=take;res[t]=(res[t]||0)+take;f.it.push({s:g.sid,t,h:take,m:1})}}
-  return{date:nd.date,h:tot}}
+  sortFrozen(f);return{date:nd.date,h:tot}}
 function renderAheadModal(){const tk=iso(todayD());let el=$("#aheadModal");
   const show=tab==="plan"&&!$("#blModal")&&!state.focus&&state.aheadAsked!==tk&&todayAllDone()&&nextPlanDay()&&!(state.onboarded===false&&ONBOARD_ENABLED);
   if(!show){if(el)el.remove();return}const nd=nextPlanDay(),hh=nd.items.reduce((a,b)=>a+b.h,0);
@@ -1889,7 +1891,7 @@ document.addEventListener("click",async e=>{
   if(b.dataset.skip){if(!state.skip.includes(b.dataset.skip))state.skip.push(b.dataset.skip);if(b.dataset.skip===iso(todayD()))delete state.frozen[b.dataset.skip];commit();toast("Plan przesunięty na kolejne dni");return}
   if(b.dataset.unskip){state.skip=state.skip.filter(s=>s!==b.dataset.unskip);if(b.dataset.unskip===iso(todayD()))refreezeToday();commit();return}
   if(b.hasAttribute("data-bl-today")){const x=backlogH();backlogToToday();state.blAsked=iso(todayD());commit();toast(`Dodano ${fmtH(x)} do dzisiejszego planu`);return}
-  if(b.hasAttribute("data-bl-spread")){backlogSpread();state.blAsked=iso(todayD());commit();toast("Zaległości rozłożone na kolejne dni");return}
+  if(b.hasAttribute("data-bl-spread")){backlogSpread();refreezeToday();state.blAsked=iso(todayD());commit();toast("Plan ułożony od nowa: zaległości są pierwsze, reszta po kolei");return}
   if(b.hasAttribute("data-ahead-yes")){const r=pullNextDay();state.aheadAsked=iso(todayD());commit();scrollTo(0,0);if(r)toast(`Dodano ${fmtH(r.h)} do dzisiaj. Plan przesunął się do przodu.`);return}
   if(b.hasAttribute("data-ahead-no")){state.aheadAsked=iso(todayD());commit();return}
   if(b.hasAttribute("data-bl-later")){state.blAsked=iso(todayD());commit();return}
